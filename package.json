@@ -12,6 +12,8 @@
   "dependencies": {
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.17.0",
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@pinia/nuxt": "^0.5.1",
     "@vueuse/core": "^10.11.0",
     "@vueuse/nuxt": "^10.11.0",
     "nuxt": "^3.12.4",

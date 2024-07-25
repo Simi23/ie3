@@ -10,11 +10,18 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "nuxt-csurf",
     "nuxt-security",
+    "@nuxtjs/google-fonts",
+    "@pinia/nuxt",
   ],
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
+    },
+  },
+  googleFonts: {
+    families: {
+      Roboto: true,
     },
   },
 });
