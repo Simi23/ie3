@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
+  runtimeConfig: {
+    public: {
+      siteName: process.env.SITE_NAME,
+    },
+  },
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   modules: [
@@ -11,8 +16,16 @@ export default defineNuxtConfig({
     "nuxt-csurf",
     "nuxt-security",
     "@nuxtjs/google-fonts",
-    "@pinia/nuxt",
+    [
+      "@pinia/nuxt",
+      {
+        autoImports: ["defineStore", "acceptHMRUpdate"],
+      },
+    ],
   ],
+  imports: {
+    dirs: ["stores"],
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
