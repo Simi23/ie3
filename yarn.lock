@@ -1439,6 +1439,40 @@
   dependencies:
     "@prisma/debug" "5.17.0"
 
+"@redis/bloom@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@redis/bloom/-/bloom-1.2.0.tgz#d3fd6d3c0af3ef92f26767b56414a370c7b63b71"
+  integrity sha512-HG2DFjYKbpNmVXsa0keLHp/3leGJz1mjh09f2RLGGLQZzSHpkmZWuwJbAvo3QcRY8p80m5+ZdXZdYOSBLlp7Cg==
+
+"@redis/client@1.5.17":
+  version "1.5.17"
+  resolved "https://registry.yarnpkg.com/@redis/client/-/client-1.5.17.tgz#44d179f2b5b542754d6f218bb352bac3ccf150eb"
+  integrity sha512-IPvU9A31qRCZ7lds/x+ksuK/UMndd0EASveAvCvEtFFKIZjZ+m/a4a0L7S28KEWoR5ka8526hlSghDo4Hrc2Hg==
+  dependencies:
+    cluster-key-slot "1.1.2"
+    generic-pool "3.9.0"
+    yallist "4.0.0"
+
+"@redis/graph@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@redis/graph/-/graph-1.1.1.tgz#8c10df2df7f7d02741866751764031a957a170ea"
+  integrity sha512-FEMTcTHZozZciLRl6GiiIB4zGm5z5F3F6a6FZCyrfxdKOhFlGkiAqlexWMBzCi4DcRoyiOsuLfW+cjlGWyExOw==
+
+"@redis/json@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@redis/json/-/json-1.0.6.tgz#b7a7725bbb907765d84c99d55eac3fcf772e180e"
+  integrity sha512-rcZO3bfQbm2zPRpqo82XbW8zg4G/w4W3tI7X8Mqleq9goQjAGLL7q/1n1ZX4dXEAmORVZ4s1+uKLaUOg7LrUhw==
+
+"@redis/search@1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@redis/search/-/search-1.1.6.tgz#33bcdd791d9ed88ab6910243a355d85a7fedf756"
+  integrity sha512-mZXCxbTYKBQ3M2lZnEddwEAks0Kc7nauire8q20oA0oA/LoA+E/b5Y5KZn232ztPb1FkIGqo12vh3Lf+Vw5iTw==
+
+"@redis/time-series@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@redis/time-series/-/time-series-1.0.5.tgz#a6d70ef7a0e71e083ea09b967df0a0ed742bc6ad"
+  integrity sha512-IFjIgTusQym2B5IZJG3XKr5llka7ey84fw/NOYqESP5WUfQs9zz1ww/9+qoz4ka/S6KcGBodzlCeZ5UImKbscg==
+
 "@rollup/plugin-alias@^5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-5.1.0.tgz#99a94accc4ff9a3483be5baeedd5d7da3b597e93"
@@ -5871,6 +5905,18 @@ redis-parser@^3.0.0:
   dependencies:
     redis-errors "^1.0.0"
 
+redis@^4.6.15:
+  version "4.6.15"
+  resolved "https://registry.yarnpkg.com/redis/-/redis-4.6.15.tgz#b94599fbbd8279182b02f5bb34866c2a1556d71c"
+  integrity sha512-2NtuOpMW3tnYzBw6S8mbXSX7RPzvVFCA2wFJq9oErushO2UeBkxObk+uvo7gv7n0rhWeOj/IzrHO8TjcFlRSOg==
+  dependencies:
+    "@redis/bloom" "1.2.0"
+    "@redis/client" "1.5.17"
+    "@redis/graph" "1.1.1"
+    "@redis/json" "1.0.6"
+    "@redis/search" "1.1.6"
+    "@redis/time-series" "1.0.5"
+
 replace-in-file@^6.1.0:
   version "6.3.5"
   resolved "https://registry.yarnpkg.com/replace-in-file/-/replace-in-file-6.3.5.tgz#ff956b0ab5bc96613207d603d197cd209400a654"
@@ -6872,52 +6918,6 @@ v8-compile-cache-lib@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/v8-compile-cache-lib/-/v8-compile-cache-lib-3.0.1.tgz#6336e8d71965cb3d35a1bbb7868445a7c05264bf"
   integrity sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==
-
-valkey-bloom@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/valkey-bloom/-/valkey-bloom-0.0.1.tgz#d61aeb10c730fe6d11c9f70cdc9f12fde3b714de"
-  integrity sha512-O7QrCQ92KYm6nSCxmAAfsnQWskVzbLZVFuW6hWacFWBfJilBd3JVpGDx4W9CIFHSM6RlfKV7p/YWoZvsZVhEPg==
-
-valkey-client@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/valkey-client/-/valkey-client-0.0.1.tgz#d44b2c5e39c03bd746ca427cfacecbb9f2fe7217"
-  integrity sha512-nhiKE3GHpZ68N7Dhze23KXzqL6wdgalcaHTk7O0dUUnlRstyXwtywFzsI5ugPeyF5H1NmkCEpMFhbXHQ7r0j3w==
-  dependencies:
-    cluster-key-slot "1.1.2"
-    generic-pool "3.9.0"
-    yallist "4.0.0"
-
-valkey-graph@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/valkey-graph/-/valkey-graph-0.0.1.tgz#9b51e547fd9e32e3d657e671e325d16bb602351b"
-  integrity sha512-ajPqDh3vp14NX1zaR1MX/R/8x6alfpJJ1l+kOF1kD4SqEwse9JDGNum6B2ajiuPJl6Wgu+9eyw0kcFHGsMjYBw==
-
-valkey-json@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/valkey-json/-/valkey-json-0.0.1.tgz#d7d0b43b7e1ad613f3d24974280abbdf8dffb504"
-  integrity sha512-PgipELi66j8lbXgYlet2L40HHmdx9LZSt7O55GJWUFXok5Lb/hYhCveX8Y4fHDFrIoxb8SdIDAnJvRWhvUiUNQ==
-
-valkey-search@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/valkey-search/-/valkey-search-0.0.1.tgz#828ca7ef5543df4dfce8426e9f92699cc6d0d5e2"
-  integrity sha512-6KLxQtObxJUSuPIR+kMDB2U8PN5pX0ARnMRnjDzm2Mh5I1Yz2OZ1tMbRXEkj5EF3UcRmkL9hgt7Ws4T73VxTmA==
-
-valkey-time-series@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/valkey-time-series/-/valkey-time-series-0.0.1.tgz#78753a78b0c3f93dc9565de7b3a6f71ff446cd99"
-  integrity sha512-NvlSgQyxF+TtCGyctbUPMssZYHJ4w34a02XcYENAtrAJrJw11Qx4wBqtXE2us1I+qfNtuLBEMJqam/72JMRrIg==
-
-valkey@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/valkey/-/valkey-0.0.3.tgz#5141170d23859f6f9abf4314785c3e38c2a10bec"
-  integrity sha512-rQu/DB1pFoOpm2qoPSNhDGsAcA7TmjHskhK+m05IwHqlvGAxAoqeGD0N62wsS3rm+Uf2EqGG4F0EjJWYwmOJNw==
-  dependencies:
-    valkey-bloom "0.0.1"
-    valkey-client "0.0.1"
-    valkey-graph "0.0.1"
-    valkey-json "0.0.1"
-    valkey-search "0.0.1"
-    valkey-time-series "0.0.1"
 
 vary@^1.1.2:
   version "1.1.2"
