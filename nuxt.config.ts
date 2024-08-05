@@ -6,7 +6,9 @@ export default defineNuxtConfig({
       siteName: process.env.SITE_NAME,
     },
   },
-  ssr: false,
+  routeRules: {
+    "/dashboard/**": { ssr: false },
+  },
   spaLoadingTemplate: true,
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
