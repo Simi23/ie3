@@ -29,6 +29,7 @@ model User {
 
   passwordHash          String
   passwordResetRequests PasswordResetRequest[]
+  sessions              Session[]
 
   ownPc        Boolean
   ethernetPort Boolean
@@ -41,6 +42,20 @@ model User {
   brackets     BracketPartUser[]
 
   paid Boolean @default(false)
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime @default(dbgenerated("now() + '1 day'::interval"))
+
+  valid     Boolean @default(true)
+  address   String
+  userAgent String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }
 
 model PasswordResetRequest {
