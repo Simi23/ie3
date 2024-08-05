@@ -6,12 +6,13 @@ export default defineNuxtConfig({
       siteName: process.env.SITE_NAME,
     },
   },
+  ssr: false,
+  spaLoadingTemplate: true,
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   modules: [
     "@nuxt/image",
     "@vueuse/nuxt",
-    "@nuxtjs/eslint-module",
     "@nuxt/ui",
     "nuxt-csurf",
     "nuxt-security",
@@ -22,6 +23,7 @@ export default defineNuxtConfig({
         autoImports: ["defineStore", "acceptHMRUpdate"],
       },
     ],
+    "@nuxt/eslint",
   ],
   imports: {
     dirs: ["stores"],
