@@ -10,6 +10,9 @@ export default defineNuxtConfig({
     "/dashboard/**": { ssr: false },
   },
   spaLoadingTemplate: true,
+  experimental: {
+    asyncContext: true,
+  },
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   modules: [
