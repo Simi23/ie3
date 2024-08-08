@@ -5,6 +5,8 @@
 </template>
 
 <script lang="ts" setup>
+// TODO: Remove this page
+
 const { data, error } = await useFetchNotification("/api/error");
 
 async function test() {
