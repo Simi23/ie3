@@ -15,6 +15,9 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
+  colorMode: {
+    preference: "dark",
+  },
   modules: [
     "@nuxt/image",
     "@vueuse/nuxt",
