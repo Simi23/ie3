@@ -29,6 +29,7 @@ export default defineNuxtConfig({
       },
     ],
     "@nuxt/eslint",
+    "@nuxt/icon",
   ],
   imports: {
     dirs: ["stores"],
