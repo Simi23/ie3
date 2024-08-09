@@ -62,6 +62,9 @@
 import { z } from "zod";
 import type { FormSubmitEvent, FormErrorEvent } from "#ui/types";
 
+const loadingSpinner = useLoadingSpinner();
+const toast = useToast();
+
 const { data } = await useFetchNotification("/api/init");
 
 const initSchema = z
@@ -88,7 +91,15 @@ function initSubmit(event: FormSubmitEvent<InitSchema>) {
   console.log("Hello world");
 }
 
-function initError(event: FormErrorEvent) {}
+function initError(event: FormErrorEvent) {
+  toast.add({
+    title: "Hiba",
+    description:
+      "Nem megfelelő az űrlap kitöltése. Ellenőrizd a megadott adatokat!",
+    icon: "i-heroicons-x-mark-20-solid",
+    color: "red",
+  });
+}
 </script>
 
 <style>
