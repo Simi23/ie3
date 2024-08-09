@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 dark:bg-gray-950">
     <NuxtPage />
-    <Spinner />
+    <LoadingBanner />
     <UNotifications />
   </div>
 </template>

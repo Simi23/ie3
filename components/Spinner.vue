@@ -1,39 +1,25 @@
 <template>
   <div
-    class="absolute left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-gray-900 bg-opacity-60"
-    id="spinnerTopContainer"
-    :style="{ opacity: spinnerOpacity }"
-    v-if="spinnerVisible"
+    class="m-0 p-0"
+    :style="{ height: props.size, width: props.size }"
+    id="spinnerContainer"
   >
-    <div class="m-0 h-40 w-40 p-0" id="spinnerContainer">
-      <NuxtImg
-        id="loadingSpinner"
-        src="/ie2logot.png"
-        class="h-full w-full"
-        draggable="false"
-      ></NuxtImg>
-    </div>
+    <NuxtImg
+      id="loadingSpinner"
+      src="/ie2logot.png"
+      class="h-full w-full"
+      draggable="false"
+    ></NuxtImg>
   </div>
 </template>
 
 <script lang="ts" setup>
-const spinnerState = useLoadingSpinner();
+interface Props {
+  size?: string;
+}
 
-const spinnerVisible = ref(spinnerState.value);
-const spinnerOpacity = ref(0);
-
-watch(spinnerState, async (newState, oldState) => {
-  if (newState === true) {
-    spinnerOpacity.value = 0;
-    spinnerVisible.value = true;
-    await sleep(100);
-    spinnerOpacity.value = 1;
-    await sleep(210);
-  } else {
-    spinnerOpacity.value = 0;
-    await sleep(210);
-    spinnerVisible.value = false;
-  }
+const props = withDefaults(defineProps<Props>(), {
+  size: "10rem",
 });
 </script>
 
@@ -44,11 +30,6 @@ watch(spinnerState, async (newState, oldState) => {
 
 #spinnerContainer {
   animation: scaleAnimation 0.8s ease-in-out 0s infinite normal forwards;
-}
-
-#spinnerTopContainer {
-  transition: opacity 0.2s;
-  user-select: none;
 }
 
 @keyframes spinAnimation {
