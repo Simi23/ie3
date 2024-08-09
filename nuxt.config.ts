@@ -18,6 +18,11 @@ export default defineNuxtConfig({
   colorMode: {
     preference: "dark",
   },
+  app: {
+    head: {
+      title: "Infósok Éjszakája",
+    },
+  },
   modules: [
     "@nuxt/image",
     "@vueuse/nuxt",
