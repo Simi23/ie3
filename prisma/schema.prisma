@@ -131,7 +131,14 @@ model Option {
 model AuditLog {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  message   String
+
+  clientAddress   String
+  clientUserAgent String
+
+  severity String
+
+  category String
+  message  String
 }
 
 model Bracket {
