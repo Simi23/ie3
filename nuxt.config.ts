@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     public: {
       siteName: process.env.SITE_NAME,
     },
+    trustProxy: Boolean(process.env.TRUST_PROXY),
   },
   routeRules: {
     "/dashboard/**": { ssr: false },
@@ -51,6 +52,13 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       Roboto: true,
+    },
+  },
+  $development: {
+    security: {
+      headers: {
+        crossOriginEmbedderPolicy: "unsafe-none",
+      },
     },
   },
 });
