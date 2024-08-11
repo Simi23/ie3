@@ -13,45 +13,66 @@
           A szerveren már megtörtént az inicializáció.
         </div>
         <div v-else>
-          <UForm
-            :schema="initSchema"
-            :state="initState"
-            @submit="initSubmit"
-            @error="initError"
-          >
-            <UFormGroup
-              name="username"
-              label="Felhasználónév"
-              class="mx-1 my-2 h-20"
-            >
-              <UInput v-model="initState.username" class="inputField"></UInput>
-            </UFormGroup>
-            <UFormGroup name="email" label="Email cím" class="mx-1 my-2 h-20">
-              <UInput v-model="initState.email" class="inputField"></UInput>
-            </UFormGroup>
-            <UFormGroup name="password" label="Jelszó" class="mx-1 my-2 h-20">
-              <UInput
-                v-model="initState.password"
-                type="password"
-                class="inputField"
-              ></UInput>
-            </UFormGroup>
-            <UFormGroup
-              name="confirmPassword"
-              label="Jelszó ismét"
-              class="mx-1 my-2 h-20"
-            >
-              <UInput
-                v-model="initState.confirmPassword"
-                type="password"
-                class="inputField"
-              ></UInput>
-            </UFormGroup>
+          <CarouselMenu :pagecount="2" ref="initcarouselmenu">
+            <template #page1>
+              <UForm
+                :schema="initSchema"
+                :state="initState"
+                @error="initError"
+                @submit.prevent="initSubmit"
+                ref="form"
+              >
+                <UFormGroup
+                  name="username"
+                  label="Felhasználónév"
+                  class="mx-1 my-2 h-20"
+                >
+                  <UInput
+                    v-model="initState.username"
+                    class="inputField"
+                  ></UInput>
+                </UFormGroup>
+                <UFormGroup
+                  name="email"
+                  label="Email cím"
+                  class="mx-1 my-2 h-20"
+                >
+                  <UInput v-model="initState.email" class="inputField"></UInput>
+                </UFormGroup>
+                <UFormGroup
+                  name="password"
+                  label="Jelszó"
+                  class="mx-1 my-2 h-20"
+                >
+                  <UInput
+                    v-model="initState.password"
+                    type="password"
+                    class="inputField"
+                  ></UInput>
+                </UFormGroup>
+                <UFormGroup
+                  name="confirmPassword"
+                  label="Jelszó ismét"
+                  class="mx-1 my-2 h-20"
+                >
+                  <UInput
+                    v-model="initState.confirmPassword"
+                    type="password"
+                    class="inputField"
+                  ></UInput>
+                </UFormGroup>
 
-            <UButton type="submit" class="mx-auto mt-5 block"
-              >Regisztráció</UButton
-            >
-          </UForm>
+                <UButton
+                  class="ml-auto mr-2 mt-5 block"
+                  size="md"
+                  label="Tovább"
+                  type="submit"
+                >
+                </UButton>
+              </UForm>
+            </template>
+            <template #page2> HELLO WORLD </template>
+          </CarouselMenu>
         </div>
       </UCard>
     </UContainer>
@@ -61,9 +82,14 @@
 <script lang="ts" setup>
 import { z } from "zod";
 import type { FormSubmitEvent, FormErrorEvent } from "#ui/types";
+import type { UForm } from "#build/components";
+import type CarouselMenu from "~/components/CarouselMenu.vue";
 
 const loadingSpinner = useLoadingSpinner();
 const toast = useToast();
+
+const initcarouselmenu = ref<InstanceType<typeof CarouselMenu> | null>(null);
+const form = ref<InstanceType<typeof UForm> | null>(null);
 
 const { data } = await useFetchNotification("/api/init");
 
@@ -87,8 +113,8 @@ const initState = ref({
   confirmPassword: undefined,
 });
 
-function initSubmit(event: FormSubmitEvent<InitSchema>) {
-  console.log("Hello world");
+async function initSubmit(event: FormSubmitEvent<InitSchema>) {
+  await initcarouselmenu.value?.jumpTo(2);
 }
 
 function initError(event: FormErrorEvent) {
