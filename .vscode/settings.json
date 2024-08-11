@@ -3,5 +3,6 @@
   "css.lint.unknownAtRules": "ignore",
   "files.associations": {
     "*.css": "postcss"
-  }
+  },
+  "prettier.bracketSameLine": true
 }
