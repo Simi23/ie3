@@ -11,7 +11,15 @@ After the user is created, this value is set to true.
 ## Classes
 
 name: `classes`
-value: String[]
+value:
+
+```
+{
+  name: string,
+  group: string,
+  hidden: boolean
+}[]
+```
 
 An array of class strings.
 
