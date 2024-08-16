@@ -10,7 +10,11 @@
 const { data, error } = await useFetchNotification("/api/error");
 
 async function test() {
-  const resp = await $fetchNotification("/api/error");
+  try {
+    const resp = await $fetchNotification("/api/error");
+  } catch (e: any) {
+    console.log("ERROR ENCOUNTERED");
+  }
 }
 </script>
 
