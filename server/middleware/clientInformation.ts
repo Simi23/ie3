@@ -1,3 +1,10 @@
+declare module "h3" {
+  interface H3EventContext {
+    realIp: string;
+    userAgent: string;
+  }
+}
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
