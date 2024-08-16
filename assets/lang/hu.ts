@@ -12,6 +12,9 @@ const strings = {
   success: "Siker",
   warning: "Figyelmeztetés",
   information: "Információ",
+  "user-invalid":
+    "Ezzel a felhasználónév/jelszó kombinációval nem található fiók!",
+  "email-not-verified": "A megadott email cím még nincs megerősítve!",
 };
 
 export const huLang = new Proxy(strings, handler);
