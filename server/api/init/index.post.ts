@@ -76,7 +76,7 @@ export default defineEventHandler(async (event) => {
   logEventAction(event, {
     category: "INIT",
     severity: "INFO",
-    message: `Initial user "${newUser.username}" created.`,
+    message: `Initial user "${newUser.username}" (ID: ${newUser.id}) created.`,
   });
 
   return {
