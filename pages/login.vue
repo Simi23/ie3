@@ -63,7 +63,7 @@
                   class="inputField"
                   type="password"
                   placeholder="Jelszó"
-                  autofocus
+                  id="stage-2-password"
                 ></UInput>
               </UFormGroup>
 
@@ -106,6 +106,7 @@ import type CarouselMenu from "~/components/CarouselMenu.vue";
 const toast = useToast();
 const loadingSpinner = useLoadingSpinner();
 const { csrf } = useCsrf();
+const userStore = useUserStore();
 
 const allowWebauthn = ref(true);
 
@@ -124,18 +125,22 @@ async function loginStage1Submit(event: FormSubmitEvent<LoginStage1Schema>) {
   // TODO: Check username for WebAuthn availability
   loginStage2State.value.username = event.data.username;
   await logincarousel.value?.jumpTo(2);
+  document.getElementById("stage-2-password")?.focus();
 }
 
 async function loginStage2Submit(event: FormSubmitEvent<LoginStage2Schema>) {
   loadingSpinner.value = true;
   try {
-    await $fetchNotification("/api/user/login", {
+    const response = await $fetchNotification("/api/user/login", {
       method: "POST",
       body: event.data,
       headers: {
         "csrf-token": csrf,
       },
     });
+    userStore.adminClass = response.user.adminClass;
+    userStore.username = response.user.username;
+    userStore.loggedIn = true;
   } catch (e: any) {
     loadingSpinner.value = false;
     return;

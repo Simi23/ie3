@@ -1,14 +1,8 @@
 <template>
-  <div>
-    {{ data }}
-  </div>
+  <div></div>
 </template>
 
 <script lang="ts" setup>
-const { data, status, error } = await useFetch("/api/init", {
-  lazy: true,
-});
-
 definePageMeta({
   layout: "dashboard",
   middleware: "auth",
