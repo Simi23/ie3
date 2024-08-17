@@ -15,6 +15,7 @@ const strings = {
   "user-invalid":
     "Ezzel a felhasználónév/jelszó kombinációval nem található fiók!",
   "email-not-verified": "A megadott email cím még nincs megerősítve!",
+  "session-not-found": "Érvénytelen belépés! Kérlek, jelentkezz be!",
 };
 
 export const huLang = new Proxy(strings, handler);

@@ -1,10 +1,17 @@
 import { ref, computed } from "vue";
 
 export const useUserStore = defineStore("user", () => {
-  const name = ref<String>("");
+  const username = ref<String>("");
   const loggedIn = ref<Boolean>(false);
+  const adminClass = ref<Number>(0);
 
-  return { name, loggedIn };
+  function logout() {
+    username.value = "";
+    loggedIn.value = false;
+    adminClass.value = 0;
+  }
+
+  return { username, loggedIn, adminClass, logout };
 });
 
 if (import.meta.hot) {

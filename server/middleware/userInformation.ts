@@ -4,6 +4,7 @@ interface UserData {
   id: string;
   email: string;
   adminClass: number;
+  username: string;
 }
 
 declare module "h3" {
@@ -31,6 +32,7 @@ export default defineEventHandler(async (event) => {
         select: {
           id: true,
           email: true,
+          username: true,
           adminClass: true,
         },
       },
@@ -42,7 +44,6 @@ export default defineEventHandler(async (event) => {
   // If session doesn't exist or is invalid or expired
   if (session === null || session.valid === false || now > session.expiresAt) {
     event.context.loggedIn = false;
-    sendRedirect(event, "/login");
     return;
   }
 

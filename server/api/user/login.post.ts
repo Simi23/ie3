@@ -75,6 +75,10 @@ export default defineEventHandler(async (event) => {
 
   // Send success message
   return {
+    user: {
+      username: user.username,
+      adminClass: user.adminClass,
+    },
     notification: createNotification("SUCCESS", {
       message: "Belépés sikeres!",
     }),
