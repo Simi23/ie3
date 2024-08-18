@@ -1,0 +1,47 @@
+<div
+  class="absolute left-0 top-0 flex h-screen w-screen select-none items-center justify-center overflow-hidden"
+>
+  <div class="m-0 h-40 w-40 p-0" id="spaSpinnerContainer">
+    <img
+      src="/ie2logot.png"
+      alt=""
+      class="h-full w-full"
+      draggable="false"
+      id="spaLoadingSpinner"
+    />
+  </div>
+</div>
+
+<style>
+  #spaLoadingSpinner {
+    animation: spaSpinAnimation 0.8s ease-in-out 0s infinite normal forwards;
+  }
+
+  #spaSpinnerContainer {
+    animation: spaScaleAnimation 0.8s ease-in-out 0s infinite normal forwards;
+  }
+
+  @keyframes spaSpinAnimation {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+
+    100% {
+      transform: rotate(360deg) scale(1);
+    }
+  }
+
+  @keyframes spaScaleAnimation {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(0.8);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+</style>
