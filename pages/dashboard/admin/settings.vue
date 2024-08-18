@@ -1,7 +1,5 @@
 <template>
-  <div class="p-10">
-    <USkeleton class="h-screen w-full"> </USkeleton>
-  </div>
+  <div></div>
 </template>
 
 <script lang="ts" setup>
