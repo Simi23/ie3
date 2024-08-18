@@ -28,6 +28,7 @@
 </template>
 
 <script lang="ts" setup>
+// TODO: Remove this whole page
 import type CarouselMenu from "~/components/CarouselMenu.vue";
 const carouselmenu = ref<InstanceType<typeof CarouselMenu> | null>(null);
 
