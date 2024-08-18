@@ -7,7 +7,7 @@ interface LogParameters {
 
   severity: "INFO" | "WARN" | "ERROR";
 
-  category: "INIT" | "AUTH" | "REGISTRATION" | "COMPETITION";
+  category: "INIT" | "AUTH" | "REGISTRATION" | "COMPETITION" | "FINANCE";
   message: string;
 }
 
