@@ -1,7 +1,12 @@
 <template>
   <div>
     <HeaderMain />
-    <slot />
+    <div class="flex">
+      <HeaderAdmin />
+      <div class="w-full">
+        <slot />
+      </div>
+    </div>
   </div>
 </template>
 
