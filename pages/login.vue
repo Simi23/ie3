@@ -6,7 +6,7 @@
           <h1 class="text-center text-2xl font-bold">Bejelentkezés</h1>
         </template>
 
-        <CarouselMenu :pagecount="2" ref="logincarousel">
+        <CarouselMenu :pagecount="2" ref="logincarousel" initialheight="9rem">
           <template #page1>
             <UForm
               :schema="loginStage1Schema"
