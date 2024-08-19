@@ -1,8 +1,5 @@
 <template>
-  <div>
-    Iskolai PC-k száma Regisztrációs állapot (elkelt helyek/elérhető helyek)
-    E-mail Osztályok
-  </div>
+  <div>Vetítés</div>
 </template>
 
 <script lang="ts" setup>

@@ -35,6 +35,16 @@ const l2links = [
     to: "/dashboard/admin/settings",
     icon: "i-heroicons-cog-8-tooth-solid",
   },
+  {
+    label: "Kijelző",
+    to: "/dashboard/admin/screen",
+    icon: "i-heroicons-window-solid",
+  },
+  {
+    label: "Ülőhelyek",
+    to: "/dashboard/admin/seats",
+    icon: "i-heroicons-map-pin-solid",
+  },
 ];
 
 if (userStore.adminClass.valueOf() >= 2) {
