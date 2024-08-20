@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// import vue from "@vitejs/plugin-vue";
+
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   runtimeConfig: {
@@ -6,6 +7,14 @@ export default defineNuxtConfig({
       siteName: process.env.SITE_NAME,
     },
     trustProxy: Boolean(process.env.TRUST_PROXY),
+    smtpSettings: {
+      host: process.env.SMTP_HOST ?? "localhost",
+      port: Number(process.env.SMTP_PORT ?? 25),
+      secure: Boolean(process.env.SMTP_SECURE ?? false),
+      user: process.env.SMTP_USER ?? "username",
+      password: process.env.SMTP_PASSWORD ?? "password",
+      from: process.env.SMTP_FROM ?? 'Sender "<sender@email.com>"',
+    },
   },
   routeRules: {
     "/dashboard/**": { ssr: false },
@@ -54,6 +63,12 @@ export default defineNuxtConfig({
       Roboto: true,
     },
   },
+  // nitro: {
+  //   rollupConfig: {
+  //     // @ts-expect-error
+  //     plugins: [vue()],
+  //   },
+  // },
   $development: {
     security: {
       headers: {
