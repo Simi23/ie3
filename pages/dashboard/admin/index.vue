@@ -1,6 +1,6 @@
 <template>
   <div class="p-10">
-    <USkeleton class="h-screen w-full"> </USkeleton>
+    <USkeleton class="h-screen w-full" />
   </div>
 </template>
 

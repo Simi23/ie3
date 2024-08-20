@@ -1,10 +1,10 @@
 <template>
   <div class="w-fit">
     <UVerticalNavigation
+      id="admin-navigation"
       :links="links"
       class="w-fit border-t border-t-gray-700 px-2 py-4 dark:bg-gray-900"
-      id="admin-navigation"
-    ></UVerticalNavigation>
+    />
   </div>
 </template>
 

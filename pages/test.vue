@@ -11,15 +11,15 @@
         <UButton @click="carouselmenu?.jumpTo(1)">1</UButton>
         <UButton @click="carouselmenu?.jumpTo(2)">2</UButton>
         <UButton @click="carouselmenu?.jumpTo(3)">3</UButton>
-        <CarouselMenu :pagecount="3" ref="carouselmenu" initialheight="10rem">
+        <CarouselMenu ref="carouselmenu" :pagecount="3" initialheight="10rem">
           <template #page1>
-            <div class="h-40 w-full dark:bg-blue-400"></div>
+            <div class="h-40 w-full dark:bg-blue-400" />
           </template>
           <template #page2>
-            <div class="h-80 w-full dark:bg-yellow-400"></div>
+            <div class="h-80 w-full dark:bg-yellow-400" />
           </template>
           <template #page3>
-            <div class="h-60 w-full dark:bg-emerald-400"></div>
+            <div class="h-60 w-full dark:bg-emerald-400" />
           </template>
         </CarouselMenu>
       </UCard>
@@ -32,8 +32,8 @@
 import type CarouselMenu from "~/components/CarouselMenu.vue";
 const carouselmenu = ref<InstanceType<typeof CarouselMenu> | null>(null);
 
-const loadingSpinner = useLoadingSpinner();
-const toast = useToast();
+// const loadingSpinner = useLoadingSpinner();
+// const toast = useToast();
 </script>
 
 <style></style>

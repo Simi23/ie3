@@ -1,6 +1,6 @@
 import { prisma } from "~/db/prismaClient";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   const initDone = await prisma.option.findFirst({
     where: {
       name: "initDone",

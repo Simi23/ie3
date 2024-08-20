@@ -1,9 +1,9 @@
 <template>
   <div
-    class="absolute left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-gray-900 bg-opacity-60"
-    id="spinnerTopContainer"
-    :style="{ opacity: spinnerOpacity }"
     v-if="spinnerVisible"
+    id="spinnerTopContainer"
+    class="absolute left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-gray-900 bg-opacity-60"
+    :style="{ opacity: spinnerOpacity }"
   >
     <Spinner />
   </div>
@@ -15,7 +15,7 @@ const spinnerState = useLoadingSpinner();
 const spinnerVisible = ref(spinnerState.value);
 const spinnerOpacity = ref(0);
 
-watch(spinnerState, async (newState, oldState) => {
+watch(spinnerState, async (newState) => {
   if (newState === true) {
     spinnerOpacity.value = 0;
     spinnerVisible.value = true;

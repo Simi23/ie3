@@ -1,15 +1,15 @@
 <template>
   <div
+    id="spinnerContainer"
     class="m-0 p-0"
     :style="{ height: props.size, width: props.size }"
-    id="spinnerContainer"
   >
     <NuxtImg
       id="loadingSpinner"
       src="/ie2logot.png"
       class="h-full w-full"
       draggable="false"
-    ></NuxtImg>
+    />
   </div>
 </template>
 

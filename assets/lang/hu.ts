@@ -1,6 +1,8 @@
-let handler = {
+const handler = {
   get: function (target: any, name: string): string {
-    return target.hasOwnProperty(name) ? target[name] : "Ismeretlen szöveg";
+    return Object.prototype.hasOwnProperty.call(target, name)
+      ? target[name]
+      : "Ismeretlen szöveg";
   },
 };
 

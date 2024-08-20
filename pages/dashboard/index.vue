@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-const { data, status, error } = await useFetch("/api/init", {
+const { data } = await useFetch("/api/init", {
   lazy: true,
 });
 

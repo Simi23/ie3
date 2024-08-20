@@ -1,5 +1,5 @@
 const userStore = useUserStore();
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async () => {
   if (import.meta.client) {
     if (userStore.loggedIn) return;
 
@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       userStore.adminClass = session.adminClass;
       userStore.username = session.username;
       userStore.loggedIn = true;
-    } catch (e: any) {
+    } catch {
       return navigateTo("/logout");
     }
   }

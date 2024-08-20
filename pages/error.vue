@@ -7,12 +7,12 @@
 <script lang="ts" setup>
 // TODO: Remove this page
 
-const { data, error } = await useFetchNotification("/api/error");
+await useFetchNotification("/api/error");
 
 async function test() {
   try {
-    const resp = await $fetchNotification("/api/error");
-  } catch (e: any) {
+    await $fetchNotification("/api/error");
+  } catch {
     console.log("ERROR ENCOUNTERED");
   }
 }

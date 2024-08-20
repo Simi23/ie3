@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
       name: "initDone",
     },
   });
-  const initDone = (initDoneQuery?.value as Boolean) ?? false;
+  const initDone = (initDoneQuery?.value as boolean) ?? false;
 
   if (initDone) {
     throw createError({

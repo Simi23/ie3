@@ -39,10 +39,10 @@ export default function createNotification(
   type: "SUCCESS" | "WARN" | "INFO" | "ERROR",
   params: Partial<NotificationInput>,
 ): Notification {
-  let title = params.title ?? defaults.title[type];
-  let message = params.message;
-  let icon = params.icon ?? defaults.icon[type];
-  let color = defaults.color[type];
+  const title = params.title ?? defaults.title[type];
+  const message = params.message;
+  const icon = params.icon ?? defaults.icon[type];
+  const color = defaults.color[type];
 
   return {
     showNotification: true,

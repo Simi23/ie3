@@ -6,14 +6,14 @@
           <h1 class="text-center text-2xl font-bold">Bejelentkezés</h1>
         </template>
 
-        <CarouselMenu :pagecount="2" ref="logincarousel" initialheight="9rem">
+        <CarouselMenu ref="logincarousel" :pagecount="2" initialheight="9rem">
           <template #page1>
             <UForm
+              ref="loginform1"
               :schema="loginStage1Schema"
               :state="loginStage1State"
               @error="loginError"
               @submit.prevent="loginStage1Submit"
-              ref="loginform1"
             >
               <UFormGroup
                 name="username"
@@ -24,7 +24,7 @@
                   v-model="loginStage1State.username"
                   class="inputField"
                   placeholder="Felhasználónév"
-                ></UInput>
+                />
               </UFormGroup>
 
               <UButton
@@ -32,17 +32,16 @@
                 size="md"
                 label="Tovább"
                 type="submit"
-              >
-              </UButton>
+              />
             </UForm>
           </template>
           <template #page2>
             <UForm
+              ref="loginform2"
               :schema="loginStage2Schema"
               :state="loginStage2State"
               @error="loginError"
               @submit.prevent="loginStage2Submit"
-              ref="loginform2"
             >
               <UFormGroup
                 name="username"
@@ -54,17 +53,17 @@
                   class="inputField"
                   placeholder="Felhasználónév"
                   disabled
-                ></UInput>
+                />
               </UFormGroup>
 
               <UFormGroup name="password" label="Jelszó" class="mx-1 my-2 h-20">
                 <UInput
+                  id="stage-2-password"
                   v-model="loginStage2State.password"
                   class="inputField"
                   type="password"
                   placeholder="Jelszó"
-                  id="stage-2-password"
-                ></UInput>
+                />
               </UFormGroup>
 
               <div class="mt-4 flex justify-end">
@@ -74,13 +73,11 @@
                   label="Vissza"
                   icon="i-heroicons-arrow-small-left"
                   @click="logincarousel?.jumpTo(1)"
-                >
-                </UButton>
-                <UButton class="ml-2" size="md" label="Belépés" type="submit">
-                </UButton>
+                />
+                <UButton class="ml-2" size="md" label="Belépés" type="submit" />
               </div>
             </UForm>
-            <UDivider v-if="allowWebauthn" label="VAGY" class="my-6"></UDivider>
+            <UDivider v-if="allowWebauthn" label="VAGY" class="my-6" />
             <div v-if="allowWebauthn">
               <h1 class="text-md text-center font-bold text-gray-400">
                 Belépés WebAuthn használatával...
@@ -100,7 +97,7 @@ import {
   type LoginStage1Schema,
   type LoginStage2Schema,
 } from "~/schemas/loginSchemas";
-import type { FormSubmitEvent, FormErrorEvent } from "#ui/types";
+import type { FormSubmitEvent } from "#ui/types";
 import type CarouselMenu from "~/components/CarouselMenu.vue";
 
 const toast = useToast();
@@ -141,7 +138,7 @@ async function loginStage2Submit(event: FormSubmitEvent<LoginStage2Schema>) {
     userStore.adminClass = response.user.adminClass;
     userStore.username = response.user.username;
     userStore.loggedIn = true;
-  } catch (e: any) {
+  } catch {
     loadingSpinner.value = false;
     return;
   }
@@ -149,7 +146,7 @@ async function loginStage2Submit(event: FormSubmitEvent<LoginStage2Schema>) {
   loadingSpinner.value = false;
 }
 
-function loginError(event: FormErrorEvent) {
+function loginError() {
   toast.add({
     title: "Hiba",
     description:

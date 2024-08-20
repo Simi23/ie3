@@ -6,11 +6,11 @@
     >
       <div
         v-for="i in props.pagecount"
-        :key="i"
         :id="`page${i}`"
+        :key="i"
         class="scrolled-page absolute left-0 top-0 h-fit w-full"
       >
-        <slot :name="'page' + i"></slot>
+        <slot :name="'page' + i" />
       </div>
     </div>
   </div>

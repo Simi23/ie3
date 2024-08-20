@@ -85,7 +85,7 @@ const tableCols = [
 
 async function setPaid(id: string, state: boolean) {
   loadingSpinner.value = true;
-  const result = await $fetchNotification("/api/finance", {
+  await $fetchNotification("/api/finance", {
     method: "POST",
     headers: {
       "csrf-token": csrf.csrf,

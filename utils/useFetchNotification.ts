@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import type { FetchError } from "ofetch";
 import type { AvailableRouterMethod, NitroFetchRequest } from "nitropack";
 import type { AsyncData, UseFetchOptions, FetchResult } from "nuxt/app";

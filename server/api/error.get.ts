@@ -1,4 +1,4 @@
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   throw createError({
     statusCode: 400,
     statusMessage: "Bad request",

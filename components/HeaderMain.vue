@@ -5,10 +5,7 @@
     >
       Infósok Éjszakája
     </h1>
-    <UHorizontalNavigation
-      :links="links"
-      class="mr-4 w-fit"
-    ></UHorizontalNavigation>
+    <UHorizontalNavigation :links="links" class="mr-4 w-fit" />
   </div>
 </template>
 

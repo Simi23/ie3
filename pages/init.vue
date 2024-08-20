@@ -14,28 +14,28 @@
         </div>
         <div v-else>
           <UForm
+            ref="form"
             :schema="initSchema"
             :state="initState"
             @error="initError"
             @submit.prevent="initSubmit"
-            ref="form"
           >
             <UFormGroup
               name="username"
               label="Felhasználónév"
               class="mx-1 my-2 h-20"
             >
-              <UInput v-model="initState.username" class="inputField"></UInput>
+              <UInput v-model="initState.username" class="inputField" />
             </UFormGroup>
             <UFormGroup name="email" label="Email cím" class="mx-1 my-2 h-20">
-              <UInput v-model="initState.email" class="inputField"></UInput>
+              <UInput v-model="initState.email" class="inputField" />
             </UFormGroup>
             <UFormGroup name="password" label="Jelszó" class="mx-1 my-2 h-20">
               <UInput
                 v-model="initState.password"
                 type="password"
                 class="inputField"
-              ></UInput>
+              />
             </UFormGroup>
             <UFormGroup
               name="confirmPassword"
@@ -46,7 +46,7 @@
                 v-model="initState.confirmPassword"
                 type="password"
                 class="inputField"
-              ></UInput>
+              />
             </UFormGroup>
 
             <UButton
@@ -54,8 +54,7 @@
               size="md"
               label="Tovább"
               type="submit"
-            >
-            </UButton>
+            />
           </UForm>
         </div>
       </UCard>
@@ -66,7 +65,7 @@
 <script lang="ts" setup>
 import { initSchema } from "~/schemas/initSchema";
 import type { InitSchema } from "~/schemas/initSchema";
-import type { FormSubmitEvent, FormErrorEvent } from "#ui/types";
+import type { FormSubmitEvent } from "#ui/types";
 import type { UForm } from "#build/components";
 
 const loadingSpinner = useLoadingSpinner();
@@ -86,7 +85,7 @@ const initState = ref({
 
 async function initSubmit(event: FormSubmitEvent<InitSchema>) {
   loadingSpinner.value = true;
-  const resp = await $fetchNotification("/api/init", {
+  await $fetchNotification("/api/init", {
     method: "POST",
     body: event.data,
     headers: {
@@ -96,7 +95,7 @@ async function initSubmit(event: FormSubmitEvent<InitSchema>) {
   loadingSpinner.value = false;
 }
 
-function initError(event: FormErrorEvent) {
+function initError() {
   toast.add({
     title: "Hiba",
     description:
