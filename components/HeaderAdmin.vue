@@ -30,25 +30,49 @@ const l1links = [
 ];
 
 const l2links = [
-  {
-    label: "Oldalbeállítások",
-    to: "/dashboard/admin/settings",
-    icon: "i-heroicons-cog-8-tooth-solid",
-  },
-  {
-    label: "Kijelző",
-    to: "/dashboard/admin/screen",
-    icon: "i-heroicons-window-solid",
-  },
-  {
-    label: "Ülőhelyek",
-    to: "/dashboard/admin/seats",
-    icon: "i-heroicons-map-pin-solid",
-  },
+  [
+    {
+      label: "Oldalbeállítások",
+      to: "/dashboard/admin/settings",
+      icon: "i-heroicons-cog-8-tooth-solid",
+    },
+    {
+      label: "Felhasználók",
+      to: "/dashboard/admin/users",
+      icon: "i-heroicons-users-solid",
+    },
+    {
+      label: "Kijelző",
+      to: "/dashboard/admin/screen",
+      icon: "i-heroicons-window-solid",
+    },
+    {
+      label: "Ülőhelyek",
+      to: "/dashboard/admin/seats",
+      icon: "i-heroicons-map-pin-solid",
+    },
+    {
+      label: "Térképek",
+      to: "/dashboard/admin/maps",
+      icon: "i-heroicons-map-solid",
+    },
+  ],
+  [
+    {
+      label: "Versenyek",
+      to: "/dashboard/admin/competitions",
+      icon: "i-heroicons-trophy-solid",
+    },
+    {
+      label: "Keretek",
+      to: "/dashboard/admin/brackets",
+      icon: "i-heroicons-table-cells-solid",
+    },
+  ],
 ];
 
 if (userStore.adminClass.valueOf() >= 2) {
-  links.value.push(l2links);
+  links.value.push(...l2links);
 }
 
 if (userStore.adminClass.valueOf() >= 1) {
