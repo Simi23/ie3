@@ -1,5 +1,5 @@
 const userStore = useUserStore();
-export default defineNuxtRouteMiddleware(async () => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   if (import.meta.client) {
     if (userStore.loggedIn) return;
 
