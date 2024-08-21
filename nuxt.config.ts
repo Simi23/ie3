@@ -1,5 +1,3 @@
-// import vue from "@vitejs/plugin-vue";
-
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   runtimeConfig: {
@@ -63,12 +61,6 @@ export default defineNuxtConfig({
       Roboto: true,
     },
   },
-  // nitro: {
-  //   rollupConfig: {
-  //     // @ts-expect-error
-  //     plugins: [vue()],
-  //   },
-  // },
   $development: {
     security: {
       headers: {
