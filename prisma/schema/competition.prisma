@@ -1,0 +1,43 @@
+model Competition {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    title       String
+    description String
+    imageName   String
+
+    teamCompetition Boolean
+    teamLimit       Int     @default(1)
+
+    users    User[]
+    teams    Team[]
+    brackets Bracket[]
+}
+
+model Team {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    name String
+
+    users         UserInTeam[]
+    competition   Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+    competitionId String
+
+    brackets BracketPartTeam[]
+}
+
+model UserInTeam {
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+    teamId String
+
+    isLeader  Boolean @default(false)
+    isPending Boolean @default(true)
+
+    @@id(fields: [userId, teamId])
+}

@@ -1,0 +1,39 @@
+model Option {
+    name  String @id
+    value Json
+}
+
+model Seat {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    public Boolean @default(true)
+
+    name  String
+    owner User?
+}
+
+model ClassGroup {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    name String
+    year Int
+
+    classes Class[]
+}
+
+model Class {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    name String
+
+    group   ClassGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    groupId String
+
+    users User[]
+}

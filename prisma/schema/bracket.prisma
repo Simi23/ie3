@@ -1,0 +1,59 @@
+model Bracket {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    title               String
+    administrativeTitle String
+    numberOfCompetitors Int
+
+    competition   Competition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+    competitionId String
+
+    teamParts BracketPartTeam[]
+    userParts BracketPartUser[]
+}
+
+model BracketPartUser {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    round         Int
+    roundLocation Int
+    upper         Boolean
+    startLocation Boolean
+
+    points  Int[]
+    won     Boolean
+    started Boolean
+    ended   Boolean
+
+    bracket   Bracket @relation(fields: [bracketId], references: [id], onDelete: Cascade)
+    bracketId String
+
+    user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String?
+}
+
+model BracketPartTeam {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    round         Int
+    roundLocation Int
+    upper         Boolean
+    startLocation Boolean
+
+    points  Int[]
+    won     Boolean
+    started Boolean
+    ended   Boolean
+
+    bracket   Bracket @relation(fields: [bracketId], references: [id], onDelete: Cascade)
+    bracketId String
+
+    team   Team?   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+    teamId String?
+}
