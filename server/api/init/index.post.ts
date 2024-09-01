@@ -42,7 +42,19 @@ export default defineEventHandler(async (event) => {
 
       username: parsedBody.data.username,
       fullname: "Initial User",
-      class: "Initial Class",
+      class: {
+        create: {
+          name: "Admin",
+          hidden: true,
+          group: {
+            create: {
+              name: "Admin",
+              year: 99,
+              hidden: true,
+            },
+          },
+        },
+      },
       adminClass: 2,
 
       passwordHash: passwordHash,

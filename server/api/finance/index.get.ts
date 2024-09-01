@@ -13,13 +13,28 @@ export default defineEventHandler(async (event) => {
     select: {
       id: true,
       fullname: true,
-      class: true,
       paid: true,
+      class: {
+        select: {
+          name: true,
+        },
+      },
     },
     orderBy: {
-      class: "asc",
+      class: {
+        name: "asc",
+      },
     },
   });
 
-  return users;
+  const formatted = users.map((user) => {
+    return {
+      id: user.id,
+      fullname: user.fullname,
+      paid: user.paid,
+      class: user.class.name,
+    };
+  });
+
+  return formatted;
 });
