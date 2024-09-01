@@ -3,12 +3,7 @@
     Iskolai PC-k száma Regisztrációs állapot (elkelt helyek/elérhető helyek)
     E-mail
     <h2>Osztályok</h2>
-    <USelectMenu
-      v-model="currentClass"
-      :options="classes"
-      class="w-fit"
-      placeholder="Válassz osztályt..."
-    />
+    <ClassSelect show-hidden="1"> </ClassSelect>
   </div>
 </template>
 
@@ -17,18 +12,6 @@ definePageMeta({
   layout: "dashboard-admin",
   middleware: "auth",
 });
-
-const classes = [
-  {
-    label: "Helló",
-    disabled: true,
-  },
-  {
-    label: "World",
-  },
-];
-
-const currentClass = ref();
 </script>
 
 <style></style>
