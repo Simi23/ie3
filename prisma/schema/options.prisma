@@ -22,6 +22,8 @@ model ClassGroup {
     name String
     year Int
 
+    hidden Boolean
+
     classes Class[]
 }
 
@@ -34,6 +36,8 @@ model Class {
 
     group   ClassGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
     groupId String
+
+    hidden Boolean
 
     users User[]
 }
