@@ -34,7 +34,7 @@ model Class {
 
     name String
 
-    group   ClassGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    group   ClassGroup @relation(fields: [groupId], references: [id])
     groupId String
 
     hidden Boolean

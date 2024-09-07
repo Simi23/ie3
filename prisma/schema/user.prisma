@@ -9,7 +9,7 @@ model User {
 
     username   String @unique
     fullname   String
-    class      Class  @relation(fields: [classId], references: [id], onDelete: Cascade)
+    class      Class  @relation(fields: [classId], references: [id])
     classId    String
     adminClass Int    @default(0)
 
