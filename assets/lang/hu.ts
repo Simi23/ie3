@@ -19,7 +19,9 @@ const strings = {
   "email-not-verified": "A megadott email cím még nincs megerősítve!",
   "session-not-found": "Érvénytelen belépés! Kérlek, jelentkezz be!",
   "access-denied": "Hozzáférés megtagadva!",
-  "validation-failed": "A megadott adatok helytelenek!s",
+  "validation-failed": "A megadott adatok helytelenek!",
+  "classgroup-not-found": "Az évfolyam nem található!",
+  "class-not-found": "Az osztály nem található!",
 };
 
 export const huLang = new Proxy(strings, handler);

@@ -16,6 +16,8 @@
 </template>
 
 <script lang="ts" setup>
+const eventBus = useMittBus();
+
 const classGroups = ref();
 
 const props = defineProps<{
@@ -52,11 +54,18 @@ const { refresh } = await useFetch("/api/classes", {
     classGroups.value = newObject;
   },
   query: {
-    showhidden: props.showHidden ?? "0",
+    showhidden: computed(() => props.showHidden ?? "0"),
   },
 });
 
 const currentClass = ref();
+
+eventBus.on("update-class-group", () => {
+  refresh();
+});
+eventBus.on("update-class", () => {
+  refresh();
+});
 
 defineExpose({
   refresh,
