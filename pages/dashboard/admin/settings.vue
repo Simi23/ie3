@@ -24,33 +24,43 @@
         <h1 class="text-xl font-bold">Osztályok</h1>
       </template>
 
-      <h2 class="text-md mb-2 font-semibold">Próba választó</h2>
-      <TextToggle
-        class="mb-1"
-        label="Rejtett osztályok mutatása"
-        v-model="hiddenToggle"
-      />
-      <ClassSelect :show-hidden="hiddenToggle ? '1' : '0'" />
+      <div class="flex w-full">
+        <div class="w-80 rounded-lg border border-gray-700 bg-gray-950 p-4">
+          <h2 class="text-md mb-2 font-semibold">Próba választó</h2>
+          <TextToggle
+            class="mb-1"
+            label="Rejtett osztályok mutatása"
+            v-model="hiddenToggle"
+          />
+          <ClassSelect :show-hidden="hiddenToggle ? '1' : '0'" />
+        </div>
+
+        <div
+          class="mx-6 w-96 rounded-lg border border-gray-700 bg-gray-950 p-4"
+        >
+          <h2 class="text-md mb-2 font-semibold">Évfolyam hozzáadása</h2>
+          <ClassGroupAdd class="mx-2" />
+        </div>
+
+        <div class="w-96 rounded-lg border border-gray-700 bg-gray-950 p-4">
+          <h2 class="text-md mb-2 font-semibold">Osztályok hozzáadása</h2>
+          <ClassAdd class="mx-2" />
+        </div>
+      </div>
 
       <UDivider size="sm" class="my-6"></UDivider>
 
-      <h2 class="text-md mb-2 mt-4 font-semibold">Évfolyamok</h2>
-      <ClassGroupTable />
+      <div class="rounded-lg border border-gray-700 bg-gray-950 p-4">
+        <h2 class="text-md mb-2 font-semibold">Évfolyamok</h2>
+        <ClassGroupTable />
+      </div>
 
       <UDivider size="sm" class="my-6"></UDivider>
 
-      <h2 class="text-md mb-2 mt-4 font-semibold">Évfolyam hozzáadása</h2>
-      <ClassGroupAdd class="mx-6" />
-
-      <UDivider size="sm" class="my-6"></UDivider>
-
-      <h2 class="text-md mb-2 mt-4 font-semibold">Osztályok</h2>
-      <ClassTable />
-
-      <UDivider size="sm" class="my-6"></UDivider>
-
-      <h2 class="text-md mb-2 mt-4 font-semibold">Osztályok hozzáadása</h2>
-      <ClassAdd class="mx-6" />
+      <div class="rounded-lg border border-gray-700 bg-gray-950 p-4">
+        <h2 class="text-md mb-2 font-semibold">Osztályok</h2>
+        <ClassTable />
+      </div>
     </UCard>
   </div>
 </template>
@@ -62,9 +72,6 @@ definePageMeta({
 });
 
 const hiddenToggle = ref(true);
-
-const classselect = ref<any>(undefined);
-const classgrouptable = ref<any>(undefined);
 </script>
 
 <style></style>
