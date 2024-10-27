@@ -31,6 +31,10 @@ export default defineNuxtConfig({
     head: {
       title: "Infósok Éjszakája",
     },
+    pageTransition: {
+      name: "page",
+      mode: "out-in",
+    },
   },
   modules: [
     "@nuxt/image",
