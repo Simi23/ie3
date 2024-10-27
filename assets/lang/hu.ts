@@ -7,13 +7,13 @@ const handler = {
 };
 
 const strings = {
-  "unknown-error": "Ismeretlen hiba",
   error: "Hiba",
-  "init-already-done": "Már megtörtént az inicializáció",
-  "form-invalid": "Az űrlap kitöltése helytelen!",
   success: "Siker",
   warning: "Figyelmeztetés",
   information: "Információ",
+  "unknown-error": "Ismeretlen hiba",
+  "init-already-done": "Már megtörtént az inicializáció",
+  "form-invalid": "Az űrlap kitöltése helytelen!",
   "user-invalid":
     "Ezzel a felhasználónév/jelszó kombinációval nem található fiók!",
   "email-not-verified": "A megadott email cím még nincs megerősítve!",
@@ -22,6 +22,7 @@ const strings = {
   "validation-failed": "A megadott adatok helytelenek!",
   "classgroup-not-found": "Az évfolyam nem található!",
   "class-not-found": "Az osztály nem található!",
+  "CSRF Token invalid": "Lejárt CSRF token. Frissítsd az oldalt!",
 };
 
 export const huLang = new Proxy(strings, handler);
