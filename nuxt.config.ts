@@ -22,7 +22,13 @@ export default defineNuxtConfig({
   experimental: {
     asyncContext: true,
   },
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
   css: ["~/assets/css/main.css"],
   colorMode: {
     preference: "dark",
