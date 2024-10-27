@@ -57,3 +57,19 @@ screenData:
         2 = display bracket
         3 = scroll between pages
 ```
+
+## Email Settings
+
+name: `email`
+value: JSON
+
+Specifies the credentials to send emails.
+
+```
+  host: String
+  port: Number
+  secure: Boolean
+  user: String
+  password: String
+  from: String
+```
