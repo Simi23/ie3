@@ -5,11 +5,16 @@ export default {
     "./layouts/**/*.vue",
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
+    "./mail/templates/*.vue",
     "./app.vue",
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'mail-bg': "url('https://files.penguin.hu/hatter.png')"
+      }
+    },
   },
   plugins: [],
 }

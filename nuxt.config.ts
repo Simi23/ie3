@@ -1,3 +1,5 @@
+import vuePlugin from "@vitejs/plugin-vue";
+
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   runtimeConfig: {
@@ -70,6 +72,12 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       Roboto: true,
+    },
+  },
+  nitro: {
+    rollupConfig: {
+      // @ts-ignore
+      plugins: [vuePlugin()],
     },
   },
   $development: {

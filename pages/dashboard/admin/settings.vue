@@ -77,7 +77,7 @@
           size="md"
           label="Teszt"
           color="emerald"
-          @submit.prevent="testMail"
+          @click.prevent="testMail"
         />
         <div class="clear-both"></div>
       </UForm>
@@ -184,7 +184,18 @@ async function updateMailSetting() {
   loadingSpinner.value = false;
 }
 
-async function testMail() {}
+async function testMail() {
+  loadingSpinner.value = true;
+  await $fetchNotification("/api/mail/test", {
+    method: "POST",
+    headers: {
+      "csrf-token": csrf,
+    },
+  }).catch(() => {
+    loadingSpinner.value = false;
+  });
+  loadingSpinner.value = false;
+}
 </script>
 
 <style></style>
