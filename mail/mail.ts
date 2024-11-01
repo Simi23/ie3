@@ -8,7 +8,7 @@ export async function testMail(recipient: string) {
     Test,
     {
       title: "Teszt - Infósok Éjszakája",
-      text: "Ha megkaptad ezt az emailt, akkor helyesek az email beállítások.",
+      text: "Ha megkaptad ezt az üzenetet, akkor helyesek az email beállítások.",
     },
     {
       pretty: true,
@@ -18,7 +18,7 @@ export async function testMail(recipient: string) {
     Test,
     {
       title: "Teszt - Infósok Éjszakája",
-      text: "Ha megkaptad ezt az emailt, akkor helyesek az email beállítások.",
+      text: "Ha megkaptad ezt az üzenetet, akkor helyesek az email beállítások.",
     },
     {
       plainText: true,

@@ -1,5 +1,7 @@
 import { createTransport } from "nodemailer";
 import { prisma } from "~/db/prismaClient";
+import type { Transporter } from "nodemailer";
+import type SMTPTransport from "nodemailer/lib/smtp-transport";
 
 interface EmailSettings {
   host: string;
@@ -10,30 +12,51 @@ interface EmailSettings {
   from: string;
 }
 
-const result = await prisma.option.findFirst({
-  where: {
-    name: "email",
-  },
-});
+// The cached transporter object
+let transporter: Transporter<
+  SMTPTransport.SentMessageInfo,
+  SMTPTransport.Options
+> | null = null;
 
-const { host, port, secure, user, password, from } = (result ?? {
-  host: "127.0.0.1",
-  port: 25,
-  secure: false,
-  user: "user",
-  password: "password",
-  from: "user",
-}) as EmailSettings;
+// Read or create the transporter object
+async function getTransporter(): Promise<
+  Transporter<SMTPTransport.SentMessageInfo, SMTPTransport.Options>
+> {
+  if (transporter == null) {
+    console.log("Creating email transporter...");
+    const result = await prisma.option.findFirst({
+      where: {
+        name: "email",
+      },
+    });
+    let settings = {} as EmailSettings;
+    if (result == null) {
+      settings = {
+        host: "127.0.0.1",
+        port: 25,
+        secure: false,
+        user: "user",
+        password: "password",
+        from: "user",
+      };
+    } else {
+      settings = result.value as unknown as EmailSettings;
+    }
 
-const transporter = createTransport({
-  host: host,
-  port: port,
-  secure: secure,
-  auth: {
-    user: user,
-    pass: password,
-  },
-});
+    transporter = createTransport({
+      host: settings.host,
+      port: settings.port,
+      secure: settings.secure,
+      auth: {
+        user: settings.user,
+        pass: settings.password,
+      },
+      from: settings.from,
+    });
+  }
+
+  return transporter;
+}
 
 export async function sendMail(
   recipient: string,
@@ -41,8 +64,10 @@ export async function sendMail(
   content: string,
   htmlContent: string,
 ) {
-  await transporter.sendMail({
-    from: from,
+  await (
+    await getTransporter()
+  ).sendMail({
+    from: transporter?.options.from,
     to: recipient,
     subject: subject,
     text: content,
