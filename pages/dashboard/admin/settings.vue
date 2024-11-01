@@ -6,7 +6,23 @@
       </template>
 
       <h2 class="text-md mb-2 font-semibold">Regisztrációs állapot</h2>
+      <p>
+        Regisztráció állapota:
+        <span :class="dRegOptions[regOption].color">{{
+          dRegOptions[regOption].text
+        }}</span>
+      </p>
+
+      <URadioGroup v-model="regOptionSelection" :options="regOptions" />
+      <UButton
+        class="mr-2 mt-2 block"
+        size="xs"
+        label="Státusz mentése"
+        @click.prevent="updateRegStatus"
+      />
+
       Állítás, státusz, (elkelt helyek, elérhető helyek)
+
       <h2 class="text-md mb-2 mt-4 font-semibold">Iskolai PC-k</h2>
       Állítás, elkelt / elérhető
     </UCard>
@@ -154,12 +170,41 @@ const mailSettingState = ref({
   from: "",
 });
 
+const regOption = ref(0);
+const regOptionSelection = ref(0);
+const regOptions = [
+  {
+    label: "Még nem indult el",
+    value: 0,
+  },
+  {
+    label: "Nyitva",
+    value: 1,
+  },
+  {
+    label: "Lezárult",
+    value: 2,
+  },
+];
+const dRegOptions = [
+  { text: "Még nem indult el", color: "text-amber-400" },
+  { text: "Nyitva", color: "text-emerald-500" },
+  { text: "Lezárult", color: "text-red-500" },
+];
+
 const { refresh: refreshMailSetting } = useFetch("/api/mail/setting", {
   method: "get",
   onResponse: (r) => {
     mailSettingState.value = r.response._data;
   },
   lazy: true,
+});
+
+const { refresh: refreshRegOption } = useFetch("/api/admin/regstatus", {
+  lazy: true,
+  onResponse: (r) => {
+    regOption.value = Number(r.response._data);
+  },
 });
 
 async function updateMailSetting() {
@@ -195,6 +240,23 @@ async function testMail() {
     loadingSpinner.value = false;
   });
   loadingSpinner.value = false;
+}
+
+async function updateRegStatus() {
+  loadingSpinner.value = true;
+  await $fetchNotification("/api/admin/regstatus", {
+    method: "POST",
+    headers: {
+      "csrf-token": csrf,
+    },
+    body: {
+      registrationStatus: regOptionSelection.value,
+    },
+  }).catch(() => {
+    loadingSpinner.value = false;
+  });
+  loadingSpinner.value = false;
+  refreshRegOption();
 }
 </script>
 

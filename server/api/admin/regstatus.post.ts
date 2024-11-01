@@ -1,47 +1,49 @@
 import { prisma } from "~/db/prismaClient";
-import { mailSettingSchema } from "~/schemas/mailSettingSchema";
 import adminCheck from "~/utils/adminCheck";
 import createNotification from "~/utils/createNotification";
 import { logEventAction } from "~/utils/logger";
 
+interface RegistrationStatus {
+  registrationStatus: number;
+}
+
 export default defineEventHandler(async (event) => {
   adminCheck(event, 2);
 
-  const body = await readBody(event);
-  body.from = decodeURIComponent(body.from);
+  const data = (await readBody(event)) as RegistrationStatus;
 
-  const validatedBody = mailSettingSchema.safeParse(body);
-
-  if (!validatedBody.success) {
+  if (data.registrationStatus == null || data.registrationStatus == undefined) {
     throw createError({
       statusCode: 400,
       statusMessage: "Bad Request",
-      message: "validation-failed",
+      message: "unknown-error",
     });
   }
 
+  const status = Number(data.registrationStatus);
+
   await prisma.option.upsert({
+    create: {
+      name: "registrationStatus",
+      value: status,
+    },
     where: {
-      name: "email",
+      name: "registrationStatus",
     },
     update: {
-      value: validatedBody.data,
-    },
-    create: {
-      name: "email",
-      value: validatedBody.data,
+      value: status,
     },
   });
 
   logEventAction(event, {
     category: "OPTION",
     severity: "INFO",
-    message: `User "${event.context.user?.username}" changed email settings.`,
+    message: `User ${event.context.user?.username} has updated registrationStatus to ${status}.`,
   });
 
   return {
     notification: createNotification("SUCCESS", {
-      message: "Email beállítások módosítása sikeres!",
+      message: "Regisztrációs állapot megváltoztatása sikeres!",
     }),
   };
 });
