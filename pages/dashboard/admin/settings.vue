@@ -21,10 +21,42 @@
         @click.prevent="updateRegStatus"
       />
 
-      Állítás, státusz, (elkelt helyek, elérhető helyek)
+      <h2 class="text-md mb-2 mt-4 font-semibold">Helyek</h2>
+      <p>
+        Összes: <span class="text-gray-200">{{ seatStats.totalSeats }}</span>
+      </p>
+      <p>
+        Foglalt:
+        <span class="text-amber-400">{{ seatStats.occupiedSeats }}</span>
+      </p>
+      <p>
+        Szabad: <span class="text-emerald-500">{{ seatStats.freeSeats }}</span>
+      </p>
 
       <h2 class="text-md mb-2 mt-4 font-semibold">Iskolai PC-k</h2>
-      Állítás, elkelt / elérhető
+      <p>
+        Összes: <span class="text-gray-200">{{ pcStats.totalPcs }}</span>
+      </p>
+      <p>
+        Foglalt:
+        <span class="text-amber-400">{{ pcStats.occupiedPcs }}</span>
+      </p>
+      <p>
+        Szabad: <span class="text-emerald-500">{{ pcStats.freePcs }}</span>
+      </p>
+      <UFormGroup name="maxpc" label="Iskolai PC-k száma" class="my-2 h-20">
+        <UInput
+          type="number"
+          class="inputField inline-block w-20"
+          v-model="maxPcInput"
+        />
+        <UButton
+          size="xs"
+          label="Mentés"
+          class="ml-2 inline-block"
+          @click.prevent="updateSchoolPc"
+        />
+      </UFormGroup>
     </UCard>
 
     <UCard class="mx-10 my-10">
@@ -207,6 +239,39 @@ const { refresh: refreshRegOption } = useFetch("/api/admin/regstatus", {
   },
 });
 
+const { data: seatStats, refresh: refreshSeatStats } = useFetch(
+  "/api/stat/seats",
+  {
+    lazy: true,
+    default: () => {
+      return {
+        totalSeats: 0,
+        freeSeats: 0,
+        occupiedSeats: 0,
+      };
+    },
+  },
+);
+
+const maxPcInput = ref(0);
+
+const { data: pcStats, refresh: refreshPcStats } = useFetch(
+  "/api/stat/schoolpc",
+  {
+    lazy: true,
+    default: () => {
+      return {
+        totalPcs: 0,
+        freePcs: 0,
+        occupiedPcs: 0,
+      };
+    },
+    onResponse: (res) => {
+      maxPcInput.value = res.response._data.totalPcs ?? 0;
+    },
+  },
+);
+
 async function updateMailSetting() {
   loadingSpinner.value = true;
   await $fetchNotification("/api/mail/setting", {
@@ -257,6 +322,23 @@ async function updateRegStatus() {
   });
   loadingSpinner.value = false;
   refreshRegOption();
+}
+
+async function updateSchoolPc() {
+  loadingSpinner.value = true;
+  await $fetchNotification("/api/admin/schoolpc", {
+    method: "POST",
+    headers: {
+      "csrf-token": csrf,
+    },
+    body: {
+      schoolpc: maxPcInput.value,
+    },
+  }).catch(() => {
+    loadingSpinner.value = false;
+  });
+  loadingSpinner.value = false;
+  refreshPcStats();
 }
 </script>
 
