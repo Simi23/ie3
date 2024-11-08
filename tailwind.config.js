@@ -12,7 +12,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'mail-bg': "url('https://files.penguin.hu/hatter.png')"
+        'mail-bg': "url('https://files.penguin.hu/hatter.png')",
+        'web-bg': "url('/background.webp')"
       }
     },
   },

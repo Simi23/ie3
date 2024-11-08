@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UCard class="mx-10 my-10">
+    <UCard class="mx-10 my-10 dark:bg-opacity-90">
       <template #header>
         <h1 class="text-xl font-bold">Beállítások</h1>
       </template>
@@ -59,7 +59,7 @@
       </UFormGroup>
     </UCard>
 
-    <UCard class="mx-10 my-10">
+    <UCard class="mx-10 my-10 dark:bg-opacity-90">
       <template #header>
         <h1 class="text-xl font-bold">Email beállítások</h1>
       </template>
@@ -131,7 +131,7 @@
       </UForm>
     </UCard>
 
-    <UCard class="mx-10 my-10">
+    <UCard class="mx-10 my-10 dark:bg-opacity-90">
       <template #header>
         <h1 class="text-xl font-bold">Osztályok</h1>
       </template>
