@@ -137,7 +137,9 @@
       </template>
 
       <div class="flex w-full">
-        <div class="w-80 rounded-lg border border-gray-700 bg-gray-950 p-4">
+        <div
+          class="w-80 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+        >
           <h2 class="text-md mb-2 font-semibold">Próba választó</h2>
           <TextToggle
             class="mb-1"
@@ -148,13 +150,15 @@
         </div>
 
         <div
-          class="mx-6 w-96 rounded-lg border border-gray-700 bg-gray-950 p-4"
+          class="mx-6 w-96 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
         >
           <h2 class="text-md mb-2 font-semibold">Évfolyam hozzáadása</h2>
           <ClassGroupAdd class="mx-2" />
         </div>
 
-        <div class="w-96 rounded-lg border border-gray-700 bg-gray-950 p-4">
+        <div
+          class="w-96 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+        >
           <h2 class="text-md mb-2 font-semibold">Osztályok hozzáadása</h2>
           <ClassAdd class="mx-2" />
         </div>
@@ -162,14 +166,18 @@
 
       <UDivider size="sm" class="my-6"></UDivider>
 
-      <div class="rounded-lg border border-gray-700 bg-gray-950 p-4">
+      <div
+        class="rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+      >
         <h2 class="text-md mb-2 font-semibold">Évfolyamok</h2>
         <ClassGroupTable />
       </div>
 
       <UDivider size="sm" class="my-6"></UDivider>
 
-      <div class="rounded-lg border border-gray-700 bg-gray-950 p-4">
+      <div
+        class="rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+      >
         <h2 class="text-md mb-2 font-semibold">Osztályok</h2>
         <ClassTable />
       </div>

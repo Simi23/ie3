@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="p-2">
     <UTable
+      class="rounded-sm bg-gray-800 bg-opacity-65"
       :columns="tableCols"
       :rows="tableRows"
       :loading="status === 'pending'"
