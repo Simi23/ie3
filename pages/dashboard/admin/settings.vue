@@ -5,7 +5,7 @@
         <h1 class="text-xl font-bold">Beállítások</h1>
       </template>
 
-      <h2 class="text-md mb-2 font-semibold">Regisztrációs állapot</h2>
+      <h2 class="mb-2 text-lg font-semibold">Regisztrációs állapot</h2>
       <p>
         Regisztráció állapota:
         <span :class="dRegOptions[regOption].color">{{
@@ -21,7 +21,7 @@
         @click.prevent="updateRegStatus"
       />
 
-      <h2 class="text-md mb-2 mt-4 font-semibold">Helyek</h2>
+      <h2 class="mb-2 mt-4 text-lg font-semibold">Helyek</h2>
       <p>
         Összes: <span class="text-gray-200">{{ seatStats.totalSeats }}</span>
       </p>
@@ -33,7 +33,7 @@
         Szabad: <span class="text-emerald-500">{{ seatStats.freeSeats }}</span>
       </p>
 
-      <h2 class="text-md mb-2 mt-4 font-semibold">Iskolai PC-k</h2>
+      <h2 class="mb-2 mt-4 text-lg font-semibold">Iskolai PC-k</h2>
       <p>
         Összes: <span class="text-gray-200">{{ pcStats.totalPcs }}</span>
       </p>
