@@ -80,11 +80,25 @@ export default defineNuxtConfig({
       plugins: [vuePlugin()],
     },
   },
+  security: {
+    csrf: true,
+  },
+  csurf: {
+    enabled: true,
+    cookieKey: "csrf-token",
+    cookie: {
+      httpOnly: false,
+    },
+    // TODO: add https (secure)
+  },
   $development: {
     security: {
       headers: {
         crossOriginEmbedderPolicy: "unsafe-none",
       },
+    },
+    csurf: {
+      https: false,
     },
   },
 });

@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "start:prod": "node server/index.mjs",
+    "start:migrate:prod": "npx prisma migrate deploy && npm run start:prod"
   },
   "dependencies": {
     "@iconify-json/heroicons": "^1.1.24",
@@ -28,7 +30,6 @@
     "mitt": "^3.0.1",
     "nodemailer": "^6.9.14",
     "nuxt": "^3.13.2",
-    "nuxt-csurf": "1.6.3",
     "nuxt-security": "^2.0.0-rc.9",
     "redis": "4.7.0",
     "vue": "3.5.12",

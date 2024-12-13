@@ -12,6 +12,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
+        // TODO: Change this URL to final site URL
         'mail-bg': "url('https://files.penguin.hu/hatter.png')",
         'web-bg': "url('/background.webp')"
       }

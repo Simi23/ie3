@@ -5985,7 +5985,7 @@ nuxi@^3.13.2:
   resolved "https://registry.yarnpkg.com/nuxi/-/nuxi-3.15.0.tgz#ed54923ca46727c6e7df10495143db340d9791c9"
   integrity sha512-ZVu45nuDrdb7nzKW2kLGY/N1vvFYLLbUVX6gUYw4BApKGGu4+GktTR5o48dGVgMYX9A8chaugl7TL9ZYmwC9Mg==
 
-nuxt-csurf@1.6.3, nuxt-csurf@^1.5.1:
+nuxt-csurf@^1.5.1:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/nuxt-csurf/-/nuxt-csurf-1.6.3.tgz#d463307d94a74407f6ee75313bdbe0adbe854478"
   integrity sha512-GZqafBPn+eEXVVaYEJ+tRtw/OSLHX3BUUqvXPiFhkQztXYdzYaPp6G9pbr26O03wMqApkLCrMhio7i/NqQ5gLg==
