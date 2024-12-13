@@ -1,9 +1,12 @@
 <template>
   <div class="p-2">
+    <div class="mb-1 flex bg-gray-800 bg-opacity-35 px-3 py-3.5">
+      <UInput v-model="query" placeholder="Keresés..." />
+    </div>
     <UTable
       class="rounded-sm bg-gray-800 bg-opacity-65"
       :columns="tableCols"
-      :rows="tableRows"
+      :rows="filteredRows"
       :loading="status === 'pending'"
       :loading-state="{
         icon: 'i-heroicons-arrow-path-20-solid',
@@ -83,6 +86,17 @@ const tableCols = [
     sortable: false,
   },
 ];
+
+const query = ref("");
+const filteredRows = computed(() => {
+  if (!query.value || query.value == "") return tableRows.value;
+
+  return tableRows.value.filter((person: any) => {
+    return Object.values(person).some((value: any) => {
+      return String(value).toLowerCase().includes(query.value.toLowerCase());
+    });
+  });
+});
 
 async function setPaid(id: string, state: boolean) {
   loadingSpinner.value = true;
