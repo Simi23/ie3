@@ -4,6 +4,7 @@
       <NuxtPage />
     </NuxtLayout>
 
+    <UModals />
     <LoadingBanner />
     <UNotifications />
   </div>
