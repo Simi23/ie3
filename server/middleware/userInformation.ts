@@ -1,4 +1,5 @@
 import { prisma } from "~/db/prismaClient";
+import { sha256 } from "~/utils/hash";
 
 interface UserData {
   id: string;
@@ -11,21 +12,24 @@ declare module "h3" {
   interface H3EventContext {
     loggedIn: boolean;
     user?: UserData;
+    sessionId?: string;
   }
 }
 
 export default defineEventHandler(async (event) => {
   // TODO: Speed up by redis
-  const sessionCookie = getCookie(event, "ie-session");
+  const sessionTokenString = getCookie(event, "ie-session");
 
-  if (sessionCookie === undefined) {
+  if (sessionTokenString === undefined) {
     event.context.loggedIn = false;
     return;
   }
 
+  const tokenHash = sha256(sessionTokenString);
+
   const session = await prisma.session.findUnique({
     where: {
-      id: sessionCookie,
+      token: tokenHash,
     },
     include: {
       user: {
@@ -49,4 +53,5 @@ export default defineEventHandler(async (event) => {
 
   event.context.loggedIn = true;
   event.context.user = session.user;
+  event.context.sessionId = session.id;
 });

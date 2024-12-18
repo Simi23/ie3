@@ -31,17 +31,20 @@ model User {
 }
 
 model Session {
-    id        String    @id @default(uuid())
+    id        String    @id @default(cuid())
     createdAt DateTime  @default(now())
     updatedAt DateTime? @updatedAt
     expiresAt DateTime  @default(dbgenerated("(now() + '1 day'::interval)"))
 
+    token     String  @unique @default("")
     valid     Boolean @default(true)
     address   String
     userAgent String
 
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
+
+    @@index([id, token])
 }
 
 model PasswordResetRequest {

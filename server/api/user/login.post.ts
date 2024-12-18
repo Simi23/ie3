@@ -3,6 +3,8 @@ import { prisma } from "~/db/prismaClient";
 import { loginStage2Schema } from "~/schemas/loginSchemas";
 import createNotification from "~/utils/createNotification";
 import { logEventAction } from "~/utils/logger";
+import { randomBytes } from "crypto";
+import { sha256 } from "~/utils/hash";
 
 export default defineEventHandler(async (event) => {
   const rawBody = await readBody(event);
@@ -21,6 +23,7 @@ export default defineEventHandler(async (event) => {
       username: body.data.username,
     },
   });
+
   // Validate if user exists
   if (user === null) {
     throw createError({
@@ -47,6 +50,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const tokenBytes = randomBytes(16);
+  const tokenString = tokenBytes.toString("hex");
+  const tokenHash = sha256(tokenString);
+
   // Create session
   const session = await prisma.session.create({
     data: {
@@ -57,6 +64,7 @@ export default defineEventHandler(async (event) => {
       },
       address: event.context.realIp,
       userAgent: event.context.userAgent,
+      token: tokenHash,
     },
   });
 
@@ -68,7 +76,7 @@ export default defineEventHandler(async (event) => {
   });
 
   // Set session cookie
-  setCookie(event, "ie-session", session.id, {
+  setCookie(event, "ie-session", tokenString, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
   });
