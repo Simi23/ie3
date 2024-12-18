@@ -2,6 +2,7 @@
   "name": "nuxt-app",
   "private": true,
   "type": "module",
+  "version": "0.5.1",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -27,6 +28,7 @@
     "@vueuse/core": "12.0.0",
     "@vueuse/nuxt": "12.0.0",
     "bcrypt": "^5.1.1",
+    "ipx": "^3.0.1",
     "mitt": "^3.0.1",
     "nodemailer": "^6.9.14",
     "nuxt": "^3.14.1592",
@@ -38,6 +40,11 @@
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "devDependencies": {
+    "@headlessui/tailwindcss": "^0.2.1",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.15",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "22.10.2",
     "@types/nodemailer": "^6.4.15",

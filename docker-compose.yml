@@ -1,0 +1,32 @@
+services:
+  ie3:
+    hostname: ie3
+    container_name: ie3
+    image: simi23/ie3:buildtest
+    environment:
+      # The URL of the site for redirects and external links in emails
+      SITE_NAME: "https://dash.infosokejszakaja.hu"
+      # Set this to "1" to read IP addresses from X-Forwarded-For headers
+      TRUST_PROXY: "1"
+      DATABASE_URL: "postgresql://user:password@postgres:5432/database?schema=public"
+      REDIS_URL: "redis://redis:6379"
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: database
+      POSTGRES_USER: user
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  redis:
+    image: redis
+    restart: unless-stopped
+
+volumes:
+  pgdata:
