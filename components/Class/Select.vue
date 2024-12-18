@@ -5,6 +5,8 @@
       :options="classGroups"
       class="w-full"
       placeholder="Válassz osztályt..."
+      searchable
+      searchable-placeholder="Keresés..."
     >
       <template #option="{ option: row }">
         <span :class="['truncate', row.disabled == false ? 'pl-4' : '']">{{
