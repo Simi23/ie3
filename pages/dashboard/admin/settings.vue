@@ -22,6 +22,14 @@
       />
 
       <h2 class="mb-2 mt-4 text-lg font-semibold">Helyek</h2>
+      <UMeter
+        :value="seatStats.occupiedSeats"
+        :max="seatStats.totalSeats"
+        color="amber"
+        size="lg"
+        class="my-2 w-1/3 min-w-64"
+      >
+      </UMeter>
       <p>
         Összes: <span class="text-gray-200">{{ seatStats.totalSeats }}</span>
       </p>
@@ -34,6 +42,14 @@
       </p>
 
       <h2 class="mb-2 mt-4 text-lg font-semibold">Iskolai PC-k</h2>
+      <UMeter
+        :value="pcStats.occupiedPcs"
+        :max="pcStats.totalPcs"
+        color="amber"
+        size="lg"
+        class="my-2 w-1/3 min-w-64"
+      >
+      </UMeter>
       <p>
         Összes: <span class="text-gray-200">{{ pcStats.totalPcs }}</span>
       </p>
@@ -256,6 +272,7 @@ const { data: seatStats, refresh: refreshSeatStats } = useFetch(
         totalSeats: 0,
         freeSeats: 0,
         occupiedSeats: 0,
+        hiddenSeats: 0,
       };
     },
   },
