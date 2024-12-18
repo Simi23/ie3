@@ -1,7 +1,7 @@
 <template>
   <div>
     <UContainer class="flex min-h-screen w-fit items-center">
-      <UCard class="h-fit min-w-64">
+      <UCard class="h-fit min-w-72">
         <template #header>
           <h1 class="text-center text-2xl font-bold">Bejelentkezés</h1>
         </template>
@@ -27,12 +27,23 @@
                 />
               </UFormGroup>
 
-              <UButton
-                class="ml-auto mr-2 mt-5 block"
-                size="md"
-                label="Tovább"
-                type="submit"
-              />
+              <div class="float-right mt-5">
+                <UButton
+                  size="sm"
+                  label="Regisztráció"
+                  to="/register"
+                  variant="ghost"
+                  icon="i-heroicons-user-plus"
+                  class="h-full align-middle"
+                />
+                <UButton
+                  class="ml-2 align-middle"
+                  size="sm"
+                  label="Tovább"
+                  type="submit"
+                />
+              </div>
+              <div class="clear-both"></div>
             </UForm>
           </template>
           <template #page2>
