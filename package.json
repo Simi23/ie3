@@ -13,6 +13,7 @@
     "start:migrate:prod": "npx prisma migrate deploy && npm run start:prod"
   },
   "dependencies": {
+    "@iconify-json/fa6-brands": "^1.2.5",
     "@iconify-json/heroicons": "^1.1.24",
     "@nuxt/eslint": "0.7.3",
     "@nuxt/icon": "1.10.1",
@@ -35,6 +36,7 @@
     "nuxt-security": "^2.0.0-rc.9",
     "pinia": "^2.3.0",
     "redis": "4.7.0",
+    "ua-parser-js": "^2.0.0",
     "vue": "3.5.13",
     "zod": "^3.23.8"
   },

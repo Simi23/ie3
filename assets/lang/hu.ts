@@ -23,6 +23,7 @@ const strings = {
   "classgroup-not-found": "Az évfolyam nem található!",
   "class-not-found": "Az osztály nem található!",
   "CSRF Token invalid": "Lejárt CSRF token. Frissítsd az oldalt!",
+  "user-not-found": "A felhasználó nem található!",
 };
 
 export const huLang = new Proxy(strings, handler);
