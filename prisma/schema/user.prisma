@@ -21,11 +21,9 @@ model User {
     ethernetPort Boolean
     ownChair     Boolean
 
-    teams        UserInTeam[]
-    competitions Competition[]
-    seat         Seat              @relation(fields: [seatId], references: [id])
-    seatId       String            @unique
-    brackets     BracketPartUser[]
+    teams  UserInTeam[]
+    seat   Seat         @relation(fields: [seatId], references: [id])
+    seatId String       @unique
 
     paid Boolean @default(false)
 }
