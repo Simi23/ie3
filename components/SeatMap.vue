@@ -1,14 +1,26 @@
 <script lang="ts" setup>
-const props = defineProps(["svgId"]);
+interface Props {
+  svgId: string;
+  letterStroke?: string;
+  seatStroke?: string;
+  arrowStroke?: string;
+}
+
+const {
+  svgId,
+  letterStroke = "#000000",
+  seatStroke = "#000000",
+  arrowStroke = "#000000",
+} = defineProps<Props>();
 const emit = defineEmits(["chosenSeat"]);
 
 /**
  * Set seat colour.
- * @param seatName The seat to modify
+ * @param seatName The seat to modify. If set to `all`, applies to all seats.
  * @param colour Any colour string that is accepted by CSS
  */
 function changeSeatColour(seatName: string, colour: string) {
-  let svg = document.getElementById(props.svgId);
+  let svg = document.getElementById(svgId);
   let rects = svg?.getElementsByTagName("rect");
   if (rects == undefined) {
     return;
@@ -33,7 +45,7 @@ function changeSeatColour(seatName: string, colour: string) {
  * @param emitName The param string to call `chosenSeat` event with, if omitted, the event is called with `seatName` instead.
  */
 function assignSeat(seatName: string, emitName?: string) {
-  let svg = document.getElementById(props.svgId);
+  let svg = document.getElementById(svgId);
   let rects = svg?.getElementsByTagName("rect");
   if (rects == undefined) {
     return;
@@ -71,7 +83,7 @@ function assignSeat(seatName: string, emitName?: string) {
  * Replace all of the seats to clear their events.
  */
 function clearSeatEvents() {
-  let svg = document.getElementById(props.svgId);
+  let svg = document.getElementById(svgId);
   let rects = svg?.getElementsByTagName("rect");
   if (rects == undefined) {
     return;
@@ -129,12 +141,11 @@ defineExpose({
             <path
               id="path1048"
               d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+              :style="{ stroke: arrowStroke, fill: arrowStroke }"
               style="
                 fill-rule: evenodd;
-                stroke: #000000;
                 stroke-width: 1pt;
                 stroke-opacity: 1;
-                fill: #000000;
                 fill-opacity: 1;
               "
               transform="scale(0.8) rotate(180) translate(12.5,0)"
@@ -152,12 +163,11 @@ defineExpose({
             <path
               id="path1045"
               d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+              :style="{ stroke: arrowStroke, fill: arrowStroke }"
               style="
                 fill-rule: evenodd;
-                stroke: #000000;
                 stroke-width: 1pt;
                 stroke-opacity: 1;
-                fill: #000000;
                 fill-opacity: 1;
               "
               transform="scale(0.8) translate(12.5,0)"
@@ -174,11 +184,10 @@ defineExpose({
           >
             <path
               transform="matrix(-0.8,0,0,-0.8,-10,0)"
+              :style="{ stroke: arrowStroke, fill: arrowStroke }"
               style="
-                fill: #000000;
                 fill-opacity: 1;
                 fill-rule: evenodd;
-                stroke: #000000;
                 stroke-width: 1pt;
                 stroke-opacity: 1;
               "
@@ -197,11 +206,10 @@ defineExpose({
           >
             <path
               transform="matrix(-0.8,0,0,-0.8,-10,0)"
+              :style="{ stroke: arrowStroke, fill: arrowStroke }"
               style="
-                fill: #000000;
                 fill-opacity: 1;
                 fill-rule: evenodd;
-                stroke: #000000;
                 stroke-width: 1pt;
                 stroke-opacity: 1;
               "
@@ -220,11 +228,10 @@ defineExpose({
           >
             <path
               transform="matrix(-0.8,0,0,-0.8,-10,0)"
+              :style="{ stroke: arrowStroke, fill: arrowStroke }"
               style="
-                fill: #000000;
                 fill-opacity: 1;
                 fill-rule: evenodd;
-                stroke: #000000;
                 stroke-width: 1pt;
                 stroke-opacity: 1;
               "
@@ -243,11 +250,10 @@ defineExpose({
           >
             <path
               transform="matrix(-0.8,0,0,-0.8,-10,0)"
+              :style="{ stroke: arrowStroke, fill: arrowStroke }"
               style="
-                fill: #000000;
                 fill-opacity: 1;
                 fill-rule: evenodd;
-                stroke: #000000;
                 stroke-width: 1pt;
                 stroke-opacity: 1;
               "
@@ -269,9 +275,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -280,9 +286,9 @@ defineExpose({
           />
           <rect
             inkscape:label="A-03"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -296,9 +302,9 @@ defineExpose({
           />
           <rect
             inkscape:label="A-01"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -312,9 +318,9 @@ defineExpose({
           />
           <rect
             inkscape:label="A-02"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -329,9 +335,9 @@ defineExpose({
           <rect
             inkscape:label="A-08"
             transform="matrix(0.30865113,0.95117532,-0.95043925,0.31091033,0,0)"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -351,9 +357,9 @@ defineExpose({
             height="16.013344"
             width="22.58066"
             id="rect864-2-9"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -368,9 +374,9 @@ defineExpose({
             height="16.013344"
             width="22.58066"
             id="rect864-9-7"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -385,9 +391,9 @@ defineExpose({
             height="16.013344"
             width="22.58066"
             id="rect864-3-4"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -397,9 +403,9 @@ defineExpose({
           <rect
             inkscape:label="A-09"
             transform="rotate(-35.960479)"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -419,9 +425,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-2-3"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -436,9 +442,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-9-8"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -453,9 +459,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-3-0"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -465,9 +471,9 @@ defineExpose({
           <rect
             inkscape:label="A-13"
             transform="rotate(36.117975)"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -487,9 +493,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-2-2"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -504,9 +510,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-9-9"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -521,9 +527,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-3-8"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -538,9 +544,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-9-6"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -555,9 +561,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-3-03"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -570,9 +576,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-9-74"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -586,9 +592,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-3-2"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -602,9 +608,9 @@ defineExpose({
             height="16.013344"
             width="22.58066"
             id="rect864-8-5"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -614,9 +620,9 @@ defineExpose({
             inkscape:label="B-04"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -631,9 +637,9 @@ defineExpose({
             inkscape:label="B-03"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -648,9 +654,9 @@ defineExpose({
             inkscape:label="B-01"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -670,9 +676,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-6-2"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -682,9 +688,9 @@ defineExpose({
             inkscape:label="B-05"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -699,9 +705,9 @@ defineExpose({
             inkscape:label="B-06"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -716,9 +722,9 @@ defineExpose({
             inkscape:label="B-08"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -738,9 +744,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-4-8"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -750,9 +756,9 @@ defineExpose({
             inkscape:label="B-09"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -767,9 +773,9 @@ defineExpose({
             inkscape:label="B-10"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -784,9 +790,9 @@ defineExpose({
             inkscape:label="B-12"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -806,9 +812,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-20-5"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -818,9 +824,9 @@ defineExpose({
             inkscape:label="B-16"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -835,9 +841,9 @@ defineExpose({
             inkscape:label="B-15"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -852,9 +858,9 @@ defineExpose({
             inkscape:label="B-13"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -869,9 +875,9 @@ defineExpose({
             inkscape:label="B-14"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -890,9 +896,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-2-92"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -906,9 +912,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-9-99"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -923,9 +929,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-3-7"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -939,9 +945,9 @@ defineExpose({
             height="16.013344"
             width="22.58066"
             id="rect864-8-51"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -951,9 +957,9 @@ defineExpose({
             inkscape:label="C-02"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -973,9 +979,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-6-0"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -985,9 +991,9 @@ defineExpose({
             inkscape:label="C-03"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1002,9 +1008,9 @@ defineExpose({
             inkscape:label="C-04"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1019,9 +1025,9 @@ defineExpose({
             inkscape:label="C-06"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1041,9 +1047,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-4-6"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1053,9 +1059,9 @@ defineExpose({
             inkscape:label="C-07"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1070,9 +1076,9 @@ defineExpose({
             inkscape:label="C-08"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1087,9 +1093,9 @@ defineExpose({
             inkscape:label="C-10"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1109,9 +1115,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-20-6"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1121,9 +1127,9 @@ defineExpose({
             inkscape:label="C-14"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1138,9 +1144,9 @@ defineExpose({
             inkscape:label="C-13"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1155,9 +1161,9 @@ defineExpose({
             inkscape:label="C-11"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1173,9 +1179,9 @@ defineExpose({
           />
           <rect
             transform="scale(-1)"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1195,9 +1201,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-2-97"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1212,9 +1218,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-9-2"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1229,9 +1235,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-3-6"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1245,9 +1251,9 @@ defineExpose({
             height="16.013344"
             width="22.58066"
             id="rect864-8-3"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1257,9 +1263,9 @@ defineExpose({
             inkscape:label="D-02"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1279,9 +1285,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-6-6"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1291,9 +1297,9 @@ defineExpose({
             inkscape:label="D-03"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1308,9 +1314,9 @@ defineExpose({
             inkscape:label="D-04"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1325,9 +1331,9 @@ defineExpose({
             inkscape:label="D-06"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1347,9 +1353,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-4-2"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1359,9 +1365,9 @@ defineExpose({
             inkscape:label="D-07"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1376,9 +1382,9 @@ defineExpose({
             inkscape:label="D-08"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1393,9 +1399,9 @@ defineExpose({
             inkscape:label="D-10"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1415,9 +1421,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-20-9"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1427,9 +1433,9 @@ defineExpose({
             inkscape:label="D-14"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1444,9 +1450,9 @@ defineExpose({
             inkscape:label="D-13"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1461,9 +1467,9 @@ defineExpose({
             inkscape:label="D-11"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1479,9 +1485,9 @@ defineExpose({
           />
           <rect
             transform="scale(-1)"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1501,9 +1507,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-2-10"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1518,9 +1524,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-9-93"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1535,9 +1541,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-3-64"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1551,9 +1557,9 @@ defineExpose({
             height="16.013344"
             width="22.58066"
             id="rect864-8-53"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1563,9 +1569,9 @@ defineExpose({
             inkscape:label="E-08"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1580,9 +1586,9 @@ defineExpose({
             inkscape:label="E-07"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1597,9 +1603,9 @@ defineExpose({
             inkscape:label="E-05"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1619,9 +1625,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-6-60"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1631,9 +1637,9 @@ defineExpose({
             inkscape:label="E-09"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1648,9 +1654,9 @@ defineExpose({
             inkscape:label="E-10"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1665,9 +1671,9 @@ defineExpose({
             inkscape:label="E-12"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1687,9 +1693,9 @@ defineExpose({
             height="15.999416"
             width="22.600254"
             id="rect864-4-4"
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1699,9 +1705,9 @@ defineExpose({
             inkscape:label="E-13"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1716,9 +1722,9 @@ defineExpose({
             inkscape:label="E-14"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1733,9 +1739,9 @@ defineExpose({
             inkscape:label="E-16"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1750,9 +1756,9 @@ defineExpose({
             inkscape:label="E-15"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1767,9 +1773,9 @@ defineExpose({
             inkscape:label="E-17"
           />
           <rect
+            :style="{ stroke: seatStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 1.165;
               stroke-miterlimit: 4;
               stroke-dasharray: none;
@@ -1787,13 +1793,13 @@ defineExpose({
             id="text1159"
             y="-29.876978"
             x="-437.01138"
+            :style="{ fill: letterStroke }"
             style="
               font-style: normal;
               font-weight: normal;
               font-size: 50.8px;
               line-height: 1.25;
               font-family: sans-serif;
-              fill: #000000;
               fill-opacity: 1;
               stroke: none;
               stroke-width: 0.264583;
@@ -1812,13 +1818,13 @@ defineExpose({
           </text>
           <text
             xml:space="preserve"
+            :style="{ fill: letterStroke }"
             style="
               font-style: normal;
               font-weight: normal;
               font-size: 50.8px;
               line-height: 1.25;
               font-family: sans-serif;
-              fill: #000000;
               fill-opacity: 1;
               stroke: none;
               stroke-width: 0.264583;
@@ -1839,13 +1845,13 @@ defineExpose({
           </text>
           <text
             xml:space="preserve"
+            :style="{ fill: letterStroke }"
             style="
               font-style: normal;
               font-weight: normal;
               font-size: 50.8px;
               line-height: 1.25;
               font-family: sans-serif;
-              fill: #000000;
               fill-opacity: 1;
               stroke: none;
               stroke-width: 0.264583;
@@ -1866,13 +1872,13 @@ defineExpose({
           </text>
           <text
             xml:space="preserve"
+            :style="{ fill: letterStroke }"
             style="
               font-style: normal;
               font-weight: normal;
               font-size: 50.8px;
               line-height: 1.25;
               font-family: sans-serif;
-              fill: #000000;
               fill-opacity: 1;
               stroke: none;
               stroke-width: 0.264583;
@@ -1893,13 +1899,13 @@ defineExpose({
           </text>
           <text
             xml:space="preserve"
+            :style="{ fill: letterStroke }"
             style="
               font-style: normal;
               font-weight: normal;
               font-size: 50.8px;
               line-height: 1.25;
               font-family: sans-serif;
-              fill: #000000;
               fill-opacity: 1;
               stroke: none;
               stroke-width: 0.264583;
@@ -1919,9 +1925,9 @@ defineExpose({
             </tspan>
           </text>
           <path
+            :style="{ stroke: arrowStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 0.665;
               stroke-linecap: butt;
               stroke-linejoin: miter;
@@ -1936,9 +1942,9 @@ defineExpose({
           <path
             id="path1043-1"
             d="m -254.15633,-2.1870427 -6.79525,-15.6975733"
+            :style="{ stroke: arrowStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 0.665001;
               stroke-linecap: butt;
               stroke-linejoin: miter;
@@ -1951,9 +1957,9 @@ defineExpose({
           <path
             id="path1043-3"
             d="m -89.312956,-44.732715 -5.95904,-16.033682"
+            :style="{ stroke: arrowStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 0.665001;
               stroke-linecap: butt;
               stroke-linejoin: miter;
@@ -1966,9 +1972,9 @@ defineExpose({
           <path
             id="path1043-10"
             d="m -77.505288,51.705352 h 17.105239"
+            :style="{ stroke: arrowStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 0.665001;
               stroke-linecap: butt;
               stroke-linejoin: miter;
@@ -1981,9 +1987,9 @@ defineExpose({
           <path
             id="path1043-9"
             d="m -349.06232,92.603819 6.22002,15.934271"
+            :style="{ stroke: arrowStroke }"
             style="
               fill: none;
-              stroke: #000000;
               stroke-width: 0.665001;
               stroke-linecap: butt;
               stroke-linejoin: miter;
