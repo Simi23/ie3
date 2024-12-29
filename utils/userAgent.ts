@@ -53,7 +53,7 @@ const osIcons: IconCollection = {
   windows: { icon: "fa6-brands:windows", name: "Windows", color: "blue" },
 };
 
-type UserAgentInfo = {
+export type UserAgentInfo = {
   icons: Icon[];
   text: string;
 };
