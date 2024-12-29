@@ -4,7 +4,7 @@
       <h1 class="text-xl font-bold">Térkép1</h1>
     </template>
     <div class="grid grid-cols-2">
-      <SeatMap class="w-full p-2" />
+      <SeatMap class="w-full p-2" svg-id="testmap" />
       <div class="p-2">AADF</div>
     </div>
   </UCard>
