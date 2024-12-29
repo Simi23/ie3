@@ -82,6 +82,10 @@ export default defineNuxtConfig({
   },
   security: {
     csrf: true,
+    rateLimiter: {
+      tokensPerInterval: 150,
+      interval: 10000,
+    },
   },
   csurf: {
     enabled: true,
