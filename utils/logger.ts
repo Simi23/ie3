@@ -13,7 +13,8 @@ interface LogParameters {
     | "REGISTRATION"
     | "COMPETITION"
     | "FINANCE"
-    | "OPTION";
+    | "OPTION"
+    | "UPLOAD";
   message: string;
 }
 

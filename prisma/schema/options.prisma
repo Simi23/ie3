@@ -41,3 +41,18 @@ model Class {
 
     users User[]
 }
+
+model Media {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    name String
+    path String    @default("")
+    url  String    @default("")
+    type MediaType
+}
+
+enum MediaType {
+    Image
+}

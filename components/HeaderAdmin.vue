@@ -59,6 +59,13 @@ const l2links = [
   ],
   [
     {
+      label: "Média",
+      to: "/dashboard/admin/media",
+      icon: "i-heroicons-photo-solid",
+    },
+  ],
+  [
+    {
       label: "Versenyek",
       to: "/dashboard/admin/competitions",
       icon: "i-heroicons-trophy-solid",

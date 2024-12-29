@@ -24,6 +24,8 @@ const strings = {
   "class-not-found": "Az osztály nem található!",
   "CSRF Token invalid": "Lejárt CSRF token. Frissítsd az oldalt!",
   "user-not-found": "A felhasználó nem található!",
+  "request-body-invalid": "Feltöltés sikertelen!",
+  "storing-file-failed": "A fájl tárolása meghiúsult!",
 };
 
 export const huLang = new Proxy(strings, handler);

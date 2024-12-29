@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Media" ADD COLUMN     "url" TEXT NOT NULL DEFAULT '',
+ALTER COLUMN "path" SET DEFAULT '';

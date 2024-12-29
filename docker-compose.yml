@@ -10,6 +10,8 @@ services:
       TRUST_PROXY: "1"
       DATABASE_URL: "postgresql://user:password@postgres:5432/database?schema=public"
       REDIS_URL: "redis://redis:6379"
+    volumes:
+      - ie3images:/app/public/images
     restart: unless-stopped
     ports:
       - 3000:3000
