@@ -26,6 +26,7 @@ const strings = {
   "user-not-found": "A felhasználó nem található!",
   "request-body-invalid": "Feltöltés sikertelen!",
   "storing-file-failed": "A fájl tárolása meghiúsult!",
+  "media-not-found": "A fájl nem létezik!",
 };
 
 export const huLang = new Proxy(strings, handler);

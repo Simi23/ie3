@@ -80,7 +80,7 @@ export default defineEventHandler(async (event) => {
   logEventAction(event, {
     category: "UPLOAD",
     severity: "INFO",
-    message: `${event.context.user?.username} uploaded file`,
+    message: `${event.context.user?.username} uploaded file "${updatedDbFile.name}"`,
   });
 
   return {

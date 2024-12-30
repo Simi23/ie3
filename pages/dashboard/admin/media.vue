@@ -86,8 +86,10 @@ definePageMeta({
 const upload = ref<File>();
 const uploadName = ref<string>("");
 const loading = ref<boolean>(false);
+
 const { csrf } = useCsrf();
 const modal = useModal();
+const loadingSpinner = useLoadingSpinner();
 
 const cols = [
   {
@@ -158,7 +160,25 @@ async function displayImage(name: string, path: string) {
   });
 }
 
-async function updateName(id: string, newName: string) {}
+async function updateName(id: string, newName: string) {
+  loadingSpinner.value = true;
+  try {
+    await $fetchNotification("/api/media/rename", {
+      method: "POST",
+      headers: {
+        "csrf-token": csrf,
+      },
+      body: {
+        id: id,
+        newName: newName,
+      },
+    });
+  } catch (error) {
+    loadingSpinner.value = false;
+  }
+  await refreshFiles();
+  loadingSpinner.value = false;
+}
 
 async function renameModal(id: string, name: string) {
   modal.open(ModalSingleInput, {

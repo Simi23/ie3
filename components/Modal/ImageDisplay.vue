@@ -14,8 +14,7 @@ interface Props {
   path: string;
   title: string;
 }
-
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <style></style>
