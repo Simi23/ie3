@@ -19,6 +19,7 @@
               :state="loginStage1State"
               @error="loginError"
               @submit.prevent="loginStage1Submit"
+              class="w-[280px]"
             >
               <UFormGroup
                 name="username"
@@ -58,6 +59,7 @@
               :state="loginStage2State"
               @error="loginError"
               @submit.prevent="loginStage2Submit"
+              class="w-[280px]"
             >
               <UFormGroup
                 name="username"
