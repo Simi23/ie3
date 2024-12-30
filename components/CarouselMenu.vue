@@ -1,17 +1,16 @@
 <template>
-  <div>
+  <div
+    class="size-transition relative"
+    :class="{ 'mask-overflow': moving }"
+    :style="{ height: boxHeight, width: boxWidth }"
+  >
     <div
-      class="size-transition relative contain-content"
-      :style="{ height: boxHeight }"
+      v-for="i in props.pagecount"
+      :id="`${props.name}page${i}`"
+      :key="i"
+      class="scrolled-page absolute left-0 top-0 h-fit"
     >
-      <div
-        v-for="i in props.pagecount"
-        :id="`${props.name}page${i}`"
-        :key="i"
-        class="scrolled-page absolute left-0 top-0 h-fit w-full"
-      >
-        <slot :name="'page' + i" />
-      </div>
+      <slot :name="'page' + i" />
     </div>
   </div>
 </template>
@@ -20,15 +19,19 @@
 interface Props {
   pagecount?: number;
   initialheight?: string;
+  initialwidth?: string;
   name: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   pagecount: 1,
   initialheight: "300px",
+  initialwidth: "300px",
 });
 
 const boxHeight = ref<string>(props.initialheight);
+const boxWidth = ref<string>(props.initialwidth);
+const moving = ref<boolean>(false);
 
 defineExpose({
   jumpTo,
@@ -46,6 +49,8 @@ async function jumpTo(number: number) {
 
   if (previousElement === null || nextElement === null) return;
 
+  moving.value = true;
+
   let forwardX = "";
   let backwardX = "";
 
@@ -60,6 +65,7 @@ async function jumpTo(number: number) {
   }
 
   boxHeight.value = nextElement.clientHeight + "px";
+  boxWidth.value = nextElement.clientWidth + "px";
 
   previousElement.style.transform = "translateX(0)";
   previousElement.style.opacity = "1";
@@ -79,6 +85,7 @@ async function jumpTo(number: number) {
   previousElement.style.visibility = "hidden";
 
   curPageNum = number;
+  moving.value = false;
 }
 
 onMounted(() => {
@@ -87,13 +94,22 @@ onMounted(() => {
   );
   if (currentElement === null) return;
   boxHeight.value = currentElement.clientHeight + "px";
+  boxWidth.value = currentElement.clientWidth + "px";
   currentElement.style.visibility = "visible";
 });
 </script>
 
 <style scoped>
 .size-transition {
-  transition: height 0.4s ease-in-out;
+  transition:
+    height 0.4s ease-in-out,
+    width 0.4s ease-in-out;
+}
+
+.mask-overflow {
+  mask-image: linear-gradient(white, white);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
 }
 
 .scrolled-page {
