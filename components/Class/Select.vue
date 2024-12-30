@@ -1,7 +1,8 @@
 <template>
   <div>
     <USelectMenu
-      v-model="currentClass"
+      v-model="model"
+      value-attribute="value"
       :options="classGroups"
       class="w-full"
       placeholder="Válassz osztályt..."
@@ -25,6 +26,8 @@ const classGroups = ref();
 const props = defineProps<{
   showHidden?: string;
 }>();
+
+const model = defineModel<string>();
 
 const { refresh } = await useFetch("/api/classes", {
   onResponse: ({ response }) => {
@@ -58,9 +61,9 @@ const { refresh } = await useFetch("/api/classes", {
   query: {
     showhidden: computed(() => props.showHidden ?? "0"),
   },
+  // TODO: check if needed
+  server: false,
 });
-
-const currentClass = ref();
 
 eventBus.on("update-class-group", () => {
   refresh();
@@ -71,7 +74,6 @@ eventBus.on("update-class", () => {
 
 defineExpose({
   refresh,
-  currentClass,
 });
 </script>
 
