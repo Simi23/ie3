@@ -6,7 +6,12 @@
           <h1 class="text-center text-2xl font-bold">Bejelentkezés</h1>
         </template>
 
-        <CarouselMenu ref="logincarousel" :pagecount="2" initialheight="9rem">
+        <CarouselMenu
+          ref="logincarousel"
+          :pagecount="2"
+          initialheight="9rem"
+          name="login"
+        >
           <template #page1>
             <UForm
               ref="loginform1"
