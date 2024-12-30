@@ -11,15 +11,21 @@
         <UButton @click="carouselmenu?.jumpTo(1)">1</UButton>
         <UButton @click="carouselmenu?.jumpTo(2)">2</UButton>
         <UButton @click="carouselmenu?.jumpTo(3)">3</UButton>
-        <CarouselMenu ref="carouselmenu" :pagecount="3" initialheight="10rem">
+        <CarouselMenu
+          ref="carouselmenu"
+          :pagecount="3"
+          initialheight="10rem"
+          name="test"
+        >
           <template #page1>
-            <div class="h-40 w-full dark:bg-blue-400" />
+            <USelectMenu :options="options" />
+            <div class="h-40 w-24 dark:bg-blue-400" />
           </template>
           <template #page2>
-            <div class="h-80 w-full dark:bg-yellow-400" />
+            <div class="h-80 w-40 dark:bg-yellow-400" />
           </template>
           <template #page3>
-            <div class="h-60 w-full dark:bg-emerald-400" />
+            <div class="h-60 w-80 dark:bg-emerald-400" />
           </template>
         </CarouselMenu>
       </UCard>
@@ -34,6 +40,22 @@ const carouselmenu = ref<InstanceType<typeof CarouselMenu> | null>(null);
 
 // const loadingSpinner = useLoadingSpinner();
 // const toast = useToast();
+const options = ref([
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+  "asdf1",
+]);
 </script>
 
 <style></style>
