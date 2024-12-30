@@ -6,7 +6,7 @@
     >
       <div
         v-for="i in props.pagecount"
-        :id="`page${i}`"
+        :id="`${props.name}page${i}`"
         :key="i"
         class="scrolled-page absolute left-0 top-0 h-fit w-full"
       >
@@ -20,6 +20,7 @@
 interface Props {
   pagecount?: number;
   initialheight?: string;
+  name: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -38,8 +39,10 @@ let curPageNum = 1;
 async function jumpTo(number: number) {
   if (number == curPageNum) return;
 
-  const previousElement = document.getElementById(`page${curPageNum}`);
-  const nextElement = document.getElementById(`page${number}`);
+  const previousElement = document.getElementById(
+    `${props.name}page${curPageNum}`,
+  );
+  const nextElement = document.getElementById(`${props.name}page${number}`);
 
   if (previousElement === null || nextElement === null) return;
 
@@ -79,7 +82,9 @@ async function jumpTo(number: number) {
 }
 
 onMounted(() => {
-  const currentElement = document.getElementById(`page${curPageNum}`);
+  const currentElement = document.getElementById(
+    `${props.name}page${curPageNum}`,
+  );
   if (currentElement === null) return;
   boxHeight.value = currentElement.clientHeight + "px";
   currentElement.style.visibility = "visible";
