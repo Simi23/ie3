@@ -1,6 +1,18 @@
 <template>
   <div>
     <UTable :columns="columns" :rows="sessionList">
+      <template #valid-header>
+        Érvényes
+        <UTooltip
+          text="nem, ha kiléptek kézzel, vagy kiléptették manuálisan"
+          class="cursor-help align-text-bottom"
+        >
+          <UIcon
+            name="i-heroicons-question-mark-circle-16-solid"
+            class="h-4 w-4 align-text-bottom"
+          />
+        </UTooltip>
+      </template>
       <template #createdAt-data="{ row }">
         {{ row.createdAt.toLocaleString("hu") }}
       </template>
