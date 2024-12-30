@@ -5,15 +5,23 @@
     >
       <h1 class="mb-8 text-center text-4xl font-bold">Regisztráció</h1>
       <div class="flex items-center">
-        <UCard class="mr-2 min-w-[380px] max-w-[480px]">
+        <UCard class="min-w-[380px] max-w-[576px]">
           <template #header>
-            <h1 class="text-center text-2xl font-bold">Adatok</h1>
+            <h1 class="text-center text-2xl font-bold">
+              {{ stageNames[stageId] }}
+            </h1>
           </template>
-          <CarouselMenu :pagecount="4" name="registerdata">
+          <CarouselMenu :pagecount="4" name="registerdata" ref="registercm">
             <!-- 1/4 -->
             <!-- USERNAME, EMAIL, PASSWORD -->
             <template #page1>
-              <UForm :schema="registrationSchema1p3" :state="regState1p3">
+              <UForm
+                :schema="registrationSchema1p3"
+                :state="regState1p3"
+                @submit.prevent="completeStage(1)"
+                @error="stageError"
+                class="w-[340px]"
+              >
                 <!-- EMAIL -->
                 <UFormGroup
                   name="email"
@@ -92,7 +100,13 @@
             <!-- 2/4 -->
             <!-- FULLNAME, CLASS -->
             <template #page2>
-              <UForm :schema="registrationSchema2p3" :state="regState2p3">
+              <UForm
+                :schema="registrationSchema2p3"
+                :state="regState2p3"
+                @submit.prevent="completeStage(2)"
+                @error="stageError"
+                class="w-[340px]"
+              >
                 <!-- FULLNAME -->
                 <UFormGroup
                   name="fullname"
@@ -114,17 +128,44 @@
                   <ClassSelect
                     ref="class-selector"
                     v-model="registrationState.classId"
+                    :sm-popper="{ strategy: 'fixed' }"
+                    :sm-ui="{ width: 'w-24' }"
                   />
                 </UFormGroup>
+
+                <!-- ACTION BUTTONS -->
+                <div class="float-right mt-5">
+                  <UButton
+                    size="sm"
+                    label="Vissza"
+                    @click="revertStage(2)"
+                    variant="ghost"
+                    icon="i-heroicons-arrow-small-left-solid"
+                    class="h-full align-middle"
+                  />
+                  <UButton
+                    class="ml-2 align-middle"
+                    size="sm"
+                    label="Tovább"
+                    type="submit"
+                  />
+                </div>
+                <div class="clear-both"></div>
               </UForm>
             </template>
 
             <!-- 3/4 -->
             <!-- OWNPC, ETHERNETPORT, OWNCHAIR -->
             <template #page3>
-              <UForm :schema="registrationSchema3p3" :state="regState3p3">
+              <UForm
+                :schema="registrationSchema3p3"
+                :state="regState3p3"
+                @submit.prevent="completeStage(3)"
+                @error="stageError"
+                class="w-[340px]"
+              >
                 <!-- OWNPC -->
-                <UFormGroup name="ownPc">
+                <UFormGroup name="ownPc" class="mx-1 my-2">
                   <UCheckbox
                     label="Saját számítógép"
                     help="Iskolai gép igényléséhez kapcsold ki"
@@ -133,7 +174,7 @@
                 </UFormGroup>
 
                 <!-- ETHERNETPORT -->
-                <UFormGroup name="ethernetPort">
+                <UFormGroup name="ethernetPort" class="mx-1 my-2">
                   <UCheckbox
                     label="Ethernet aljzat"
                     help="Van-e a számítógépeden ethernet (RJ-45) aljzat"
@@ -143,20 +184,44 @@
                 </UFormGroup>
 
                 <!-- OWNCHAIR -->
-                <UFormGroup name="ownChair">
+                <UFormGroup name="ownChair" class="mx-1 my-2">
                   <UCheckbox
                     label="Saját szék"
                     v-model="registrationState.ownChair"
                   />
                 </UFormGroup>
+
+                <!-- ACTION BUTTONS -->
+                <div class="float-right mt-5">
+                  <UButton
+                    size="sm"
+                    label="Vissza"
+                    @click="revertStage(3)"
+                    variant="ghost"
+                    icon="i-heroicons-arrow-small-left-solid"
+                    class="h-full align-middle"
+                  />
+                  <UButton
+                    class="ml-2 align-middle"
+                    size="sm"
+                    label="Tovább"
+                    type="submit"
+                  />
+                </div>
+                <div class="clear-both"></div>
               </UForm>
             </template>
 
             <!-- 4/4 -->
             <!-- SEAT -->
             <template #page4>
-              <UForm :schema="registrationSchemaSeat" :state="regStateSeat">
-                <UFormGroup name="seatName">
+              <UForm
+                :schema="registrationSchemaSeat"
+                :state="regStateSeat"
+                @submit.prevent="completeStage(3)"
+                @error="stageError"
+              >
+                <UFormGroup name="seatName" class="h-[340px]">
                   <SeatMap
                     svg-id="register-map"
                     arrow-stroke="#ffffff"
@@ -165,6 +230,25 @@
                     class="w-[480px]"
                   />
                 </UFormGroup>
+
+                <!-- ACTION BUTTONS -->
+                <div class="float-right mt-5">
+                  <UButton
+                    size="sm"
+                    label="Vissza"
+                    @click="revertStage(3)"
+                    variant="ghost"
+                    icon="i-heroicons-arrow-small-left-solid"
+                    class="h-full align-middle"
+                  />
+                  <UButton
+                    class="ml-2 align-middle"
+                    size="sm"
+                    label="Tovább"
+                    type="submit"
+                  />
+                </div>
+                <div class="clear-both"></div>
               </UForm>
             </template>
           </CarouselMenu>
@@ -189,6 +273,7 @@ import {
 } from "~/schemas/registrationSchema";
 import { type UForm } from "#build/components";
 import ClassSelect from "~/components/Class/Select.vue";
+import CarouselMenu from "~/components/CarouselMenu.vue";
 
 definePageMeta({
   middleware: "registration-status",
@@ -196,6 +281,19 @@ definePageMeta({
 
 type ClassSelectT = InstanceType<typeof ClassSelect>;
 const classRef = useTemplateRef<ClassSelectT>("class-selector");
+
+type CMT = InstanceType<typeof CarouselMenu>;
+const cmRef = useTemplateRef<CMT>("registercm");
+
+const toast = useToast();
+
+const stageNames = ref<string[]>([
+  "Belépési adatok",
+  "Személyes adatok",
+  "Opciók",
+  "Ülőhely",
+]);
+const stageId = ref<number>(0);
 
 const registrationState = ref<RegistrationSchema>({
   fullname: "",
@@ -252,6 +350,36 @@ watch(
     deep: true,
   },
 );
+
+/**
+ * Stages:
+ * 1/4: Email, username, password (check email/username availability)
+ * 2/4: Full name, class
+ * 3/4: Options (check for pc availability!)
+ * 4/4: Seat
+ */
+async function completeStage(stage: number) {
+  if (stage < 4) {
+    stageId.value = stageId.value + 1;
+    await cmRef.value?.jumpTo(stage + 1);
+    return;
+  }
+}
+
+async function revertStage(stage: number) {
+  stageId.value = stageId.value - 1;
+  await cmRef.value?.jumpTo(stage - 1);
+}
+
+function stageError() {
+  toast.add({
+    title: "Hiba",
+    description:
+      "Nem megfelelő az űrlap kitöltése. Ellenőrizd a megadott adatokat!",
+    icon: "i-heroicons-x-mark-20-solid",
+    color: "red",
+  });
+}
 </script>
 
 <style>
