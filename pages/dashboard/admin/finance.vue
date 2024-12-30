@@ -1,7 +1,24 @@
 <template>
   <div class="p-2">
-    <div class="mb-1 flex bg-gray-800 bg-opacity-35 px-3 py-3.5">
+    <div
+      class="mb-1 flex justify-between bg-gray-800 bg-opacity-35 px-3 py-3.5"
+    >
       <UInput v-model="query" placeholder="Keresés..." />
+      <div class="ml-4 flex select-none">
+        <UIcon name="i-heroicons-funnel-solid" class="h-7 w-6" />
+        <UCheckbox
+          label="Fizetett"
+          class="ml-4 mt-1"
+          color="emerald"
+          v-model="filterPaid"
+        />
+        <UCheckbox
+          label="Nem fizetett"
+          class="ml-4 mt-1"
+          color="emerald"
+          v-model="filterNotPaid"
+        />
+      </div>
     </div>
     <UTable
       class="rounded-sm bg-gray-800 bg-opacity-65"
@@ -45,13 +62,17 @@
 </template>
 
 <script lang="ts" setup>
-const csrf = useCsrf();
-const loadingSpinner = useLoadingSpinner();
-
 definePageMeta({
   layout: "dashboard-admin",
   middleware: "auth",
 });
+
+const csrf = useCsrf();
+const loadingSpinner = useLoadingSpinner();
+
+const query = ref("");
+const filterPaid = ref<boolean>(true);
+const filterNotPaid = ref<boolean>(true);
 
 const {
   data: tableRows,
@@ -87,14 +108,22 @@ const tableCols = [
   },
 ];
 
-const query = ref("");
-const filteredRows = computed(() => {
+const queriedRows = computed(() => {
   if (!query.value || query.value == "") return tableRows.value;
 
   return tableRows.value.filter((person: any) => {
     return Object.values(person).some((value: any) => {
       return String(value).toLowerCase().includes(query.value.toLowerCase());
     });
+  });
+});
+
+const filteredRows = computed(() => {
+  return queriedRows.value.filter((row: any) => {
+    return (
+      (row.paid === true && filterPaid.value === true) ||
+      (row.paid === false && filterNotPaid.value === true)
+    );
   });
 });
 
