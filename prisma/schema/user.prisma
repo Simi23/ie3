@@ -4,7 +4,7 @@ model User {
     updatedAt DateTime? @updatedAt
 
     email         String  @unique
-    emailToken    String
+    emailToken    String  @default(uuid())
     emailVerified Boolean @default(false)
 
     username   String @unique

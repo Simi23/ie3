@@ -10,7 +10,7 @@ model Seat {
 
     public Boolean @default(true)
 
-    name  String
+    name  String @unique
     owner User?
 }
 
