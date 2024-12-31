@@ -157,6 +157,32 @@
             <!-- 3/4 -->
             <!-- OWNPC, ETHERNETPORT, OWNCHAIR -->
             <template #page3>
+              <!-- Low PC count -->
+              <UAlert
+                v-if="(schoolPc?.freePcs ?? 0) <= 0"
+                title="Elfogytak az iskolai gépek."
+                color="red"
+                variant="soft"
+                icon="i-heroicons-exclamation-circle-16-solid"
+                class="mb-4"
+              />
+              <UAlert
+                v-else-if="(schoolPc?.freePcs ?? 0) <= 4"
+                title="Kevesebb, mint 5 iskolai gép maradt."
+                color="amber"
+                variant="soft"
+                icon="i-heroicons-exclamation-circle-16-solid"
+                class="mb-4"
+              />
+              <UAlert
+                v-else-if="(schoolPc?.freePcs ?? 0) <= 9"
+                title="Kevesebb, mint 10 iskolai gép maradt."
+                color="yellow"
+                variant="soft"
+                icon="i-heroicons-exclamation-circle-16-solid"
+                class="mb-4"
+              />
+
               <UForm
                 :schema="registrationSchema3p3"
                 :state="regState3p3"
@@ -170,6 +196,7 @@
                     label="Saját számítógép"
                     help="Iskolai gép igényléséhez kapcsold ki"
                     v-model="registrationState.ownPc"
+                    :disabled="(schoolPc?.freePcs ?? 0) <= 0"
                   />
                 </UFormGroup>
 
@@ -218,16 +245,26 @@
               <UForm
                 :schema="registrationSchemaSeat"
                 :state="regStateSeat"
-                @submit.prevent="completeStage(3)"
+                @submit.prevent="completeStage(4)"
                 @error="stageError"
               >
-                <UFormGroup name="seatName" class="h-[340px]">
+                <span class="mr-1 text-lg font-bold">
+                  Kiválasztott ülőhely:
+                </span>
+                <span class="text-lg">{{
+                  registrationState.seatName.length == 0
+                    ? "nincs"
+                    : registrationState.seatName
+                }}</span>
+                <UFormGroup name="seatName" class="mt-3 h-[340px]">
                   <SeatMap
+                    ref="register-map"
                     svg-id="register-map"
                     arrow-stroke="#ffffff"
                     seat-stroke="#222222"
                     letter-stroke="#ffffff"
                     class="w-[480px]"
+                    @chosen-seat="seatEvent"
                   />
                 </UFormGroup>
 
@@ -236,15 +273,16 @@
                   <UButton
                     size="sm"
                     label="Vissza"
-                    @click="revertStage(3)"
+                    @click="revertStage(4)"
                     variant="ghost"
                     icon="i-heroicons-arrow-small-left-solid"
                     class="h-full align-middle"
                   />
                   <UButton
                     class="ml-2 align-middle"
+                    icon="i-heroicons-user-plus-solid"
                     size="sm"
-                    label="Tovább"
+                    label="Regisztrálok"
                     type="submit"
                   />
                 </div>
@@ -274,18 +312,23 @@ import {
 import { type UForm } from "#build/components";
 import ClassSelect from "~/components/Class/Select.vue";
 import CarouselMenu from "~/components/CarouselMenu.vue";
+import SeatMap from "~/components/SeatMap.vue";
 
 definePageMeta({
   middleware: "registration-status",
 });
 
-type ClassSelectT = InstanceType<typeof ClassSelect>;
-const classRef = useTemplateRef<ClassSelectT>("class-selector");
+type t_ClassSelect = InstanceType<typeof ClassSelect>;
+type t_CarouselMenu = InstanceType<typeof CarouselMenu>;
+type t_SeatMap = InstanceType<typeof SeatMap>;
 
-type CMT = InstanceType<typeof CarouselMenu>;
-const cmRef = useTemplateRef<CMT>("registercm");
+const classRef = useTemplateRef<t_ClassSelect>("class-selector");
+const cmRef = useTemplateRef<t_CarouselMenu>("registercm");
+const r_SeatMap = useTemplateRef<t_SeatMap>("register-map");
 
 const toast = useToast();
+const loadingSpinner = useLoadingSpinner();
+const { csrf } = useCsrf();
 
 const stageNames = ref<string[]>([
   "Belépési adatok",
@@ -351,6 +394,66 @@ watch(
   },
 );
 
+const { data: schoolPc, refresh: refreshSchoolPc } = useFetch(
+  "/api/stat/schoolpc",
+  {
+    onResponse: (data) => {
+      if (data.response._data.freePcs === 0) {
+        registrationState.value.ownPc = true;
+      }
+    },
+  },
+);
+
+const { data: freeSeats, refresh: refreshFreeSeats } = useFetch(
+  "/api/stat/freeseats",
+  {
+    server: false,
+    lazy: true,
+  },
+);
+
+type Seat = {
+  id: string;
+  name: string;
+};
+
+function recolorSeats() {
+  r_SeatMap.value?.clearSeatEvents();
+  r_SeatMap.value?.changeSeatColour("all", "#b91c1c");
+  if (!Array.isArray(freeSeats.value) || freeSeats.value == null) return;
+  const seatArray: Seat[] = freeSeats.value;
+  for (let i = 0; i < seatArray.length; i++) {
+    const cSeat = seatArray[i];
+    r_SeatMap.value?.changeSeatColour(cSeat.name, "#059669");
+    r_SeatMap.value?.assignSeat(cSeat.name);
+  }
+  r_SeatMap.value?.changeSeatColour(
+    registrationState.value.seatName,
+    "#22d3ee",
+  );
+}
+
+watch(freeSeats, recolorSeats);
+
+async function register() {
+  loadingSpinner.value = true;
+  try {
+    const result = await $fetchNotification("/api/user/register", {
+      method: "POST",
+      headers: {
+        "csrf-token": csrf,
+      },
+      body: registrationState.value,
+    });
+  } catch (error) {
+    loadingSpinner.value = false;
+    return;
+  }
+  loadingSpinner.value = false;
+  await navigateTo("/regcomplete");
+}
+
 /**
  * Stages:
  * 1/4: Email, username, password (check email/username availability)
@@ -359,10 +462,22 @@ watch(
  * 4/4: Seat
  */
 async function completeStage(stage: number) {
+  if (stage == 2) {
+    await refreshSchoolPc();
+  }
+
+  if (stage == 3) {
+    await refreshFreeSeats();
+  }
+
   if (stage < 4) {
     stageId.value = stageId.value + 1;
     await cmRef.value?.jumpTo(stage + 1);
     return;
+  }
+
+  if (stage == 4) {
+    register();
   }
 }
 
@@ -379,6 +494,13 @@ function stageError() {
     icon: "i-heroicons-x-mark-20-solid",
     color: "red",
   });
+}
+
+function seatEvent(seatName: string) {
+  console.log(seatName);
+  registrationState.value.seatName = seatName;
+  recolorSeats();
+  r_SeatMap.value?.changeSeatColour(seatName, "#22d3ee");
 }
 </script>
 
