@@ -1,6 +1,17 @@
 <template>
   <div>
-    <UTable :columns="columns" :rows="sessionList">
+    <UTable
+      :columns="columns"
+      :rows="sessionList"
+      :loading-state="{
+        icon: 'i-heroicons-arrow-path-20-solid',
+        label: 'Betöltés...',
+      }"
+      :empty-state="{
+        icon: 'i-heroicons-circle-stack-20-solid',
+        label: 'Nincs megjeleníthető adat',
+      }"
+    >
       <template #valid-header>
         Érvényes
         <UTooltip
