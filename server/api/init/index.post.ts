@@ -80,7 +80,7 @@ export default defineEventHandler(async (event) => {
       value: true,
     },
     create: {
-      name: "iniDone",
+      name: "initDone",
       value: true,
     },
   });
