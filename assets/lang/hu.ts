@@ -27,6 +27,10 @@ const strings = {
   "request-body-invalid": "Feltöltés sikertelen!",
   "storing-file-failed": "A fájl tárolása meghiúsult!",
   "media-not-found": "A fájl nem létezik!",
+  "email-already-exists": "Ezzel az email címmel már létezik fiók!",
+  "username-already-exists": "Ezzel a felhasználónévvel már létezik fiók!",
+  "seat-taken": "A kiválasztott ülőhely foglalt!",
+  "no-more-pc": "Elfogytak az iskolai számítógépek!",
 };
 
 export const huLang = new Proxy(strings, handler);
