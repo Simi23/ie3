@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import {
-  Button,
-  Hr,
-  Html,
-  Text,
-  Head,
-  Heading,
-  Img,
-} from "@vue-email/components";
+import { Button, Html, Text, Head, Heading } from "@vue-email/components";
 import type { StyleValue } from "vue";
 
 const config = useRuntimeConfig();
@@ -19,15 +11,27 @@ const containerStyle: StyleValue = {
   paddingTop: "16px",
   paddingBottom: "24px",
   margin: "auto",
+  backgroundColor: "#000d44",
   backgroundImage: `url('${bgUrl}')`,
   backgroundSize: "100%",
   backgroundPosition: "bottom",
 };
 
-defineProps({
-  title: String,
-  text: String,
-});
+const buttonStyle: StyleValue = {
+  backgroundColor: "#ca8a04",
+  color: "white",
+  margin: "12px auto",
+  padding: "6px 8px",
+  borderRadius: "4px",
+  fontSize: "1rem",
+  fontWeight: "bold",
+};
+
+defineProps<{
+  title: string;
+  text: string;
+  emailVerifyLink: string;
+}>();
 </script>
 
 <template>
@@ -50,6 +54,9 @@ defineProps({
         <Heading as="h1">{{ title }}</Heading>
 
         <Text>{{ text }}</Text>
+        <Button :href="emailVerifyLink" :style="buttonStyle">
+          Email cím megerősítése
+        </Button>
       </div>
     </div>
   </Html>
