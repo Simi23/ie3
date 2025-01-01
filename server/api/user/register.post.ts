@@ -7,6 +7,7 @@ import type { SafeParseReturnType } from "zod";
 import bcrypt from "bcrypt";
 import { logEventAction } from "~/utils/logger";
 import createNotification from "~/utils/createNotification";
+import { registerMail } from "~/mail/mail";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -60,7 +61,8 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  // TODO: send email
+  const tokenLink = `${useRuntimeConfig().public.siteName}/verifymail?token=${newUser.emailToken}`;
+  registerMail(newUser.email, tokenLink);
 
   logEventAction(event, {
     category: "REGISTRATION",
