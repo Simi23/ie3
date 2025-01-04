@@ -1,10 +1,11 @@
 <template>
-  <div class="flex justify-between dark:bg-gray-900">
-    <h1
-      class="flex h-12 w-48 select-none content-center justify-center text-xl font-bold"
-    >
-      Infósok Éjszakája
-    </h1>
+  <div class="dark:bg-gray-900 flex justify-between">
+    <NuxtImg
+      src="/logowide.png"
+      draggable="false"
+      class="ml-3 h-12 select-none pb-3 pt-2"
+    />
+
     <UHorizontalNavigation :links="links" class="mr-4 w-fit" />
   </div>
 </template>

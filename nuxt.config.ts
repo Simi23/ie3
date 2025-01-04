@@ -63,6 +63,9 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["stores"],
   },
+  ui: {
+    safelistColors: ["primary", "astro", "astro-gray"],
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
