@@ -9,13 +9,13 @@
         <UCheckbox
           label="Fizetett"
           class="ml-4 mt-1"
-          color="emerald"
+          color="indigo"
           v-model="filterPaid"
         />
         <UCheckbox
           label="Nem fizetett"
           class="ml-4 mt-1"
-          color="emerald"
+          color="indigo"
           v-model="filterNotPaid"
         />
       </div>

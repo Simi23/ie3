@@ -1,19 +1,26 @@
 <template>
   <div
     id="spinnerContainer"
-    class="m-0 p-0"
-    :style="{ height: props.size, width: props.size }"
+    class="m-0 mb-16 p-0"
+    :style="{ height: props.size }"
   >
     <NuxtImg
-      id="loadingSpinner"
-      src="/ie2logot.png"
-      class="h-full w-full"
+      id="loadingspinner"
+      src="/logo-multiline-sm.png"
+      class="mb-6 h-full w-full"
       draggable="false"
+      :style="{
+        opacity: display ? '1' : '0',
+        transform: display ? 'scale(1)' : 'scale(2)',
+      }"
     />
+    <UProgress animation="carousel" />
   </div>
 </template>
 
 <script lang="ts" setup>
+const display = useLoadingSpinner();
+
 interface Props {
   size?: string;
 }
@@ -24,22 +31,10 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style>
-#loadingSpinner {
-  animation: spinAnimation 0.8s ease-in-out 0s infinite normal forwards;
-}
-
-#spinnerContainer {
-  animation: scaleAnimation 0.8s ease-in-out 0s infinite normal forwards;
-}
-
-@keyframes spinAnimation {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
+#loadingspinner {
+  transition:
+    opacity ease-in-out 0.15s,
+    transform ease-in-out 0.2s;
 }
 
 @keyframes scaleAnimation {
@@ -48,7 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
   }
 
   50% {
-    transform: scale(0.8);
+    transform: scale(0.95);
   }
 
   100% {

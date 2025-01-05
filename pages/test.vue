@@ -8,6 +8,7 @@
             Adminisztrátori fiók létrehozása
           </h2>
         </template>
+        <UButton @click="loadTest">LoadTest</UButton>
         <UButton @click="carouselmenu?.jumpTo(1)">1</UButton>
         <UButton @click="carouselmenu?.jumpTo(2)">2</UButton>
         <UButton @click="carouselmenu?.jumpTo(3)">3</UButton>
@@ -38,6 +39,8 @@
 import type CarouselMenu from "~/components/CarouselMenu.vue";
 const carouselmenu = ref<InstanceType<typeof CarouselMenu> | null>(null);
 
+const loadingSpinner = useLoadingSpinner();
+
 // const loadingSpinner = useLoadingSpinner();
 // const toast = useToast();
 const options = ref([
@@ -56,6 +59,13 @@ const options = ref([
   "asdf1",
   "asdf1",
 ]);
+
+async function loadTest() {
+  loadingSpinner.value = true;
+  setTimeout(() => {
+    loadingSpinner.value = false;
+  }, 5000);
+}
 </script>
 
 <style></style>
