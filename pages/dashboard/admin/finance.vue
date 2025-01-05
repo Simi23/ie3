@@ -48,6 +48,7 @@
           size="xs"
           label="Befizetés"
           @click="setPaid(row.id, true)"
+          :loading="loadingButton == row.id"
         />
         <UButton
           v-else
@@ -55,6 +56,8 @@
           size="xs"
           label="Befizetés visszavonása"
           @click="setPaid(row.id, false)"
+          :loading="loadingButton == row.id"
+          :class="{ 'mr-6': loadingButton != row.id }"
         />
       </template>
     </UTable>
@@ -69,6 +72,7 @@ definePageMeta({
 
 const csrf = useCsrf();
 const loadingSpinner = useLoadingSpinner();
+const loadingButton = ref<string>("");
 
 const query = ref("");
 const filterPaid = ref<boolean>(true);
@@ -128,7 +132,8 @@ const filteredRows = computed(() => {
 });
 
 async function setPaid(id: string, state: boolean) {
-  loadingSpinner.value = true;
+  // loadingSpinner.value = true;
+  loadingButton.value = id;
   await $fetchNotification("/api/finance", {
     method: "POST",
     headers: {
@@ -139,10 +144,12 @@ async function setPaid(id: string, state: boolean) {
       paid: state,
     },
   }).catch(() => {
-    loadingSpinner.value = false;
+    // loadingSpinner.value = false;
+    loadingButton.value = "";
   });
   await refreshTable();
-  loadingSpinner.value = false;
+  // loadingSpinner.value = false;
+  loadingButton.value = "";
 }
 </script>
 
