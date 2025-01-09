@@ -87,7 +87,6 @@ const upload = ref<File>();
 const uploadName = ref<string>("");
 const loading = ref<boolean>(false);
 
-const { csrf } = useCsrf();
 const modal = useModal();
 const loadingSpinner = useLoadingSpinner();
 
@@ -132,17 +131,11 @@ async function uploadImage() {
   let fd = new FormData();
   fd.append("image", upload.value);
 
-  try {
-    await $fetchNotification("/api/media", {
-      method: "POST",
-      headers: {
-        "csrf-token": csrf,
-      },
-      body: fd,
-    });
-  } catch (error) {
-    loading.value = false;
-  }
+  await $fetchCsrfNotification("/api/media", {
+    method: "POST",
+    body: fd,
+  }).catch();
+
   await refreshFiles();
   loading.value = false;
 }
@@ -162,20 +155,15 @@ async function displayImage(name: string, path: string) {
 
 async function updateName(id: string, newName: string) {
   loadingSpinner.value = true;
-  try {
-    await $fetchNotification("/api/media/rename", {
-      method: "POST",
-      headers: {
-        "csrf-token": csrf,
-      },
-      body: {
-        id: id,
-        newName: newName,
-      },
-    });
-  } catch (error) {
-    loadingSpinner.value = false;
-  }
+
+  await $fetchNotification("/api/media/rename", {
+    method: "POST",
+    body: {
+      id: id,
+      newName: newName,
+    },
+  }).catch();
+
   await refreshFiles();
   loadingSpinner.value = false;
 }

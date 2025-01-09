@@ -39,7 +39,6 @@ definePageMeta({
 });
 
 const modal = useModal();
-const { csrf } = useCsrf();
 const loadingSpinner = useLoadingSpinner();
 
 const { data: seatStats, refresh: refreshSeatStats } = useFetch(
@@ -76,14 +75,11 @@ function generateAsk() {
 
 async function generateSeats() {
   loadingSpinner.value = true;
-  $fetchNotification("/api/seat/generate", {
+
+  await $fetchCsrfNotification("/api/seat/generate", {
     method: "POST",
-    headers: {
-      "csrf-token": csrf,
-    },
-  }).catch(() => {
-    loadingSpinner.value = false;
-  });
+  }).catch();
+
   await refreshSeatStats();
   loadingSpinner.value = false;
 }
@@ -103,14 +99,9 @@ function deleteAsk() {
 
 async function deleteSeats() {
   loadingSpinner.value = true;
-  $fetchNotification("/api/seat/prune", {
+  $fetchCsrfNotification("/api/seat/prune", {
     method: "DELETE",
-    headers: {
-      "csrf-token": csrf,
-    },
-  }).catch(() => {
-    loadingSpinner.value = false;
-  });
+  }).catch();
   await refreshSeatStats();
   loadingSpinner.value = false;
 }

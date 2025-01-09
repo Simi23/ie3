@@ -212,7 +212,6 @@ definePageMeta({
   middleware: "auth",
 });
 
-const { csrf } = useCsrf();
 const loadingSpinner = useLoadingSpinner();
 
 const hiddenToggle = ref(true);
@@ -299,11 +298,8 @@ const { data: pcStats, refresh: refreshPcStats } = useFetch(
 
 async function updateMailSetting() {
   loadingSpinner.value = true;
-  await $fetchNotification("/api/mail/setting", {
+  await $fetchCsrfNotification("/api/mail/setting", {
     method: "POST",
-    headers: {
-      "csrf-token": csrf,
-    },
     body: {
       host: mailSettingState.value.host,
       port: mailSettingState.value.port,
@@ -312,56 +308,39 @@ async function updateMailSetting() {
       password: mailSettingState.value.password,
       from: encodeURIComponent(mailSettingState.value.from),
     },
-  }).catch(() => {
-    loadingSpinner.value = false;
-  });
+  }).catch();
   await refreshMailSetting();
   loadingSpinner.value = false;
 }
 
 async function testMail() {
   loadingSpinner.value = true;
-  await $fetchNotification("/api/mail/test", {
+  await $fetchCsrfNotification("/api/mail/test", {
     method: "POST",
-    headers: {
-      "csrf-token": csrf,
-    },
-  }).catch(() => {
-    loadingSpinner.value = false;
-  });
+  }).catch();
   loadingSpinner.value = false;
 }
 
 async function updateRegStatus() {
   loadingSpinner.value = true;
-  await $fetchNotification("/api/admin/regstatus", {
+  await $fetchCsrfNotification("/api/admin/regstatus", {
     method: "POST",
-    headers: {
-      "csrf-token": csrf,
-    },
     body: {
       registrationStatus: regOptionSelection.value,
     },
-  }).catch(() => {
-    loadingSpinner.value = false;
-  });
+  }).catch();
   loadingSpinner.value = false;
   refreshRegOption();
 }
 
 async function updateSchoolPc() {
   loadingSpinner.value = true;
-  await $fetchNotification("/api/admin/schoolpc", {
+  await $fetchCsrfNotification("/api/admin/schoolpc", {
     method: "POST",
-    headers: {
-      "csrf-token": csrf,
-    },
     body: {
       schoolpc: maxPcInput.value,
     },
-  }).catch(() => {
-    loadingSpinner.value = false;
-  });
+  }).catch();
   loadingSpinner.value = false;
   refreshPcStats();
 }

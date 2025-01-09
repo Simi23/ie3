@@ -70,7 +70,6 @@ import type { UForm } from "#build/components";
 
 const loadingSpinner = useLoadingSpinner();
 const toast = useToast();
-const { csrf } = useCsrf();
 
 const form = ref<InstanceType<typeof UForm> | null>(null);
 
@@ -85,12 +84,9 @@ const initState = ref({
 
 async function initSubmit(event: FormSubmitEvent<InitSchema>) {
   loadingSpinner.value = true;
-  await $fetchNotification("/api/init", {
+  await $fetchCsrfNotification("/api/init", {
     method: "POST",
     body: event.data,
-    headers: {
-      "csrf-token": csrf,
-    },
   });
   loadingSpinner.value = false;
 }

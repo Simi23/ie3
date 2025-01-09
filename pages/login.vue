@@ -120,7 +120,6 @@ import type CarouselMenu from "~/components/CarouselMenu.vue";
 
 const toast = useToast();
 const loadingSpinner = useLoadingSpinner();
-const { csrf } = useCsrf();
 const userStore = useUserStore();
 
 const allowWebauthn = ref(true);
@@ -146,12 +145,9 @@ async function loginStage1Submit(event: FormSubmitEvent<LoginStage1Schema>) {
 async function loginStage2Submit(event: FormSubmitEvent<LoginStage2Schema>) {
   loadingSpinner.value = true;
   try {
-    const response = await $fetchNotification("/api/user/login", {
+    const response = await $fetchCsrfNotification("/api/user/login", {
       method: "POST",
       body: event.data,
-      headers: {
-        "csrf-token": csrf,
-      },
     });
     userStore.adminClass = response.user.adminClass;
     userStore.username = response.user.username;

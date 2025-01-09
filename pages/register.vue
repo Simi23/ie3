@@ -328,7 +328,6 @@ const r_SeatMap = useTemplateRef<t_SeatMap>("register-map");
 
 const toast = useToast();
 const loadingSpinner = useLoadingSpinner();
-const { csrf } = useCsrf();
 
 const stageNames = ref<string[]>([
   "Belépési adatok",
@@ -439,11 +438,8 @@ watch(freeSeats, recolorSeats);
 async function register() {
   loadingSpinner.value = true;
   try {
-    const result = await $fetchNotification("/api/user/register", {
+    const result = await $fetchCsrfNotification("/api/user/register", {
       method: "POST",
-      headers: {
-        "csrf-token": csrf,
-      },
       body: registrationState.value,
     });
   } catch (error) {

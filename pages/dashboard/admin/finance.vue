@@ -70,8 +70,6 @@ definePageMeta({
   middleware: "auth",
 });
 
-const csrf = useCsrf();
-const loadingSpinner = useLoadingSpinner();
 const loadingButton = ref<string>("");
 
 const query = ref("");
@@ -132,23 +130,17 @@ const filteredRows = computed(() => {
 });
 
 async function setPaid(id: string, state: boolean) {
-  // loadingSpinner.value = true;
   loadingButton.value = id;
-  await $fetchNotification("/api/finance", {
-    method: "POST",
-    headers: {
-      "csrf-token": csrf.csrf,
-    },
+
+  await $fetchCsrfNotification("/api/finance", {
+    method: "post",
     body: {
       id: id,
       paid: state,
     },
-  }).catch(() => {
-    // loadingSpinner.value = false;
-    loadingButton.value = "";
-  });
+  }).catch();
+
   await refreshTable();
-  // loadingSpinner.value = false;
   loadingButton.value = "";
 }
 </script>
