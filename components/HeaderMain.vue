@@ -1,5 +1,5 @@
 <template>
-  <div class="dark:bg-gray-900 flex justify-between">
+  <div class="flex justify-between dark:bg-gray-900">
     <NuxtImg
       src="/logowide.png"
       draggable="false"
