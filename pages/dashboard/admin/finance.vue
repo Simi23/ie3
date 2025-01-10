@@ -132,13 +132,15 @@ const filteredRows = computed(() => {
 async function setPaid(id: string, state: boolean) {
   loadingButton.value = id;
 
-  await $fetchCsrfNotification("/api/finance", {
-    method: "post",
-    body: {
-      id: id,
-      paid: state,
-    },
-  }).catch();
+  await catchError(
+    $fetchCsrfNotification<null>("/api/finance", {
+      method: "post",
+      body: {
+        id: id,
+        paid: state,
+      },
+    }),
+  );
 
   await refreshTable();
   loadingButton.value = "";
