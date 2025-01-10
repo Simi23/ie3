@@ -63,6 +63,11 @@ const l2links = [
       to: "/dashboard/admin/media",
       icon: "i-heroicons-photo-solid",
     },
+    {
+      label: "Tartalom",
+      to: "/dashboard/admin/content",
+      icon: "i-heroicons-document-text-solid",
+    },
   ],
   [
     {
