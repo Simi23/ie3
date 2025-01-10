@@ -156,7 +156,7 @@ async function displayImage(name: string, path: string) {
 async function updateName(id: string, newName: string) {
   loadingSpinner.value = true;
 
-  await $fetchNotification("/api/media/rename", {
+  await $fetchCsrfNotification("/api/media/rename", {
     method: "POST",
     body: {
       id: id,
