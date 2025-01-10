@@ -10,24 +10,24 @@ import {
 } from "@vue-email/components";
 import type { StyleValue } from "vue";
 
-const config = useRuntimeConfig();
+const props = defineProps({
+  title: String,
+  text: String,
+  siteName: String,
+});
 
-const bgUrl = `${config.public.siteName}/hatter.png`;
+const bgUrl = `${props.siteName}/hatter.png`;
 const containerStyle: StyleValue = {
   width: "50%",
   minWidth: "320px",
   paddingTop: "16px",
   paddingBottom: "24px",
   margin: "auto",
+  backgroundColor: "#000d44",
   backgroundImage: `url('${bgUrl}')`,
   backgroundSize: "100%",
   backgroundPosition: "bottom",
 };
-
-defineProps({
-  title: String,
-  text: String,
-});
 </script>
 
 <template>

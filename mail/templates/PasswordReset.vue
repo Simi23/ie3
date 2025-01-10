@@ -2,9 +2,14 @@
 import { Button, Html, Text, Head, Heading } from "@vue-email/components";
 import type { StyleValue } from "vue";
 
-const config = useRuntimeConfig();
+const props = defineProps<{
+  title: string;
+  text: string;
+  passwordChangeLink: string;
+  siteName: string;
+}>();
 
-const bgUrl = `${config.public.siteName}/hatter.png`;
+const bgUrl = `${props.siteName}/hatter.png`;
 const containerStyle: StyleValue = {
   width: "50%",
   minWidth: "320px",
@@ -26,12 +31,6 @@ const buttonStyle: StyleValue = {
   fontSize: "1rem",
   fontWeight: "bold",
 };
-
-defineProps<{
-  title: string;
-  text: string;
-  passwordChangeLink: string;
-}>();
 </script>
 
 <template>
