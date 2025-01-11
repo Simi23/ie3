@@ -68,6 +68,7 @@
           icon="i-heroicons-trash-solid"
           variant="outline"
           color="red"
+          @click="deleteModal(row.id)"
         />
       </template>
     </UTable>
@@ -75,6 +76,7 @@
 </template>
 
 <script lang="ts" setup>
+import ModalConfirmAction from "~/components/Modal/ConfirmAction.vue";
 import ModalImageDisplay from "~/components/Modal/ImageDisplay.vue";
 import ModalSingleInput from "~/components/Modal/SingleInput.vue";
 
@@ -176,6 +178,39 @@ async function renameModal(id: string, name: string) {
     onSuccess: (answer) => {
       modal.close();
       updateName(id, answer);
+    },
+  });
+}
+
+async function deleteMedia(id: string) {
+  loadingSpinner.value = true;
+
+  const [error, data] = await catchError(
+    $fetchCsrfNotification<NotificationResponse>(`/api/media/${id}`, {
+      method: "DELETE",
+    }),
+  );
+
+  await refreshFiles();
+
+  loadingSpinner.value = false;
+}
+
+async function deleteModal(id: string) {
+  const row = fileRows.value.find((row) => row.id === id);
+  if (row === undefined) return;
+
+  modal.open(ModalConfirmAction, {
+    title: "Média törlése",
+    longDescription: [
+      "Biztosan törli a következő médiaelemet:",
+      `${row.name}?`,
+    ],
+    confirmText: "Igen",
+    cancelText: "Nem",
+    onSuccess: () => {
+      modal.close();
+      deleteMedia(id);
     },
   });
 }

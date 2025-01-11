@@ -27,7 +27,7 @@ interface NotificationInput {
   icon: string;
 }
 
-interface Notification {
+export interface Notification {
   showNotification: boolean;
   title: string;
   message?: string;

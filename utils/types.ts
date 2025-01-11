@@ -1,5 +1,6 @@
 import type { UserAgentInfo } from "./userAgent";
 import Color from "#ui-colors";
+import type { Notification } from "./createNotification";
 
 export type Icon = {
   icon: string;
@@ -11,6 +12,10 @@ export type Badge = {
   icon: string;
   name: string;
   color: (typeof Color)[number];
+};
+
+export type NotificationResponse = {
+  notification: Notification;
 };
 
 export type UserData = {

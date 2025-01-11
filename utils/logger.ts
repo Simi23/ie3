@@ -14,7 +14,9 @@ interface LogParameters {
     | "COMPETITION"
     | "FINANCE"
     | "OPTION"
-    | "UPLOAD";
+    | "UPLOAD"
+    | "MEDIA"
+    | "CONTENT";
   message: string;
 }
 
