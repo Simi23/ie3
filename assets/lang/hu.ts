@@ -32,6 +32,7 @@ const strings = {
   "username-already-exists": "Ezzel a felhasználónévvel már létezik fiók!",
   "seat-taken": "A kiválasztott ülőhely foglalt!",
   "no-more-pc": "Elfogytak az iskolai számítógépek!",
+  "content-not-found": "A tartalom nem létezik!",
 };
 
 export const huLang = new Proxy(strings, handler);

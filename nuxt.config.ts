@@ -23,6 +23,7 @@ export default defineNuxtConfig({
   spaLoadingTemplate: true,
   experimental: {
     asyncContext: true,
+    componentIslands: true,
   },
   devtools: {
     enabled: true,
@@ -59,12 +60,18 @@ export default defineNuxtConfig({
     ],
     "@nuxt/eslint",
     "@nuxt/icon",
+    "@nuxtjs/mdc",
   ],
   imports: {
     dirs: ["stores"],
   },
   ui: {
     safelistColors: ["primary", "astro", "astro-gray"],
+  },
+  mdc: {
+    components: {
+      prose: false,
+    },
   },
   postcss: {
     plugins: {
@@ -96,7 +103,7 @@ export default defineNuxtConfig({
     cookie: {
       httpOnly: false,
     },
-    // TODO: add https (secure)
+    https: true,
   },
   $development: {
     security: {
