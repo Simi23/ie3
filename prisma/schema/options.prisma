@@ -51,6 +51,9 @@ model Media {
     path String    @default("")
     url  String    @default("")
     type MediaType
+
+    // References
+    competitions Competition[]
 }
 
 enum MediaType {

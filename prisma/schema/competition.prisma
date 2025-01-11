@@ -5,7 +5,9 @@ model Competition {
 
     title       String
     description String
-    imageName   String
+
+    image   Media  @relation(fields: [imageId], references: [id], onDelete: Restrict)
+    imageId String
 
     teamCompetition Boolean
     teamLimit       Int     @default(1)

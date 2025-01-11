@@ -3,7 +3,11 @@
     <template #header>
       <div class="flex items-center justify-between">
         <h1 class="text-xl font-bold">Tartalom</h1>
-        <UButton label="Új tartalom" @click="newContentModal" />
+        <UButton
+          icon="i-heroicons-plus"
+          label="Új tartalom"
+          @click="newContentModal"
+        />
       </div>
     </template>
 
