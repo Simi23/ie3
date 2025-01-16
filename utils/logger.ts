@@ -16,7 +16,9 @@ interface LogParameters {
     | "OPTION"
     | "UPLOAD"
     | "MEDIA"
-    | "CONTENT";
+    | "CONTENT"
+    | "TEAM"
+    | "INVITE";
   message: string;
 }
 

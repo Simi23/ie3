@@ -25,7 +25,9 @@ const strings = {
   "CSRF Token invalid": "Lejárt CSRF token. Frissítsd az oldalt!",
   "CSRF Cookie not found": "Nem található CSRF token. Frissítsd az oldalt!",
   "user-not-found": "A felhasználó nem található!",
-  "request-body-invalid": "Feltöltés sikertelen!",
+  "user-not-found-try-username":
+    "A felhasználó nem található! Nézd meg, hogy helyesen írtad-e be a felhasználónevét!",
+  "request-body-invalid": "Érvénytelen művelet!",
   "storing-file-failed": "A fájl tárolása meghiúsult!",
   "media-not-found": "A fájl nem létezik!",
   "email-already-exists": "Ezzel az email címmel már létezik fiók!",
@@ -34,6 +36,18 @@ const strings = {
   "no-more-pc": "Elfogytak az iskolai számítógépek!",
   "content-not-found": "A tartalom nem található!",
   "competition-not-found": "A verseny nem található!",
+  "already-in-competition": "Már részt veszel ezen a versenyen!",
+  "competition-joined": "Sikeresen jelentkeztél a versenyre!",
+  "competition-team-created": "Csapat létrehozása sikeres!",
+  "competition-leave-unsuccessful":
+    "A verseny elhagyása során hiba lépett fel.",
+  "team-not-found": "A csapat nem található!",
+  "team-not-member": "Nem vagy a csapatban!",
+  "team-not-leader": "Nem te vagy a csapatvezető!",
+  "team-join-failed": "Csatlakozás a csapathoz sikertelen!",
+  "team-full": "A csapat már tele van!",
+  "modification-failed": "Adatmódosítás sikertelen!",
+  "invite-not-found": "A meghívó nem található!",
 };
 
 export const huLang = new Proxy(strings, handler);

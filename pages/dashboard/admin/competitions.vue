@@ -43,22 +43,22 @@
         />
       </template>
       <template #action-data="{ row }">
-        <UTooltip text="Megtekintés">
+        <UTooltip text="Szerkesztés">
           <UButton
-            color="cyan"
-            icon="i-heroicons-eye"
-            :square="true"
-            :to="`/dashboard/admin/competition/${row.id}`"
-          />
-        </UTooltip>
-        <UTooltip text="Szerkesztés" class="mx-3">
-          <UButton
-            color="emerald"
+            color="indigo"
             icon="i-heroicons-pencil-square-solid"
             :square="true"
             @click="editCompetitionModal(row.id)"
           />
         </UTooltip>
+        <UButton
+          color="cyan"
+          icon="i-heroicons-list-bullet"
+          label="Részletek"
+          class="mx-3"
+          variant="outline"
+          :to="`/dashboard/admin/competition/${row.id}`"
+        />
         <UButton
           label="Törlés"
           icon="i-heroicons-trash-solid"
@@ -150,7 +150,26 @@ async function newCompetitionModal() {
 async function editCompetition(
   competitionId: string,
   competition: CompetitionSchema,
-) {}
+) {
+  loadingSpinner.value = true;
+
+  const [error, data] = await catchError(
+    $fetchCsrfNotification<NotificationResponse>(
+      `/api/competition/${competitionId}`,
+      {
+        method: "PUT",
+        body: {
+          ...competition,
+        },
+      },
+    ),
+  );
+  await refreshCompetitions();
+  loadingSpinner.value = false;
+  if (error === undefined) {
+    modal.close();
+  }
+}
 
 async function editCompetitionModal(competitionId: string) {
   const currentCompetition = competitionRows.value.find(

@@ -38,7 +38,7 @@
         </UTooltip>
         <UTooltip text="Szerkesztés" class="mx-3">
           <UButton
-            color="emerald"
+            color="indigo"
             icon="i-heroicons-pencil-square-solid"
             :square="true"
             @click="editContentModal(row.id)"

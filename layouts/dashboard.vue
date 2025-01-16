@@ -12,5 +12,6 @@
 <style scoped>
 .fullheight {
   min-height: calc(100vh - 3rem);
+  height: 100%;
 }
 </style>

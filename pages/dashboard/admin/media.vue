@@ -57,7 +57,7 @@
         </UTooltip>
         <UTooltip text="Átnevezés" class="mx-3">
           <UButton
-            color="emerald"
+            color="indigo"
             icon="i-heroicons-pencil-square-solid"
             :square="true"
             @click="renameModal(row.id, row.name)"

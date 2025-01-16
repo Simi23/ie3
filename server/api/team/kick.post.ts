@@ -1,0 +1,103 @@
+import { z } from "zod";
+import { prisma } from "~/db/prismaClient";
+import { catchError } from "~/utils/catchError";
+import createNotification from "~/utils/createNotification";
+import { logEventAction } from "~/utils/logger";
+
+const requestSchema = z.object({
+  kickId: z.string().cuid(),
+  teamId: z.string().cuid(),
+  invite: z.boolean(),
+});
+
+export default defineEventHandler(async (event) => {
+  const body = await readValidatedBody(event, (body) =>
+    requestSchema.safeParse(body),
+  );
+
+  if (event.context.user === undefined || !body.success) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Bad Request",
+      message: "request-body-invalid",
+    });
+  }
+  const userId = event.context.user.id;
+
+  const [leaderError, leader] = await catchError(
+    prisma.userInTeam.findFirst({
+      where: {
+        team: {
+          id: body.data.teamId,
+        },
+        user: {
+          id: userId,
+        },
+      },
+    }),
+  );
+
+  if (
+    leaderError !== undefined ||
+    leader === null ||
+    leader.isLeader === false
+  ) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Bad Request",
+      message: "team-not-leader",
+    });
+  }
+
+  if (body.data.invite) {
+    // If it is an invite only yet, not a membership
+    const [kickError, kick] = await catchError(
+      prisma.invite.delete({
+        where: {
+          teamId_inviteeId: {
+            teamId: body.data.teamId,
+            inviteeId: body.data.kickId,
+          },
+        },
+      }),
+    );
+    if (kickError !== undefined) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: "Resource Not Found",
+        message: "user-not-found",
+      });
+    }
+  } else {
+    // If the user is already in the team
+    const [kickError, kick] = await catchError(
+      prisma.userInTeam.delete({
+        where: {
+          userId_teamId: {
+            userId: body.data.kickId,
+            teamId: body.data.teamId,
+          },
+        },
+      }),
+    );
+    if (kickError !== undefined) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: "Resource Not Found",
+        message: "user-not-found",
+      });
+    }
+  }
+
+  logEventAction(event, {
+    category: "TEAM",
+    severity: "INFO",
+    message: `User ${event.context.user.username} kicked user ${body.data.kickId} from team ${body.data.teamId}.`,
+  });
+
+  return {
+    notification: createNotification("SUCCESS", {
+      message: "Felhasználó kirúgása sikeres!",
+    }),
+  };
+});

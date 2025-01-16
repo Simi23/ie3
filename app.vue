@@ -24,4 +24,7 @@ import "~/utils/zodDefaults.js";
   opacity: 0;
   filter: blur(1rem);
 }
+body {
+  height: 100%;
+}
 </style>

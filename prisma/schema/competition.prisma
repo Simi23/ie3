@@ -28,6 +28,7 @@ model Team {
     competitionId String
 
     brackets BracketPart[]
+    invites  Invite[]
 }
 
 model UserInTeam {
@@ -37,8 +38,22 @@ model UserInTeam {
     team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
     teamId String
 
-    isLeader  Boolean @default(false)
-    isPending Boolean @default(true)
+    isLeader Boolean @default(false)
 
     @@id(fields: [userId, teamId])
+}
+
+model Invite {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+    teamId String
+
+    invitee   User   @relation(fields: [inviteeId], references: [id], onDelete: Cascade)
+    inviteeId String
+
+    @@unique([teamId, inviteeId])
+    @@index(fields: [inviteeId])
 }

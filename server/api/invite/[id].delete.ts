@@ -1,15 +1,12 @@
 import { prisma } from "~/db/prismaClient";
-import adminCheck from "~/utils/adminCheck";
 import { catchError } from "~/utils/catchError";
 import createNotification from "~/utils/createNotification";
 import { logEventAction } from "~/utils/logger";
-import { rm } from "fs/promises";
 
 export default defineEventHandler(async (event) => {
-  adminCheck(event, 2);
   const id = getRouterParam(event, "id");
 
-  if (id === undefined) {
+  if (id === undefined || event.context.user === undefined) {
     throw createError({
       statusCode: 400,
       statusMessage: "Bad Request",
@@ -17,35 +14,34 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const [error, result] = await catchError(
-    prisma.media.delete({
+  const userId = event.context.user.id;
+
+  const [error, data] = await catchError(
+    prisma.invite.delete({
       where: {
         id: id,
+        inviteeId: userId,
       },
     }),
   );
 
-  if (error === undefined) {
-    await rm(result.path);
-  }
-
-  if (error) {
+  if (error !== undefined) {
     throw createError({
       statusCode: 404,
       statusMessage: "Resource Not Found",
-      message: "media-not-found",
+      message: "invite-not-found",
     });
   }
 
   logEventAction(event, {
-    category: "MEDIA",
+    category: "INVITE",
     severity: "INFO",
-    message: `User ${event.context.user?.username} deleted media ${id}.`,
+    message: `User ${event.context.user.username} declined invite ${data.id}.`,
   });
 
   return {
     notification: createNotification("SUCCESS", {
-      message: "Fájl törlése sikeres!",
+      message: "Meghívó sikeresen elutasítva.",
     }),
   };
 });
