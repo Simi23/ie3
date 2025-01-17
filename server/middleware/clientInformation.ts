@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
 
   const ip =
     getRequestIP(event, {
-      xForwardedFor: config.trustProxy,
+      xForwardedFor: config.trustProxy == "1",
     }) ?? "unknown-ip";
 
   const userAgent =

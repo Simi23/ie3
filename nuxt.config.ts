@@ -4,17 +4,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   runtimeConfig: {
     public: {
-      siteName: process.env.SITE_NAME,
+      siteName: "",
     },
-    trustProxy: Boolean(process.env.TRUST_PROXY),
-    smtpSettings: {
-      host: process.env.SMTP_HOST ?? "localhost",
-      port: Number(process.env.SMTP_PORT ?? 25),
-      secure: Boolean(process.env.SMTP_SECURE ?? false),
-      user: process.env.SMTP_USER ?? "username",
-      password: process.env.SMTP_PASSWORD ?? "password",
-      from: process.env.SMTP_FROM ?? 'Sender "<sender@email.com>"',
-    },
+    trustProxy: "",
   },
   routeRules: {
     "/dashboard/**": { ssr: false },

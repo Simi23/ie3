@@ -41,7 +41,6 @@ export type UserData = {
   ownChair: boolean;
   teams: {
     isLeader: boolean;
-    isPending: boolean;
     team: {
       name: string;
       competition: {

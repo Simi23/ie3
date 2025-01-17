@@ -38,7 +38,6 @@ export default defineEventHandler(async (event) => {
       teams: {
         select: {
           isLeader: true,
-          isPending: true,
           team: {
             select: {
               name: true,
