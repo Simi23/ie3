@@ -1,8 +1,8 @@
-import bcrypt from "bcrypt";
 import { prisma } from "~/db/prismaClient";
 import { initSchema } from "~/schemas/initSchema";
 import createNotification from "~/utils/createNotification";
 import { logEventAction } from "~/utils/logger";
+import * as argon2 from "argon2";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -16,7 +16,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const passwordHashPromise = bcrypt.hash(parsedBody.data.password, 10);
+  const passwordHashPromise = argon2.hash(parsedBody.data.password, {
+    type: argon2.argon2id,
+  });
 
   const initDoneQuery = await prisma.option.findUnique({
     where: {

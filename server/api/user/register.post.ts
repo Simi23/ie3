@@ -4,10 +4,10 @@ import {
   type RegistrationSchema,
 } from "~/schemas/registrationSchema";
 import type { SafeParseReturnType } from "zod";
-import bcrypt from "bcrypt";
 import { logEventAction } from "~/utils/logger";
 import createNotification from "~/utils/createNotification";
 import { registerMail } from "~/mail/mail";
+import * as argon2 from "argon2";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -38,7 +38,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const hashedPassword = await bcrypt.hash(parsedBody.data.password, 10);
+  const hashedPassword = await argon2.hash(parsedBody.data.password, {
+    type: argon2.argon2id,
+  });
+
   const newUser = await prisma.user.create({
     data: {
       email: parsedBody.data.email,

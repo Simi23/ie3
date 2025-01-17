@@ -1,10 +1,10 @@
-import bcrypt from "bcrypt";
 import { prisma } from "~/db/prismaClient";
 import { loginStage2Schema } from "~/schemas/loginSchemas";
 import createNotification from "~/utils/createNotification";
 import { logEventAction } from "~/utils/logger";
 import { randomBytes } from "crypto";
 import { sha256 } from "~/utils/hash";
+import * as argon2 from "argon2";
 
 export default defineEventHandler(async (event) => {
   const rawBody = await readBody(event);
@@ -32,8 +32,8 @@ export default defineEventHandler(async (event) => {
       message: "user-invalid",
     });
   }
+  const pw = await argon2.verify(user.passwordHash, body.data.password);
 
-  const pw = await bcrypt.compare(body.data.password, user.passwordHash);
   // Check if password matches
   if (pw === false) {
     // Log unsuccessful login attempt
