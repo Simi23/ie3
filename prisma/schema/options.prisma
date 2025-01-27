@@ -54,6 +54,7 @@ model Media {
 
     // References
     competitions Competition[]
+    displays     DisplayContent[]
 }
 
 enum MediaType {
@@ -67,4 +68,33 @@ model MdContent {
 
     name    String
     content String
+
+    displays DisplayContent[]
+}
+
+enum DisplayContentType {
+    ShortText
+    FormattedText
+    Bracket
+    Media
+}
+
+model DisplayContent {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    // Descriptor block
+    order Int
+    type  DisplayContentType
+    name  String
+
+    // Possible contents
+    shortText       String?
+    formattedText   MdContent? @relation(fields: [formattedTextId], references: [id], onDelete: Cascade)
+    formattedTextId String?
+    bracket         Bracket?   @relation(fields: [bracketId], references: [id], onDelete: Cascade)
+    bracketId       String?
+    media           Media?     @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+    mediaId         String?
 }

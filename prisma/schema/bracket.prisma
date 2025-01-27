@@ -11,6 +11,8 @@ model Bracket {
     competitionId String
 
     teamParts BracketPart[]
+
+    displays DisplayContent[]
 }
 
 model BracketPart {
