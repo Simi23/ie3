@@ -148,10 +148,10 @@ const oldSessions = computed(() => {
 });
 
 function colorMap() {
-  console.log("Setting map...");
   seatMap.value?.changeSeatColour("all", "#374151");
   seatMap.value?.changeSeatColour(userData?.value?.seat.name ?? "", "green");
 }
+
 watch(userData, (newData, oldData) => {
   colorMap();
 });

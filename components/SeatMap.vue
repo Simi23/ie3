@@ -12,31 +12,122 @@ const {
   seatStroke = "#000000",
   arrowStroke = "#000000",
 } = defineProps<Props>();
+
 const emit = defineEmits(["chosenSeat"]);
 
+const baseColor = ref<string>("");
+const originalColors = ref<Record<string, string>>({});
+
 /**
- * Set seat colour.
- * @param seatName The seat to modify. If set to `all`, applies to all seats.
- * @param colour Any colour string that is accepted by CSS
+ * Returns an SVGRectElement in the map from the seat name.
+ * @param seatName The name of the seat
  */
-function changeSeatColour(seatName: string, colour: string) {
+function getSeat(seatName: string): SVGRectElement | null {
   let svg = document.getElementById(svgId);
   let rects = svg?.getElementsByTagName("rect");
+
   if (rects == undefined) {
-    return;
+    return null;
   }
 
   for (let i = 0; i < rects.length; i++) {
     const r = rects[i];
     const seatNameCur =
       r.attributes.getNamedItem("inkscape:label")?.value ?? "unknown";
-    if (seatNameCur == seatName || seatName == "all") {
-      r.style.fill = colour;
-      if (seatName != "all") {
-        break;
-      }
+    if (seatNameCur == seatName) {
+      return r;
     }
   }
+
+  return null;
+}
+
+/**
+ * Returns all the seat rectangles.
+ */
+function getAllSeats(): HTMLCollectionOf<SVGRectElement> | null {
+  let svg = document.getElementById(svgId);
+  let rects = svg?.getElementsByTagName("rect");
+
+  if (rects == undefined) {
+    return null;
+  }
+
+  return rects;
+}
+
+function colorMultiply(seat: SVGRectElement, multiplier: number): string {
+  const current = getComputedStyle(seat).fill;
+  const m = current.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
+  if (m) {
+    let c = [Number(m[1]), Number(m[2]), Number(m[3])];
+    c = c.map((col) => Math.min(Math.max(col * multiplier, 0), 255));
+    return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+  }
+  return seat.style.fill;
+}
+
+/**
+ * Set seat colour.
+ * @param seatName The seat to modify. If set to `all`, applies to all seats.
+ * @param color Any color string that is accepted by CSS
+ * @param changeBase Whether to change the original colors of the map. Defaults to true, intended for internal use only.
+ */
+function changeSeatColour(seatName: string, color: string, changeBase = true) {
+  if (seatName == "all") {
+    if (changeBase) {
+      baseColor.value = color;
+    }
+    let rects = getAllSeats();
+    if (rects == null) return;
+    for (let i = 0; i < rects.length; i++) {
+      rects[i].style.fill = color;
+    }
+    return;
+  }
+
+  const seat = getSeat(seatName);
+  if (seat === null) return;
+  if (changeBase) {
+    originalColors.value[seatName] = color;
+  }
+  seat.style.fill = color;
+}
+
+/**
+ * Highlights a given seat by increasing its lightness.
+ * @param seatName The seat to be highlighted
+ * @param darken Whether to darken the other seats. Base seats will not be darkened.
+ */
+function highlightSeat(seatName: string, darken: boolean): void {
+  const keys = Object.keys(originalColors.value);
+  if (!keys.includes(seatName)) return;
+  const seat = getSeat(seatName);
+  if (seat === null) return;
+  cancelHighlight();
+  const newCol = colorMultiply(seat, 1.3);
+  seat.style.fill = newCol;
+  if (darken) {
+    keys.forEach((key) => {
+      if (key == seatName) return;
+      const curSeat = getSeat(key);
+      if (curSeat === null) return;
+      const darker = colorMultiply(curSeat, 0.7);
+      curSeat.style.fill = darker;
+    });
+  }
+}
+
+/**
+ * Cancels highlighting and returns all seats to their default colour.
+ */
+function cancelHighlight(): void {
+  const keys = Object.keys(originalColors.value);
+  keys.forEach((key) => {
+    const curSeat = getSeat(key);
+    if (curSeat === null) return;
+    curSeat.style.fill = originalColors.value[key];
+  });
 }
 
 /**
@@ -104,6 +195,8 @@ function clearSeatEvents() {
 
 defineExpose({
   changeSeatColour,
+  highlightSeat,
+  cancelHighlight,
   assignSeat,
   clearSeatEvents,
 });
