@@ -27,6 +27,9 @@ export default defineEventHandler(async (event) => {
         },
       },
     },
+    orderBy: {
+      title: "asc",
+    },
   });
 
   const mapped = competitions.map((c) => {

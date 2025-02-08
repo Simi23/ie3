@@ -20,11 +20,16 @@ export default defineEventHandler(async (event) => {
         },
       },
     },
-    orderBy: {
-      class: {
-        name: "asc",
+    orderBy: [
+      {
+        class: {
+          name: "asc",
+        },
       },
-    },
+      {
+        fullname: "asc",
+      },
+    ],
   });
 
   const formatted = users.map((user) => {
