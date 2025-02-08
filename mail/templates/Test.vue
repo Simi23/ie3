@@ -16,7 +16,7 @@ const props = defineProps({
   siteName: String,
 });
 
-const bgUrl = `${props.siteName}/hatter.png`;
+const bgUrl = `https://i.imgur.com/I9gDeaL.png`;
 const containerStyle: StyleValue = {
   width: "50%",
   minWidth: "320px",

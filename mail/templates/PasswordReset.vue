@@ -9,7 +9,7 @@ const props = defineProps<{
   siteName: string;
 }>();
 
-const bgUrl = `${props.siteName}/hatter.png`;
+const bgUrl = `https://i.imgur.com/I9gDeaL.png`;
 const containerStyle: StyleValue = {
   width: "50%",
   minWidth: "320px",
@@ -23,7 +23,7 @@ const containerStyle: StyleValue = {
 };
 
 const buttonStyle: StyleValue = {
-  backgroundColor: "#ca8a04",
+  backgroundColor: "#49bae7",
   color: "white",
   margin: "12px auto",
   padding: "6px 8px",
