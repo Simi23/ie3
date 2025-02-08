@@ -10,7 +10,7 @@ model Bracket {
     competition   Competition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
     competitionId String
 
-    teamParts BracketPart[]
+    parts BracketPart[]
 
     displays DisplayContent[]
 }
@@ -25,10 +25,10 @@ model BracketPart {
     upper         Boolean
     startLocation Boolean
 
-    points  Int[]
-    won     Boolean
-    started Boolean
-    ended   Boolean
+    points  Int[]   @default([])
+    won     Boolean @default(false)
+    started Boolean @default(false)
+    ended   Boolean @default(false)
 
     bracket   Bracket @relation(fields: [bracketId], references: [id], onDelete: Cascade)
     bracketId String

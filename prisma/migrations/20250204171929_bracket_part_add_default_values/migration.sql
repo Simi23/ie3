@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "BracketPart" ALTER COLUMN "points" SET DEFAULT ARRAY[]::INTEGER[],
+ALTER COLUMN "won" SET DEFAULT false,
+ALTER COLUMN "started" SET DEFAULT false,
+ALTER COLUMN "ended" SET DEFAULT false;
