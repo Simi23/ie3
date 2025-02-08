@@ -28,6 +28,8 @@ model User {
     seatId String @unique
 
     paid Boolean @default(false)
+
+    topListEntries TopListEntry[]
 }
 
 model Session {

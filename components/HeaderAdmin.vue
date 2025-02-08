@@ -80,6 +80,11 @@ const l2links = [
       to: "/dashboard/admin/brackets",
       icon: "i-heroicons-table-cells-solid",
     },
+    {
+      label: "Rangsorok",
+      to: "/dashboard/admin/toplist",
+      icon: "i-heroicons-numbered-list-solid",
+    },
   ],
 ];
 
