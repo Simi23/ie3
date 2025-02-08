@@ -211,6 +211,13 @@ function onSelectEthernet(seatName: string) {
     name: `${seat.owner.fullname} (${seat.owner.classname})`,
   };
 }
+
+onMounted(async () => {
+  await nextTick();
+  refreshChair();
+  refreshEthernet();
+  refreshPc();
+});
 </script>
 
 <style></style>
