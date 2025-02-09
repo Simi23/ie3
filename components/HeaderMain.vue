@@ -31,9 +31,9 @@ const links = ref<any[]>([
     icon: "i-heroicons-envelope-solid",
   },
   {
-    label: "Beállítások",
+    label: "Fiókom",
     to: "/dashboard/settings",
-    icon: "i-heroicons-cog-8-tooth-solid",
+    icon: "i-heroicons-user-solid",
   },
   {
     label: "Kilépés",

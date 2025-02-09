@@ -2,9 +2,11 @@ import { prisma } from "~/db/prismaClient";
 import adminCheck from "~/utils/adminCheck";
 
 export default defineEventHandler(async (event) => {
-  adminCheck(event, 2);
-
   const userId = event.context.params?.id ?? "0";
+
+  if (event.context.user === undefined || event.context.user.id !== userId) {
+    adminCheck(event, 2);
+  }
 
   const user = await prisma.user.findUnique({
     where: {
