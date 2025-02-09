@@ -73,6 +73,24 @@
           @click.prevent="updateSchoolPc"
         />
       </UFormGroup>
+
+      <UFormGroup
+        name="indexcontent"
+        label="Kezdőlap tartalma"
+        class="my-2 h-20"
+      >
+        <div class="flex flex-row flex-nowrap">
+          <div class="w-48">
+            <ContentSelect v-model="indexContent" />
+          </div>
+          <UButton
+            size="xs"
+            label="Mentés"
+            class="ml-2"
+            @click.prevent="updateIndexContent"
+          />
+        </div>
+      </UFormGroup>
     </UCard>
 
     <UCard class="mx-10 my-10 dark:bg-opacity-90">
@@ -295,6 +313,29 @@ const { data: pcStats, refresh: refreshPcStats } = useFetch(
     },
   },
 );
+
+const indexContent = ref<string>("");
+
+const { refresh: refreshIndexContent } = useFetch("/api/admin/indexcontent", {
+  lazy: true,
+  onResponse: (res) => {
+    indexContent.value = res.response._data;
+  },
+});
+
+async function updateIndexContent() {
+  loadingSpinner.value = true;
+  const [error, data] = await catchError(
+    $fetchCsrfNotification<NotificationResponse>("/api/admin/indexcontent", {
+      method: "POST",
+      body: {
+        id: indexContent.value,
+      },
+    }),
+  );
+  await refreshIndexContent();
+  loadingSpinner.value = false;
+}
 
 async function updateMailSetting() {
   loadingSpinner.value = true;
