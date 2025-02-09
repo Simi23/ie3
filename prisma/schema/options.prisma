@@ -86,9 +86,11 @@ model DisplayContent {
     updatedAt DateTime? @updatedAt
 
     // Descriptor block
-    order Int
-    type  DisplayContentType
-    name  String
+    order         Int
+    type          DisplayContentType
+    name          String
+    displayTimeMs Int
+    showProgress  Boolean
 
     // Possible contents
     shortText       String?
