@@ -8,6 +8,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       userStore.adminClass = session.adminClass;
       userStore.username = session.username;
       userStore.loggedIn = true;
+      if (session.id) {
+        userStore.userId = session.id;
+      }
 
       if (to.path == "/") {
         return navigateTo("/dashboard");
