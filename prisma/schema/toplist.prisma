@@ -16,6 +16,8 @@ model TopList {
     competitionId String
 
     entries TopListEntry[]
+
+    displays DisplayContent[]
 }
 
 model TopListEntry {

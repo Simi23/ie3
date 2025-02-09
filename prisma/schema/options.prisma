@@ -77,6 +77,7 @@ enum DisplayContentType {
     FormattedText
     Bracket
     Media
+    TopList
 }
 
 model DisplayContent {
@@ -97,4 +98,6 @@ model DisplayContent {
     bracketId       String?
     media           Media?     @relation(fields: [mediaId], references: [id], onDelete: Cascade)
     mediaId         String?
+    topList         TopList?   @relation(fields: [topListId], references: [id], onDelete: Cascade)
+    topListId       String?
 }
