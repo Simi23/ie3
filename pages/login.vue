@@ -30,6 +30,7 @@
                   v-model="loginStage1State.username"
                   class="inputField"
                   placeholder="Felhasználónév"
+                  autocomplete="username"
                 />
               </UFormGroup>
 
@@ -81,6 +82,7 @@
                   class="inputField"
                   type="password"
                   placeholder="Jelszó"
+                  autocomplete="password"
                 />
               </UFormGroup>
 
@@ -152,6 +154,7 @@ async function loginStage2Submit(event: FormSubmitEvent<LoginStage2Schema>) {
     userStore.adminClass = response.user.adminClass;
     userStore.username = response.user.username;
     userStore.loggedIn = true;
+    userStore.userId = response.user.id;
   } catch {
     loadingSpinner.value = false;
     return;
