@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteName: "",
+      imgUrl: "",
     },
     trustProxy: "",
   },

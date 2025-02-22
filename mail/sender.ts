@@ -2,6 +2,7 @@ import { createTransport } from "nodemailer";
 import { prisma } from "~/db/prismaClient";
 import type { Transporter } from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
+import { catchError } from "~/utils/catchError";
 
 interface EmailSettings {
   host: string;
@@ -53,6 +54,13 @@ async function getTransporter(): Promise<
       },
       from: settings.from,
     });
+  }
+
+  const [error, data] = await catchError(transporter.verify());
+  if (error) {
+    console.log(`Transporter error: ${error.message}`);
+  } else {
+    console.log("Transporter verification successful!");
   }
 
   return transporter;

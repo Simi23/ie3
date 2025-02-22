@@ -10,13 +10,14 @@ import {
 } from "@vue-email/components";
 import type { StyleValue } from "vue";
 
-const props = defineProps({
-  title: String,
-  text: String,
-  siteName: String,
-});
+const props = defineProps<{
+  title: string;
+  text: string;
+  siteName: string;
+  bgUrl: string;
+}>();
 
-const bgUrl = `https://i.imgur.com/I9gDeaL.png`;
+// const bgUrl = `https://i.imgur.com/I9gDeaL.png`;
 const containerStyle: StyleValue = {
   width: "50%",
   minWidth: "320px",
@@ -24,7 +25,7 @@ const containerStyle: StyleValue = {
   paddingBottom: "24px",
   margin: "auto",
   backgroundColor: "#000d44",
-  backgroundImage: `url('${bgUrl}')`,
+  backgroundImage: `url('${props.bgUrl}')`,
   backgroundSize: "100%",
   backgroundPosition: "bottom",
 };

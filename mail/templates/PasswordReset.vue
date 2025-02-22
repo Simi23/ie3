@@ -7,9 +7,10 @@ const props = defineProps<{
   text: string;
   passwordChangeLink: string;
   siteName: string;
+  bgUrl: string;
 }>();
 
-const bgUrl = `https://i.imgur.com/I9gDeaL.png`;
+// const bgUrl = `https://i.imgur.com/I9gDeaL.png`;
 const containerStyle: StyleValue = {
   width: "50%",
   minWidth: "320px",
@@ -17,7 +18,7 @@ const containerStyle: StyleValue = {
   paddingBottom: "24px",
   margin: "auto",
   backgroundColor: "#000d44",
-  backgroundImage: `url('${bgUrl}')`,
+  backgroundImage: `url('${props.bgUrl}')`,
   backgroundSize: "100%",
   backgroundPosition: "bottom",
 };

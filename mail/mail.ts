@@ -12,6 +12,7 @@ export async function testMail(recipient: string) {
     title: "Teszt - Infósok Éjszakája",
     text: "Ha megkaptad ezt az üzenetet, akkor helyesek az email beállítások.",
     siteName: config.public.siteName,
+    bgUrl: config.public.imgUrl,
   };
 
   const html = await render(Test, options, {
@@ -31,6 +32,7 @@ export async function registerMail(recipient: string, emailVerifyLink: string) {
     text: "Köszönjük a regisztrációt! Kérlek, az alábbi gomb megnyomásával erősítsd meg az email címedet!",
     emailVerifyLink: emailVerifyLink,
     siteName: config.public.siteName,
+    bgUrl: config.public.imgUrl,
   };
 
   const html = await render(Register, options, {
@@ -58,6 +60,7 @@ export async function passwordResetMail(
     text: "Ezt a levelet azért kaptad, mert jelszó-visszaállítási kérelmet indítottál a fiókodra. Amennyiben nem te voltál, figyelmen kívül hagyhatod az emailt. A jelszavad visszaállításához kattints az alábbi gombra.",
     passwordChangeLink: passwordResetLink,
     siteName: config.public.siteName,
+    bgUrl: config.public.imgUrl,
   };
 
   const html = await render(PasswordReset, options, {
