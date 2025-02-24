@@ -1,5 +1,5 @@
 <template>
-  <article class="prose lg:prose-lg dark:prose-invert">
+  <article class="prose lg:prose-lg dark:prose-invert prose-headings:mt-3">
     <MDCRenderer v-if="data" :body="data.body" :data="data.data" />
   </article>
 </template>

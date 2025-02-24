@@ -16,7 +16,7 @@
     <div v-if="page && page.contentId" class="mx-8 my-4">
       <UCard
         class="dark:bg-opacity-90"
-        :ui="{ body: { padding: 'px-4 py-2 sm:p-6 sm:py-2' } }"
+        :ui="{ body: { padding: 'px-6 py-6 sm:p-6 sm:py-6' } }"
       >
         <ContentDisplay :content-id="page.contentId" />
       </UCard>
