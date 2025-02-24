@@ -1,7 +1,21 @@
 <template>
   <UCard class="dark:bg-opacity-90">
     <template #header>
-      <h1 class="text-xl font-bold">Ülőhely - {{ userData?.seat.name }}</h1>
+      <div class="flex flex-row flex-nowrap items-center justify-between">
+        <h1 class="text-xl">
+          <span class="font-bold">Ülőhely</span>
+          <span class="ml-2 font-light">
+            {{ userData?.seat.name }}
+          </span>
+        </h1>
+        <UButton
+          v-if="adminMode"
+          label="Átültetés"
+          icon="i-heroicons-map-pin"
+          color="cyan"
+          variant="soft"
+        />
+      </div>
     </template>
     <ClientOnly>
       <SeatMap
@@ -22,6 +36,7 @@ import SeatMap from "~/components/SeatMap.vue";
 
 type Props = {
   userId: string;
+  adminMode?: boolean;
 };
 const props = defineProps<Props>();
 

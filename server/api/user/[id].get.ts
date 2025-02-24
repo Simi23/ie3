@@ -16,11 +16,13 @@ export default defineEventHandler(async (event) => {
       id: true,
       createdAt: true,
       email: true,
+      emailVerified: true,
       username: true,
       fullname: true,
       class: {
         select: {
           name: true,
+          id: true,
         },
       },
       adminClass: true,

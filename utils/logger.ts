@@ -10,6 +10,7 @@ interface LogParameters {
   category:
     | "INIT"
     | "AUTH"
+    | "ADMIN"
     | "REGISTRATION"
     | "COMPETITION"
     | "FINANCE"

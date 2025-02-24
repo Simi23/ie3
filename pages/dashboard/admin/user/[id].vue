@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="mx-10 my-10 flex flex-row flex-wrap justify-between">
-      <UserCard :user-id="$route.params.id.toString()" />
-      <UserMapCard :user-id="$route.params.id.toString()" />
+      <UserCard :user-id="$route.params.id.toString()" :admin-mode="true" />
+      <UserMapCard :user-id="$route.params.id.toString()" :admin-mode="true" />
     </div>
 
     <UserSessionCard :user-id="$route.params.id.toString()" />

@@ -1,18 +1,84 @@
 <template>
   <UCard class="mr-5 grow dark:bg-opacity-90">
     <template #header>
-      <h1 class="text-2xl font-bold">
-        {{ userData?.fullname }} - {{ userData?.username }}
-      </h1>
-      <UBadge
-        size="xs"
-        variant="soft"
-        :label="userData?.paid ? 'Fizetett' : 'Nem fizetett'"
-        :color="userData?.paid ? 'emerald' : 'red'"
-      />
+      <div class="flex flex-row flex-nowrap items-center justify-between">
+        <div>
+          <h1 class="text-2xl">
+            <span class="font-bold">
+              {{ userData?.fullname }}
+            </span>
+            <span class="ml-3 font-light">
+              {{ userData?.username }}
+            </span>
+          </h1>
+          <UBadge
+            size="xs"
+            variant="soft"
+            :label="userData?.paid ? 'Fizetett' : 'Nem fizetett'"
+            :color="userData?.paid ? 'emerald' : 'red'"
+          />
+        </div>
+        <div v-if="adminMode" class="space-x-2">
+          <UButton
+            label="Szerkesztés"
+            icon="i-heroicons-pencil"
+            color="cyan"
+            variant="soft"
+            size="lg"
+            @click="openUserEditModal"
+          />
+          <UTooltip text="Email-megerősítő üzenet küldése">
+            <UButton
+              icon="i-heroicons-envelope-solid"
+              color="indigo"
+              variant="soft"
+              size="lg"
+              @click="sendVerificationMail"
+            />
+          </UTooltip>
+          <UTooltip text="Jelszó-helyreállítás küldése">
+            <UButton
+              icon="i-heroicons-command-line-solid"
+              color="indigo"
+              variant="soft"
+              size="lg"
+              @click="sendRecoveryMail"
+            />
+          </UTooltip>
+          <UTooltip text="Felhasználó törlése">
+            <UButton
+              icon="i-heroicons-trash-solid"
+              color="red"
+              variant="soft"
+              size="lg"
+              @click="deleteUser"
+            />
+          </UTooltip>
+        </div>
+      </div>
     </template>
     <p><b>Osztály:</b> {{ userData?.class.name }}</p>
-    <p><b>Email cím:</b> {{ userData?.email }}</p>
+    <p>
+      <b>Email cím:</b> {{ userData?.email }}
+      <UBadge
+        v-if="userData?.emailVerified"
+        label="Megerősítve"
+        icon="i-heroicons-check-circle-solid"
+        size="xs"
+        color="cyan"
+        variant="subtle"
+        class="align-text-bottom"
+      />
+      <UBadge
+        v-else
+        label="Nincs megerősítve"
+        icon="i-heroicons-question-mark-circle-solid"
+        size="xs"
+        color="amber"
+        variant="subtle"
+        class="align-text-bottom"
+      />
+    </p>
     <p>
       <b>Regisztráció ideje:</b>
       {{ registrationDate.toLocaleString("hu") }}
@@ -49,13 +115,19 @@
 
 <script lang="ts" setup>
 import type { Badge, UserData } from "~/utils/types";
+import ModalUserEdit from "~/components/Modal/UserEdit.vue";
+import ModalConfirmAction from "~/components/Modal/ConfirmAction.vue";
 
 type Props = {
   userId: string;
+  adminMode?: boolean;
 };
 const props = defineProps<Props>();
+const modal = useModal();
 
-const { data: userData } = useFetch<UserData>(`/api/user/${props.userId}`);
+const { data: userData, refresh } = useFetch<UserData>(
+  `/api/user/${props.userId}`,
+);
 
 const registrationDate = computed(
   () => new Date(userData.value?.createdAt ?? Date()),
@@ -69,6 +141,47 @@ const roles: Badge[] = [
 const roleDisplay = computed(() => {
   return roles[userData?.value?.adminClass ?? 0];
 });
+
+async function openUserEditModal() {
+  modal.open(ModalUserEdit, {
+    userId: props.userId,
+    onSuccess: async () => {
+      await refresh();
+      modal.close();
+    },
+  });
+}
+
+async function sendVerificationMail() {
+  modal.open(ModalConfirmAction, {
+    title: "Megerősítő mail küldése",
+    description: `Biztosan elküldi a megerősítő levelet ${userData?.value?.fullname} felhasználónak?`,
+    onSuccess: () => {
+      modal.close();
+    },
+  });
+}
+
+async function sendRecoveryMail() {
+  modal.open(ModalConfirmAction, {
+    title: "Jelszó-helyreállítás küldése",
+    description: `Biztosan elküldi a jelszó-helyreállító levelet ${userData?.value?.fullname} felhasználónak?`,
+    onSuccess: () => {
+      modal.close();
+    },
+  });
+}
+
+async function deleteUser() {
+  modal.open(ModalConfirmAction, {
+    title: "Felhasználó törlése",
+    description: `Biztosan törli ${userData?.value?.fullname} felhasználót?`,
+    danger: true,
+    onSuccess: () => {
+      modal.close();
+    },
+  });
+}
 </script>
 
 <style></style>

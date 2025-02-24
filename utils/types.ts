@@ -22,9 +22,11 @@ export type UserData = {
   id: string;
   createdAt: Date;
   email: string;
+  emailVerified: boolean;
   username: string;
   fullname: string;
   class: {
+    id: string;
     name: string;
   };
   adminClass: number;

@@ -5,6 +5,7 @@ interface Props {
   cancelText?: string;
   description?: string;
   longDescription?: string[];
+  danger?: boolean;
 }
 
 const modal = useModal();
@@ -13,6 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
   title: "Megerősítés",
   confirmText: "Megerősít",
   cancelText: "Mégse",
+  danger: false,
 });
 
 const emit = defineEmits(["success"]);
@@ -41,12 +43,15 @@ function onSuccess() {
 
       <template #footer>
         <div class="float-right">
-          <UButton @click="modal.close" color="red">{{
+          <UButton @click="modal.close" :color="danger ? 'indigo' : 'red'">{{
             props.cancelText
           }}</UButton>
-          <UButton @click="onSuccess" color="emerald" class="mx-2">{{
-            props.confirmText
-          }}</UButton>
+          <UButton
+            @click="onSuccess"
+            :color="danger ? 'red' : 'emerald'"
+            class="mx-2"
+            >{{ props.confirmText }}</UButton
+          >
         </div>
         <div class="clear-both"></div>
       </template>
