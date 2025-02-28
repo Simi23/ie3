@@ -45,11 +45,14 @@ const props = defineProps<Props>();
 const modal = useModal();
 const seatMap = useTemplateRef<InstanceType<typeof SeatMap>>("userlocation");
 
-const { data: userData } = useFetch<UserData>(`/api/user/${props.userId}`, {
-  onResponse: () => {
-    colorMap();
+const { data: userData, refresh } = useFetch<UserData>(
+  `/api/user/${props.userId}`,
+  {
+    onResponse: () => {
+      colorMap();
+    },
   },
-});
+);
 
 function colorMap() {
   seatMap.value?.changeSeatColour("all", "#374151");
@@ -67,6 +70,7 @@ function openSeatSwap() {
     originalSeat: userData.value?.seat.name ?? "UNKNOWN",
     onSuccess: () => {
       modal.close();
+      refresh();
     },
   });
 }

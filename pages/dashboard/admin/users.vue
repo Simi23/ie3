@@ -1,7 +1,14 @@
 <template>
   <div class="p-2">
-    <div class="mb-1 flex bg-gray-800 bg-opacity-35 px-3 py-3.5">
+    <div
+      class="mb-1 flex flex-row flex-nowrap justify-between bg-gray-800 bg-opacity-35 px-3 py-3.5"
+    >
       <UInput v-model="query" placeholder="Keresés..." />
+      <UButton
+        label="Új felhasználó"
+        icon="i-heroicons-user-plus-solid"
+        @click="userCreateModal"
+      />
     </div>
     <UTable
       class="rounded-sm bg-gray-800 bg-opacity-65"
@@ -31,10 +38,14 @@
 </template>
 
 <script lang="ts" setup>
+import ModalUserCreate from "~/components/Modal/UserCreate.vue";
+
 definePageMeta({
   layout: "dashboard-admin",
   middleware: "auth",
 });
+
+const modal = useModal();
 
 const {
   data: tableRows,
@@ -85,6 +96,15 @@ const filteredRows = computed(() => {
     });
   });
 });
+
+function userCreateModal() {
+  modal.open(ModalUserCreate, {
+    onSuccess: () => {
+      refreshTable();
+      modal.close();
+    },
+  });
+}
 </script>
 
 <style></style>

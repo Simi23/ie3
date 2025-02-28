@@ -39,7 +39,7 @@
         <div class="flex flex-row flex-nowrap justify-end">
           <div class="space-x-2">
             <UButton label="Mégse" color="indigo" @click="emit('success')" />
-            <UButton label="Megerősít" color="emerald" />
+            <UButton label="Megerősít" color="emerald" @click="handleSwap" />
           </div>
         </div>
       </template>
@@ -121,6 +121,21 @@ function seatEvent(seatName: string) {
   rSeatMap.value.cancelHighlight();
   rSeatMap.value.highlightSeat(seatName, false);
   selectedSeat.value = seatName;
+}
+
+async function handleSwap() {
+  const [error, response] = await catchError(
+    $fetchCsrfNotification<NotificationResponse>("/api/seat/swap", {
+      method: "POST",
+      body: {
+        userId: props.userId,
+        newSeatName: selectedSeat.value,
+      },
+    }),
+  );
+  if (error === undefined) {
+    emit("success");
+  }
 }
 </script>
 
