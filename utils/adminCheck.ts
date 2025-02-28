@@ -3,8 +3,10 @@ import type { H3Event, EventHandlerRequest } from "h3";
 export default function (
   event: H3Event<EventHandlerRequest>,
   minLevel: number,
+  passThru?: boolean,
 ) {
   if (event.context.user === undefined) {
+    if (passThru) return false;
     logEventAction(event, {
       category: "AUTH",
       severity: "WARN",
@@ -18,6 +20,7 @@ export default function (
   }
 
   if (Number(event.context.user.adminClass ?? 0) < minLevel) {
+    if (passThru) return false;
     logEventAction(event, {
       category: "AUTH",
       severity: "WARN",
@@ -29,4 +32,6 @@ export default function (
       message: "access-denied",
     });
   }
+
+  if (passThru) return true;
 }

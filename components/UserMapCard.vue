@@ -11,9 +11,10 @@
         <UButton
           v-if="adminMode"
           label="Átültetés"
-          icon="i-heroicons-map-pin"
+          icon="i-heroicons-map-pin-solid"
           color="cyan"
           variant="soft"
+          @click="openSeatSwap"
         />
       </div>
     </template>
@@ -33,6 +34,7 @@
 <script lang="ts" setup>
 import type { UserData } from "~/utils/types";
 import SeatMap from "~/components/SeatMap.vue";
+import ModalSeatSwap from "~/components/Modal/SeatSwap.vue";
 
 type Props = {
   userId: string;
@@ -40,6 +42,7 @@ type Props = {
 };
 const props = defineProps<Props>();
 
+const modal = useModal();
 const seatMap = useTemplateRef<InstanceType<typeof SeatMap>>("userlocation");
 
 const { data: userData } = useFetch<UserData>(`/api/user/${props.userId}`, {
@@ -56,6 +59,17 @@ function colorMap() {
 watch(userData, (newData, oldData) => {
   colorMap();
 });
+
+function openSeatSwap() {
+  modal.open(ModalSeatSwap, {
+    userId: props.userId,
+    username: userData.value?.username ?? "UNKNOWN",
+    originalSeat: userData.value?.seat.name ?? "UNKNOWN",
+    onSuccess: () => {
+      modal.close();
+    },
+  });
+}
 
 onMounted(async () => {
   await nextTick();

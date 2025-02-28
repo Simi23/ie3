@@ -48,6 +48,8 @@ const strings = {
   "team-full": "A csapat már tele van!",
   "modification-failed": "Adatmódosítás sikertelen!",
   "invite-not-found": "A meghívó nem található!",
+  "password-length": "A jelszónak legalább 8 karakternek kell lennie!",
+  "token-invalid": "Helytelen token!",
 };
 
 export const huLang = new Proxy(strings, handler);

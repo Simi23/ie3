@@ -18,42 +18,62 @@
             :color="userData?.paid ? 'emerald' : 'red'"
           />
         </div>
-        <div v-if="adminMode" class="space-x-2">
-          <UButton
-            label="Szerkesztés"
-            icon="i-heroicons-pencil"
-            color="cyan"
-            variant="soft"
-            size="lg"
-            @click="openUserEditModal"
-          />
-          <UTooltip text="Email-megerősítő üzenet küldése">
+        <div v-if="adminMode" class="space-y-2">
+          <div class="space-x-2">
+            <UTooltip
+              text="Email-megerősítő üzenet küldése"
+              :popper="{ placement: 'top' }"
+            >
+              <UButton
+                icon="i-heroicons-envelope-solid"
+                color="indigo"
+                variant="soft"
+                size="md"
+                @click="sendVerificationMail"
+              />
+            </UTooltip>
+            <UTooltip
+              text="Jelszó-helyreállítás küldése"
+              :popper="{ placement: 'top' }"
+            >
+              <UButton
+                icon="i-heroicons-lock-closed-solid"
+                color="indigo"
+                variant="soft"
+                size="md"
+                @click="sendRecoveryMail"
+              />
+            </UTooltip>
+            <UTooltip text="Jelszó beállítása" :popper="{ placement: 'top' }">
+              <UButton
+                icon="i-heroicons-key-solid"
+                color="indigo"
+                variant="soft"
+                size="md"
+                @click="setPassword"
+              />
+            </UTooltip>
+            <UTooltip text="Felhasználó törlése" :popper="{ placement: 'top' }">
+              <UButton
+                icon="i-heroicons-trash-solid"
+                color="red"
+                variant="soft"
+                size="md"
+                @click="deleteUser"
+              />
+            </UTooltip>
+          </div>
+          <div>
             <UButton
-              icon="i-heroicons-envelope-solid"
-              color="indigo"
+              label="Szerkesztés"
+              icon="i-heroicons-pencil-solid"
+              color="cyan"
               variant="soft"
-              size="lg"
-              @click="sendVerificationMail"
+              size="md"
+              block
+              @click="openUserEditModal"
             />
-          </UTooltip>
-          <UTooltip text="Jelszó-helyreállítás küldése">
-            <UButton
-              icon="i-heroicons-command-line-solid"
-              color="indigo"
-              variant="soft"
-              size="lg"
-              @click="sendRecoveryMail"
-            />
-          </UTooltip>
-          <UTooltip text="Felhasználó törlése">
-            <UButton
-              icon="i-heroicons-trash-solid"
-              color="red"
-              variant="soft"
-              size="lg"
-              @click="deleteUser"
-            />
-          </UTooltip>
+          </div>
         </div>
       </div>
     </template>
@@ -117,6 +137,7 @@
 import type { Badge, UserData } from "~/utils/types";
 import ModalUserEdit from "~/components/Modal/UserEdit.vue";
 import ModalConfirmAction from "~/components/Modal/ConfirmAction.vue";
+import ModalSingleInput from "~/components/Modal/SingleInput.vue";
 
 type Props = {
   userId: string;
@@ -156,8 +177,16 @@ async function sendVerificationMail() {
   modal.open(ModalConfirmAction, {
     title: "Megerősítő mail küldése",
     description: `Biztosan elküldi a megerősítő levelet ${userData?.value?.fullname} felhasználónak?`,
-    onSuccess: () => {
+    onSuccess: async () => {
       modal.close();
+      const [error, data] = await catchError(
+        $fetchCsrfNotification<NotificationResponse>("/api/admin/mailverify", {
+          method: "POST",
+          body: {
+            userId: userData.value?.id ?? 0,
+          },
+        }),
+      );
     },
   });
 }
@@ -166,8 +195,41 @@ async function sendRecoveryMail() {
   modal.open(ModalConfirmAction, {
     title: "Jelszó-helyreállítás küldése",
     description: `Biztosan elküldi a jelszó-helyreállító levelet ${userData?.value?.fullname} felhasználónak?`,
-    onSuccess: () => {
+    onSuccess: async () => {
       modal.close();
+      const [error, data] = await catchError(
+        $fetchCsrfNotification<NotificationResponse>("/api/admin/mailrecover", {
+          method: "POST",
+          body: {
+            email: userData.value?.email ?? "",
+          },
+        }),
+      );
+    },
+  });
+}
+
+async function setPassword() {
+  modal.open(ModalSingleInput, {
+    title: "Új jelszó beállítása",
+    fieldText: "Új jelszó",
+    placeHolder: "Jelszó",
+    isPassword: true,
+    onSuccess: async (newPassword) => {
+      const [error, data] = await catchError(
+        $fetchCsrfNotification<NotificationResponse>(
+          `/api/user/${userData.value?.id ?? "0"}/password`,
+          {
+            method: "PUT",
+            body: {
+              password: newPassword,
+            },
+          },
+        ),
+      );
+      if (error == undefined) {
+        modal.close();
+      }
     },
   });
 }
@@ -177,8 +239,19 @@ async function deleteUser() {
     title: "Felhasználó törlése",
     description: `Biztosan törli ${userData?.value?.fullname} felhasználót?`,
     danger: true,
-    onSuccess: () => {
+    onSuccess: async () => {
       modal.close();
+      const [error, data] = await catchError(
+        $fetchCsrfNotification<NotificationResponse>(
+          `/api/user/${userData.value?.id ?? "0"}`,
+          {
+            method: "DELETE",
+          },
+        ),
+      );
+      if (error == undefined) {
+        return navigateTo("/dashboard/admin/users");
+      }
     },
   });
 }

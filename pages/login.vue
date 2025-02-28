@@ -75,7 +75,7 @@
                 />
               </UFormGroup>
 
-              <UFormGroup name="password" label="Jelszó" class="mx-1 my-2 h-20">
+              <UFormGroup name="password" label="Jelszó" class="mx-1 mt-2 h-20">
                 <UInput
                   id="stage-2-password"
                   v-model="loginStage2State.password"
@@ -85,6 +85,12 @@
                   autocomplete="password"
                 />
               </UFormGroup>
+
+              <UButton
+                label="Elfelejtett jelszó"
+                variant="link"
+                to="/startrecover"
+              />
 
               <div class="mt-4 flex justify-end">
                 <UButton

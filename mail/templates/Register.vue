@@ -25,7 +25,7 @@ const containerStyle: StyleValue = {
 
 const buttonStyle: StyleValue = {
   backgroundColor: "#49bae7",
-  color: "white",
+  color: "black",
   margin: "12px auto",
   padding: "6px 8px",
   borderRadius: "4px",

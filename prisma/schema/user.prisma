@@ -57,6 +57,6 @@ model PasswordResetRequest {
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 
-    token String  @unique
+    token String  @unique @default(uuid())
     valid Boolean @default(true)
 }

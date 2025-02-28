@@ -5,6 +5,7 @@ interface Props {
   cancelText?: string;
   fieldText: string;
   placeHolder?: string;
+  isPassword?: boolean;
 }
 
 const modal = useModal();
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
   confirmText: "Megerősít",
   cancelText: "Mégse",
   placeHolder: "Új név...",
+  isPassword: false,
 });
 
 const emit = defineEmits<{
@@ -35,7 +37,11 @@ function onSuccess() {
       </template>
 
       <UFormGroup :label="fieldText">
-        <UInput v-model="inputText" :placeholder="placeHolder"></UInput>
+        <UInput
+          v-model="inputText"
+          :placeholder="placeHolder"
+          :type="isPassword ? 'password' : 'text'"
+        ></UInput>
       </UFormGroup>
 
       <template #footer>

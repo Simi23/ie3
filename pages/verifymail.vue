@@ -5,7 +5,10 @@
 
       <div class="mt-2 text-center">
         <div v-if="status == 'success'">
-          <p v-if="data == 0">Email cím megerősítése sikeres!</p>
+          <div v-if="data == 0">
+            <p>Email cím megerősítése sikeres!</p>
+            <UButton to="/login" label="Tovább a belépéshez" class="mt-2" />
+          </div>
           <p v-else>Email cím megerősítése sikertelen!</p>
         </div>
         <div v-else>
