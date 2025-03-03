@@ -1,6 +1,11 @@
 <template>
   <div>
     <UContainer class="flex min-h-screen w-fit items-center">
+      <UButton
+        @click="loadingSpinner = !loadingSpinner"
+        label="Spinner"
+        class="z-50"
+      />
       <UCard class="h-fit">
         <template #header>
           <h1 class="text-center text-2xl font-bold">Inicializáció</h1>

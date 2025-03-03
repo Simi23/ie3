@@ -5,6 +5,7 @@
     </NuxtLayout>
 
     <UModals />
+    <USlideovers />
     <LoadingBanner class="z-[1000]" />
     <UNotifications />
   </div>

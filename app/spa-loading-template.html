@@ -1,7 +1,7 @@
 <div
   class="absolute left-0 top-0 flex h-screen w-screen select-none items-center justify-center overflow-hidden bg-gray-950 dark:bg-gray-950"
 >
-  <div class="m-0 h-40 p-0" id="spaSpinnerContainer">
+  <div class="m-0 p-0 w-96" id="spaSpinnerContainer">
     <img
       src="/logo-multiline-sm.png"
       alt=""
@@ -11,9 +11,10 @@
   </div>
 </div>
 
-<style>
+<style scoped>
   #spaSpinnerContainer {
     animation: spaScaleAnimation 0.8s ease-in-out 0s infinite normal forwards;
+    max-width: 90vw;
   }
 
   @keyframes spaScaleAnimation {

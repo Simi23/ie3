@@ -2,7 +2,7 @@
   <div
     id="spinnerContainer"
     class="m-0 mb-16 p-0"
-    :style="{ height: props.size }"
+    :style="{ width: props.size }"
   >
     <NuxtImg
       id="loadingspinner"
@@ -26,15 +26,19 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: "10rem",
+  size: "30rem",
 });
 </script>
 
-<style>
+<style scoped>
 #loadingspinner {
   transition:
     opacity ease-in-out 0.15s,
     transform ease-in-out 0.2s;
+}
+
+#spinnerContainer {
+  max-width: 90vw;
 }
 
 @keyframes scaleAnimation {

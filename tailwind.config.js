@@ -15,6 +15,10 @@ export default {
         "mail-bg": "url('https://i.imgur.com/I9gDeaL.png')",
         "web-bg": "url('/background.webp')",
       },
+      screens: {
+        sm: "480px",
+        lg: "1100px",
+      },
       colors: {
         astro: {
           50: "#edf1ff",
