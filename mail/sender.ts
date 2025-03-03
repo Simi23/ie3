@@ -71,6 +71,7 @@ export async function sendMail(
   subject: string,
   content: string,
   htmlContent: string,
+  bgCid: string,
 ) {
   await (
     await getTransporter()
@@ -80,5 +81,14 @@ export async function sendMail(
     subject: subject,
     text: content,
     html: htmlContent,
+    attachments: [
+      {
+        cid: bgCid,
+        filename: "background.jpg",
+        path: "./public/mailbg.jpg",
+        encoding: "base64",
+        contentDisposition: "inline",
+      },
+    ],
   });
 }

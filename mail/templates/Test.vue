@@ -25,7 +25,7 @@ const containerStyle: StyleValue = {
   paddingBottom: "24px",
   margin: "auto",
   backgroundColor: "#000d44",
-  backgroundImage: `url('${props.bgUrl}')`,
+  backgroundImage: `url('cid:${props.bgUrl}')`,
   backgroundSize: "100%",
   backgroundPosition: "bottom",
 };
