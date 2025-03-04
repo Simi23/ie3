@@ -82,6 +82,10 @@ export default defineNuxtConfig({
       // @ts-ignore
       plugins: [vuePlugin()],
     },
+    compressPublicAssets: {
+      brotli: true,
+      gzip: true,
+    },
   },
   security: {
     csrf: true,
