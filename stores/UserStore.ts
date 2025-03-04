@@ -4,7 +4,7 @@ export const useUserStore = defineStore("user", () => {
   const username = ref<String>("");
   const loggedIn = ref<Boolean>(false);
   const userId = ref<string>("");
-  const adminClass = ref<Number>(0);
+  const adminClass = ref(0);
 
   function logout() {
     username.value = "";

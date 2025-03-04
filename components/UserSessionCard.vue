@@ -1,5 +1,5 @@
 <template>
-  <UCard class="mx-10 my-10 dark:bg-opacity-90">
+  <UCard class="dark:bg-opacity-90">
     <template #header>
       <h2 class="text-xl font-bold">Munkamenetek</h2>
     </template>

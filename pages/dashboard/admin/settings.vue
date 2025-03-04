@@ -1,221 +1,231 @@
 <template>
   <div>
-    <UCard class="mx-10 my-10 dark:bg-opacity-90">
-      <template #header>
-        <h1 class="text-xl font-bold">Beállítások</h1>
-      </template>
+    <div class="p-5 md:p-7 lg:p-10">
+      <UCard class="dark:bg-opacity-90">
+        <template #header>
+          <h1 class="text-xl font-bold">Beállítások</h1>
+        </template>
 
-      <h2 class="mb-2 text-lg font-semibold">Regisztrációs állapot</h2>
-      <p>
-        Regisztráció állapota:
-        <span :class="dRegOptions[regOption].color">{{
-          dRegOptions[regOption].text
-        }}</span>
-      </p>
+        <h2 class="mb-2 text-lg font-semibold">Regisztrációs állapot</h2>
+        <p>
+          Regisztráció állapota:
+          <span :class="dRegOptions[regOption].color">{{
+            dRegOptions[regOption].text
+          }}</span>
+        </p>
 
-      <URadioGroup v-model="regOptionSelection" :options="regOptions" />
-      <UButton
-        class="mr-2 mt-2 block"
-        size="xs"
-        label="Státusz mentése"
-        @click.prevent="updateRegStatus"
-      />
-
-      <h2 class="mb-2 mt-4 text-lg font-semibold">Helyek</h2>
-      <UMeter
-        :value="seatStats.occupiedSeats"
-        :max="seatStats.totalSeats"
-        color="amber"
-        size="lg"
-        class="my-2 w-1/3 min-w-64"
-      >
-      </UMeter>
-      <p>
-        Összes: <span class="text-gray-200">{{ seatStats.totalSeats }}</span>
-      </p>
-      <p>
-        Foglalt:
-        <span class="text-amber-400">{{ seatStats.occupiedSeats }}</span>
-      </p>
-      <p>
-        Szabad: <span class="text-emerald-500">{{ seatStats.freeSeats }}</span>
-      </p>
-
-      <h2 class="mb-2 mt-4 text-lg font-semibold">Iskolai PC-k</h2>
-      <UMeter
-        :value="pcStats.occupiedPcs"
-        :max="pcStats.totalPcs"
-        color="amber"
-        size="lg"
-        class="my-2 w-1/3 min-w-64"
-      >
-      </UMeter>
-      <p>
-        Összes: <span class="text-gray-200">{{ pcStats.totalPcs }}</span>
-      </p>
-      <p>
-        Foglalt:
-        <span class="text-amber-400">{{ pcStats.occupiedPcs }}</span>
-      </p>
-      <p>
-        Szabad: <span class="text-emerald-500">{{ pcStats.freePcs }}</span>
-      </p>
-      <UFormGroup name="maxpc" label="Iskolai PC-k száma" class="my-2 h-20">
-        <UInput
-          type="number"
-          class="inputField inline-block w-20"
-          v-model="maxPcInput"
-        />
+        <URadioGroup v-model="regOptionSelection" :options="regOptions" />
         <UButton
+          class="mr-2 mt-2 block"
           size="xs"
-          label="Mentés"
-          class="ml-2 inline-block"
-          @click.prevent="updateSchoolPc"
+          label="Státusz mentése"
+          @click.prevent="updateRegStatus"
         />
-      </UFormGroup>
 
-      <UFormGroup
-        name="indexcontent"
-        label="Kezdőlap tartalma"
-        class="my-2 h-20"
-      >
-        <div class="flex flex-row flex-nowrap">
-          <div class="w-48">
-            <ContentSelect v-model="indexContent" />
-          </div>
+        <h2 class="mb-2 mt-4 text-lg font-semibold">Helyek</h2>
+        <UMeter
+          :value="seatStats.occupiedSeats"
+          :max="seatStats.totalSeats"
+          color="amber"
+          size="lg"
+          class="my-2 w-1/3 min-w-64"
+        >
+        </UMeter>
+        <p>
+          Összes: <span class="text-gray-200">{{ seatStats.totalSeats }}</span>
+        </p>
+        <p>
+          Foglalt:
+          <span class="text-amber-400">{{ seatStats.occupiedSeats }}</span>
+        </p>
+        <p>
+          Szabad:
+          <span class="text-emerald-500">{{ seatStats.freeSeats }}</span>
+        </p>
+
+        <h2 class="mb-2 mt-4 text-lg font-semibold">Iskolai PC-k</h2>
+        <UMeter
+          :value="pcStats.occupiedPcs"
+          :max="pcStats.totalPcs"
+          color="amber"
+          size="lg"
+          class="my-2 w-1/3 min-w-64"
+        >
+        </UMeter>
+        <p>
+          Összes: <span class="text-gray-200">{{ pcStats.totalPcs }}</span>
+        </p>
+        <p>
+          Foglalt:
+          <span class="text-amber-400">{{ pcStats.occupiedPcs }}</span>
+        </p>
+        <p>
+          Szabad: <span class="text-emerald-500">{{ pcStats.freePcs }}</span>
+        </p>
+        <UFormGroup name="maxpc" label="Iskolai PC-k száma" class="my-2 h-20">
+          <UInput
+            type="number"
+            class="inputField inline-block w-20"
+            v-model="maxPcInput"
+          />
           <UButton
             size="xs"
             label="Mentés"
-            class="ml-2"
-            @click.prevent="updateIndexContent"
-          />
-        </div>
-      </UFormGroup>
-    </UCard>
-
-    <UCard class="mx-10 my-10 dark:bg-opacity-90">
-      <template #header>
-        <h1 class="text-xl font-bold">Email beállítások</h1>
-      </template>
-
-      <!-- Host port forcessl user password from Sender "<sender@email.com>" -->
-      <UForm
-        :schema="mailSettingSchema"
-        :state="mailSettingState"
-        @submit.prevent="updateMailSetting"
-        class="w-1/3 min-w-60"
-      >
-        <UFormGroup name="host" label="Hoszt" class="mx-1 my-2 h-20">
-          <UInput
-            v-model="mailSettingState.host"
-            type="text"
-            class="inputField"
-          />
-        </UFormGroup>
-        <UFormGroup name="port" label="Port" class="mx-1 my-2 h-20">
-          <UInput
-            v-model="mailSettingState.port"
-            type="number"
-            class="inputField"
+            class="ml-2 inline-block"
+            @click.prevent="updateSchoolPc"
           />
         </UFormGroup>
 
-        <TextToggle label="SSL (Force SSL)" v-model="mailSettingState.secure" />
-
-        <UFormGroup name="user" label="Felhasználónév" class="mx-1 my-2 h-20">
-          <UInput
-            v-model="mailSettingState.user"
-            type="text"
-            class="inputField"
-          />
-        </UFormGroup>
-        <UFormGroup name="password" label="Jelszó" class="mx-1 my-2 h-20">
-          <UInput
-            v-model="mailSettingState.password"
-            type="password"
-            class="inputField"
-          />
-        </UFormGroup>
         <UFormGroup
-          name="from"
-          label='Küldő (Példa Küldő "<pelda@kuldo.hu>")'
-          class="mx-1 my-2 h-20"
+          name="indexcontent"
+          label="Kezdőlap tartalma"
+          class="my-2 h-20"
         >
-          <UInput
-            v-model="mailSettingState.from"
-            type="text"
-            class="inputField"
-          />
+          <div class="flex flex-row flex-nowrap">
+            <div class="w-48">
+              <ContentSelect v-model="indexContent" />
+            </div>
+            <UButton
+              size="xs"
+              label="Mentés"
+              class="ml-2"
+              @click.prevent="updateIndexContent"
+            />
+          </div>
         </UFormGroup>
+      </UCard>
+    </div>
 
-        <UButton
-          class="float-left ml-auto mr-2 mt-5 block"
-          size="md"
-          label="Mentés"
-          type="submit"
-        />
-        <UButton
-          class="float-left ml-auto mr-2 mt-5 block"
-          size="md"
-          label="Teszt"
-          color="emerald"
-          @click.prevent="testMail"
-        />
-        <div class="clear-both"></div>
-      </UForm>
-    </UCard>
+    <div class="p-5 md:p-7 lg:p-10">
+      <UCard class="dark:bg-opacity-90">
+        <template #header>
+          <h1 class="text-xl font-bold">Email beállítások</h1>
+        </template>
 
-    <UCard class="mx-10 my-10 dark:bg-opacity-90">
-      <template #header>
-        <h1 class="text-xl font-bold">Osztályok</h1>
-      </template>
-
-      <div class="flex w-full">
-        <div
-          class="w-80 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+        <!-- Host port forcessl user password from Sender "<sender@email.com>" -->
+        <UForm
+          :schema="mailSettingSchema"
+          :state="mailSettingState"
+          @submit.prevent="updateMailSetting"
+          class="w-1/3 min-w-60"
         >
-          <h2 class="text-md mb-2 font-semibold">Próba választó</h2>
+          <UFormGroup name="host" label="Hoszt" class="mx-1 my-2 h-20">
+            <UInput
+              v-model="mailSettingState.host"
+              type="text"
+              class="inputField"
+            />
+          </UFormGroup>
+          <UFormGroup name="port" label="Port" class="mx-1 my-2 h-20">
+            <UInput
+              v-model="mailSettingState.port"
+              type="number"
+              class="inputField"
+            />
+          </UFormGroup>
+
           <TextToggle
-            class="mb-1"
-            label="Rejtett osztályok mutatása"
-            v-model="hiddenToggle"
+            label="SSL (Force SSL)"
+            v-model="mailSettingState.secure"
           />
-          <ClassSelect :show-hidden="hiddenToggle ? '1' : '0'" />
+
+          <UFormGroup name="user" label="Felhasználónév" class="mx-1 my-2 h-20">
+            <UInput
+              v-model="mailSettingState.user"
+              type="text"
+              class="inputField"
+            />
+          </UFormGroup>
+          <UFormGroup name="password" label="Jelszó" class="mx-1 my-2 h-20">
+            <UInput
+              v-model="mailSettingState.password"
+              type="password"
+              class="inputField"
+            />
+          </UFormGroup>
+          <UFormGroup
+            name="from"
+            label='Küldő (Példa Küldő "<pelda@kuldo.hu>")'
+            class="mx-1 my-2 h-20"
+          >
+            <UInput
+              v-model="mailSettingState.from"
+              type="text"
+              class="inputField"
+            />
+          </UFormGroup>
+
+          <UButton
+            class="float-left ml-auto mr-2 mt-5 block"
+            size="md"
+            label="Mentés"
+            type="submit"
+          />
+          <UButton
+            class="float-left ml-auto mr-2 mt-5 block"
+            size="md"
+            label="Teszt"
+            color="emerald"
+            @click.prevent="testMail"
+          />
+          <div class="clear-both"></div>
+        </UForm>
+      </UCard>
+    </div>
+
+    <div class="p-5 md:p-7 lg:p-10">
+      <UCard class="dark:bg-opacity-90">
+        <template #header>
+          <h1 class="text-xl font-bold">Osztályok</h1>
+        </template>
+
+        <div class="flex w-full flex-row flex-wrap justify-evenly gap-5">
+          <div
+            class="w-80 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+          >
+            <h2 class="text-md mb-2 font-semibold">Próba választó</h2>
+            <TextToggle
+              class="mb-1"
+              label="Rejtett osztályok mutatása"
+              v-model="hiddenToggle"
+            />
+            <ClassSelect :show-hidden="hiddenToggle ? '1' : '0'" />
+          </div>
+
+          <div
+            class="w-96 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+          >
+            <h2 class="text-md mb-2 font-semibold">Évfolyam hozzáadása</h2>
+            <ClassGroupAdd class="mx-2" />
+          </div>
+
+          <div
+            class="w-96 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+          >
+            <h2 class="text-md mb-2 font-semibold">Osztályok hozzáadása</h2>
+            <ClassAdd class="mx-2" />
+          </div>
         </div>
+
+        <UDivider size="sm" class="my-6"></UDivider>
 
         <div
-          class="mx-6 w-96 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+          class="rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
         >
-          <h2 class="text-md mb-2 font-semibold">Évfolyam hozzáadása</h2>
-          <ClassGroupAdd class="mx-2" />
+          <h2 class="text-md mb-2 font-semibold">Évfolyamok</h2>
+          <ClassGroupTable />
         </div>
+
+        <UDivider size="sm" class="my-6"></UDivider>
 
         <div
-          class="w-96 rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
+          class="rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
         >
-          <h2 class="text-md mb-2 font-semibold">Osztályok hozzáadása</h2>
-          <ClassAdd class="mx-2" />
+          <h2 class="text-md mb-2 font-semibold">Osztályok</h2>
+          <ClassTable />
         </div>
-      </div>
-
-      <UDivider size="sm" class="my-6"></UDivider>
-
-      <div
-        class="rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
-      >
-        <h2 class="text-md mb-2 font-semibold">Évfolyamok</h2>
-        <ClassGroupTable />
-      </div>
-
-      <UDivider size="sm" class="my-6"></UDivider>
-
-      <div
-        class="rounded-lg border border-gray-700 bg-gray-800 bg-opacity-25 p-4"
-      >
-        <h2 class="text-md mb-2 font-semibold">Osztályok</h2>
-        <ClassTable />
-      </div>
-    </UCard>
+      </UCard>
+    </div>
   </div>
 </template>
 

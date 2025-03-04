@@ -20,7 +20,7 @@
     </template>
     <ClientOnly>
       <SeatMap
-        class="w-96"
+        class="w-80 sm:w-96"
         ref="userlocation"
         svg-id="user-location"
         arrow-stroke="#ffffff"

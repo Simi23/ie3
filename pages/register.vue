@@ -263,7 +263,7 @@
                     arrow-stroke="#ffffff"
                     seat-stroke="#222222"
                     letter-stroke="#ffffff"
-                    class="w-[480px]"
+                    class="w-[380px] md:w-[480px]"
                     @chosen-seat="seatEvent"
                   />
                 </UFormGroup>

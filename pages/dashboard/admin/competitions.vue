@@ -1,74 +1,76 @@
 <template>
-  <UCard class="mx-10 my-10 dark:bg-opacity-90">
-    <template #header>
-      <div class="flex items-center justify-between">
-        <h1 class="text-xl font-bold">Versenyek</h1>
-        <UButton
-          icon="i-heroicons-plus"
-          label="Új verseny"
-          @click="newCompetitionModal"
-        />
-      </div>
-    </template>
-
-    <UTable
-      :columns="cols"
-      :rows="competitionRows"
-      :loading="status === 'pending'"
-      :loading-state="{
-        icon: 'i-heroicons-arrow-path-20-solid',
-        label: 'Betöltés...',
-      }"
-      :empty-state="{
-        icon: 'i-heroicons-circle-stack-20-solid',
-        label: 'Nincs megjeleníthető adat',
-      }"
-    >
-      <template #teamLimit-data="{ row }">
-        <UBadge
-          v-if="row.teamCompetition"
-          :label="row.teamLimit"
-          class="mr-2"
-        />
-        <UBadge
-          :label="row.teamCompetition ? 'Csapatos' : 'Egyéni'"
-          :color="row.teamCompetition ? 'cyan' : 'fuchsia'"
-          :icon="
-            row.teamCompetition
-              ? 'i-heroicons-user-group-solid'
-              : 'i-heroicons-user-solid'
-          "
-          variant="soft"
-          class="align-bottom"
-        />
-      </template>
-      <template #action-data="{ row }">
-        <UTooltip text="Szerkesztés">
+  <div class="p-5 md:p-7 lg:p-10">
+    <UCard class="dark:bg-opacity-90">
+      <template #header>
+        <div class="flex items-center justify-between">
+          <h1 class="text-xl font-bold">Versenyek</h1>
           <UButton
-            color="indigo"
-            icon="i-heroicons-pencil-square-solid"
-            :square="true"
-            @click="editCompetitionModal(row.id)"
+            icon="i-heroicons-plus"
+            label="Új verseny"
+            @click="newCompetitionModal"
           />
-        </UTooltip>
-        <UButton
-          color="cyan"
-          icon="i-heroicons-list-bullet"
-          label="Részletek"
-          class="mx-3"
-          variant="outline"
-          :to="`/dashboard/admin/competition/${row.id}`"
-        />
-        <UButton
-          label="Törlés"
-          icon="i-heroicons-trash-solid"
-          variant="outline"
-          color="red"
-          @click="deleteCompetitionModal(row.id)"
-        />
+        </div>
       </template>
-    </UTable>
-  </UCard>
+
+      <UTable
+        :columns="cols"
+        :rows="competitionRows"
+        :loading="status === 'pending'"
+        :loading-state="{
+          icon: 'i-heroicons-arrow-path-20-solid',
+          label: 'Betöltés...',
+        }"
+        :empty-state="{
+          icon: 'i-heroicons-circle-stack-20-solid',
+          label: 'Nincs megjeleníthető adat',
+        }"
+      >
+        <template #teamLimit-data="{ row }">
+          <UBadge
+            v-if="row.teamCompetition"
+            :label="row.teamLimit"
+            class="mr-2"
+          />
+          <UBadge
+            :label="row.teamCompetition ? 'Csapatos' : 'Egyéni'"
+            :color="row.teamCompetition ? 'cyan' : 'fuchsia'"
+            :icon="
+              row.teamCompetition
+                ? 'i-heroicons-user-group-solid'
+                : 'i-heroicons-user-solid'
+            "
+            variant="soft"
+            class="align-bottom"
+          />
+        </template>
+        <template #action-data="{ row }">
+          <UTooltip text="Szerkesztés">
+            <UButton
+              color="indigo"
+              icon="i-heroicons-pencil-square-solid"
+              :square="true"
+              @click="editCompetitionModal(row.id)"
+            />
+          </UTooltip>
+          <UButton
+            color="cyan"
+            icon="i-heroicons-list-bullet"
+            label="Részletek"
+            class="mx-3"
+            variant="outline"
+            :to="`/dashboard/admin/competition/${row.id}`"
+          />
+          <UButton
+            label="Törlés"
+            icon="i-heroicons-trash-solid"
+            variant="outline"
+            color="red"
+            @click="deleteCompetitionModal(row.id)"
+          />
+        </template>
+      </UTable>
+    </UCard>
+  </div>
 </template>
 
 <script lang="ts" setup>

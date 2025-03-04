@@ -1,11 +1,15 @@
 <template>
   <div>
-    <div class="mx-10 my-10 flex flex-row flex-wrap justify-between">
+    <div
+      class="flex flex-row flex-wrap justify-evenly gap-5 p-5 md:p-7 lg:p-10"
+    >
       <UserCard :user-id="userStore.userId" />
       <UserMapCard :user-id="userStore.userId" />
     </div>
 
-    <UserSessionCard :user-id="userStore.userId" />
+    <div class="p-5 md:p-7 lg:p-10">
+      <UserSessionCard :user-id="userStore.userId" />
+    </div>
   </div>
 </template>
 

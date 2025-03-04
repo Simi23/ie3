@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-for="alert in page?.notifications" class="mx-8 my-3">
+  <div class="p-3 sm:p-5 md:p-7 lg:p-10">
+    <div v-for="alert in page?.notifications" class="mb-4">
       <UAlert
         :color="colorMappings[alert.severity]"
         variant="soft"
@@ -13,7 +13,7 @@
         }"
       />
     </div>
-    <div v-if="page && page.contentId" class="mx-8 my-4">
+    <div v-if="page && page.contentId">
       <UCard
         class="dark:bg-opacity-90"
         :ui="{ body: { padding: 'px-6 py-6 sm:p-6 sm:py-6' } }"

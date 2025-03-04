@@ -1,13 +1,13 @@
 <template>
   <div>
     <div
-      class="flex w-full flex-row flex-wrap items-stretch justify-evenly p-4"
+      class="flex w-full flex-row flex-wrap items-stretch justify-evenly gap-5 p-2 sm:p-4 md:gap-10 md:p-7 lg:p-10"
     >
       <CompetitionDisplay
         v-for="competition in competitions"
         :key="competition.id"
         :c-id="competition.id"
-        class="mx-6 my-10 w-96"
+        class="w-96"
       />
     </div>
     <div class="h-1 w-1"></div>

@@ -13,50 +13,37 @@
       color="gray"
       square
       size="xl"
+      @click="openSlideover"
     />
     <UHorizontalNavigation :links="links" class="mr-4 hidden w-fit lg:block" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import SlideoverMenu from "~/components/Slideover/Menu.vue";
+
+const slideover = useSlideover();
+
 const userStore = useUserStore();
-const requestUrl = useRequestURL();
+const route = useRoute();
 
-const links = ref<any[]>([
-  {
-    label: "Kezdőlap",
-    to: "/dashboard",
-    icon: "i-heroicons-home-solid",
-  },
-  {
-    label: "Versenyek",
-    to: "/dashboard/competitions",
-    icon: "i-heroicons-trophy-solid",
-  },
-  {
-    label: "Meghívók",
-    to: "/dashboard/invites",
-    icon: "i-heroicons-envelope-solid",
-  },
-  {
-    label: "Fiókom",
-    to: "/dashboard/settings",
-    icon: "i-heroicons-user-solid",
-  },
-  {
-    label: "Kilépés",
-    to: "/logout",
-    icon: "i-heroicons-arrow-right-on-rectangle-solid",
-  },
-]);
+const links = computed(() => {
+  const l = [...mainMenuBase];
 
-if (userStore.adminClass.valueOf() > 0) {
-  links.value.splice(4, 0, {
-    label: "Adminisztráció",
-    to: "/dashboard/admin",
-    icon: "i-heroicons-users-solid",
-    active: requestUrl.pathname.startsWith("/dashboard/admin"),
-  });
+  if (userStore.adminClass.valueOf() > 0) {
+    l.splice(4, 0, {
+      label: "Adminisztráció",
+      to: "/dashboard/admin",
+      icon: "i-heroicons-users-solid",
+      active: route.path.startsWith("/dashboard/admin"),
+    });
+  }
+
+  return l;
+});
+
+function openSlideover() {
+  slideover.open(SlideoverMenu);
 }
 </script>
 

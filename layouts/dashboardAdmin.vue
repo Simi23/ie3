@@ -2,8 +2,8 @@
   <div>
     <HeaderMain />
     <div class="flex">
-      <HeaderAdmin />
-      <div class="w-full">
+      <HeaderAdmin class="hidden lg:block" />
+      <div class="min-h-[calc(100vh-3rem)] w-full">
         <slot />
       </div>
     </div>

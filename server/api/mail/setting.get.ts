@@ -27,5 +27,8 @@ export default defineEventHandler(async (event) => {
     } as MailSettingSchema;
   }
 
-  return setting.value as MailSettingSchema;
+  let result = setting.value as MailSettingSchema;
+  result.password = "";
+
+  return result;
 });

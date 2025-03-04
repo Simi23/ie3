@@ -1,5 +1,5 @@
 <template>
-  <UCard class="mr-5 grow dark:bg-opacity-90">
+  <UCard class="grow dark:bg-opacity-90">
     <template #header>
       <div class="flex flex-row flex-nowrap items-center justify-between">
         <div>
