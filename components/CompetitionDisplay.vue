@@ -7,10 +7,11 @@
       body: { base: 'flex-grow' },
     }"
   >
+    <!-- h-[216px] -->
     <template #header>
       <NuxtImg
         :src="competition?.imageUrl"
-        class="h-[216px] w-96 rounded-t-lg"
+        class="w-80 rounded-t-lg sm:w-96"
         draggable="false"
       />
     </template>

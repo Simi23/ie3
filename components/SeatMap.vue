@@ -98,13 +98,21 @@ function changeSeatColour(seatName: string, color: string, changeBase = true) {
  * Highlights a given seat by increasing its lightness.
  * @param seatName The seat to be highlighted
  * @param darken Whether to darken the other seats. Base seats will not be darkened.
+ * @param nocancel If set to true, other highlights will not be cancelled.
  */
-function highlightSeat(seatName: string, darken: boolean): void {
+function highlightSeat(
+  seatName: string,
+  darken: boolean,
+  nocancel?: boolean,
+): void {
   const keys = Object.keys(originalColors.value);
   if (!keys.includes(seatName)) return;
   const seat = getSeat(seatName);
   if (seat === null) return;
-  cancelHighlight();
+  if (nocancel != true) {
+    cancelHighlight();
+  }
+
   const newCol = colorMultiply(seat, 1.3);
   seat.style.fill = newCol;
   if (darken) {

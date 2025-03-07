@@ -7,7 +7,7 @@
         v-for="competition in competitions"
         :key="competition.id"
         :c-id="competition.id"
-        class="w-96"
+        class="w-80 sm:w-96"
       />
     </div>
     <div class="h-1 w-1"></div>
