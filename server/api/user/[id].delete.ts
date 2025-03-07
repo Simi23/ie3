@@ -9,12 +9,25 @@ export default defineEventHandler(async (event) => {
   adminCheck(event, 2);
 
   const userId = event.context.params?.id ?? "0";
+
   const [error, result] = await catchError(
-    prisma.user.delete({
-      where: {
-        id: userId,
-      },
-    }),
+    prisma.$transaction([
+      prisma.team.deleteMany({
+        where: {
+          users: {
+            some: {
+              userId: userId,
+              isLeader: true,
+            },
+          },
+        },
+      }),
+      prisma.user.delete({
+        where: {
+          id: userId,
+        },
+      }),
+    ]),
   );
 
   if (error) {
@@ -28,7 +41,7 @@ export default defineEventHandler(async (event) => {
   logEventAction(event, {
     category: "ADMIN",
     severity: "INFO",
-    message: `${event.context.user?.username} deleted user ${result.username}`,
+    message: `${event.context.user?.username} deleted user ${result[1].username}`,
   });
 
   return {
