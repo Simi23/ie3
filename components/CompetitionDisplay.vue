@@ -6,13 +6,15 @@
       base: 'flex flex-col flex-nowrap',
       body: { base: 'flex-grow' },
     }"
+    v-if="competition"
   >
     <!-- h-[216px] -->
     <template #header>
       <NuxtImg
-        :src="competition?.imageUrl"
+        :src="competition.imageUrl"
         class="w-80 rounded-t-lg sm:w-96"
         draggable="false"
+        :placeholder="[32, 18, 50, 5]"
       />
     </template>
 

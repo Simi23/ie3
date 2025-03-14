@@ -29,6 +29,7 @@ type Props = {
 const props = defineProps<Props>();
 const seatMap = useTemplateRef<InstanceType<typeof SeatMap>>("competition");
 const selectedTeam = ref("");
+const eventBus = useMittBus();
 
 const { data: competition, refresh } = useFetch(
   `/api/competition/${props.competitionId}`,
@@ -37,6 +38,10 @@ const { data: competition, refresh } = useFetch(
     lazy: true,
   },
 );
+
+eventBus.on("refresh-team-map", () => {
+  refresh();
+});
 
 const mapColors = computed(() => {
   const colorSeats: {
@@ -83,6 +88,7 @@ function chosenSeat(teamId: string) {
   if (seatMap.value == null) return;
 
   seatMap.value.cancelHighlight();
+  eventBus.emit("selected-team", { teamId: teamId });
 
   if (teamId === selectedTeam.value) {
     selectedTeam.value = "";

@@ -57,13 +57,13 @@
             icon="i-heroicons-list-bullet"
             label="Részletek"
             class="mx-3"
-            variant="outline"
+            variant="soft"
             :to="`/dashboard/admin/competition/${row.id}`"
           />
           <UButton
             label="Törlés"
             icon="i-heroicons-trash-solid"
-            variant="outline"
+            variant="soft"
             color="red"
             @click="deleteCompetitionModal(row.id)"
           />
@@ -74,10 +74,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  competitionSchema,
-  type CompetitionSchema,
-} from "~/schemas/competitionSchema";
+import { type CompetitionSchema } from "~/schemas/competitionSchema";
 import ModalCompetitionEdit from "~/components/Modal/CompetitionEdit.vue";
 import ModalConfirmAction from "~/components/Modal/ConfirmAction.vue";
 

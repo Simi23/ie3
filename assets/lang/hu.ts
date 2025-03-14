@@ -50,6 +50,7 @@ const strings = {
   "invite-not-found": "A meghívó nem található!",
   "password-length": "A jelszónak legalább 8 karakternek kell lennie!",
   "token-invalid": "Helytelen token!",
+  "error-in-process": "Hiba a kérés feldolgozásában!",
 };
 
 export const huLang = new Proxy(strings, handler);

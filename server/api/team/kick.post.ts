@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { prisma } from "~/db/prismaClient";
+import adminCheck from "~/utils/adminCheck";
 import { catchError } from "~/utils/catchError";
 import createNotification from "~/utils/createNotification";
 import { logEventAction } from "~/utils/logger";
@@ -37,11 +38,32 @@ export default defineEventHandler(async (event) => {
     }),
   );
 
-  if (
-    leaderError !== undefined ||
-    leader === null ||
-    leader.isLeader === false
-  ) {
+  const [leaderKickError, leaderKick] = await catchError(
+    prisma.userInTeam.findFirst({
+      where: {
+        team: {
+          id: body.data.teamId,
+        },
+        user: {
+          id: body.data.kickId,
+        },
+      },
+    }),
+  );
+
+  const isAdmin = adminCheck(event, 2, true);
+
+  if ((leaderError !== undefined || leader === null) && !isAdmin) {
+    console.error(leaderError);
+    console.error(leader);
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Bad Request",
+      message: "error-in-process",
+    });
+  }
+
+  if (!(leader?.isLeader === true || isAdmin === true)) {
     throw createError({
       statusCode: 400,
       statusMessage: "Bad Request",
@@ -70,22 +92,42 @@ export default defineEventHandler(async (event) => {
     }
   } else {
     // If the user is already in the team
-    const [kickError, kick] = await catchError(
-      prisma.userInTeam.delete({
-        where: {
-          userId_teamId: {
-            userId: body.data.kickId,
-            teamId: body.data.teamId,
+
+    if (leaderKick?.isLeader === true) {
+      // If the user is the leader, delete the team
+      const [disbandError, disbandData] = await catchError(
+        prisma.team.delete({
+          where: {
+            id: body.data.teamId,
           },
-        },
-      }),
-    );
-    if (kickError !== undefined) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: "Resource Not Found",
-        message: "user-not-found",
-      });
+        }),
+      );
+      if (disbandError !== undefined) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: "Bad Request",
+          message: "competition-leave-unsuccessful",
+        });
+      }
+    } else {
+      // Else, just kick the user
+      const [kickError, kick] = await catchError(
+        prisma.userInTeam.delete({
+          where: {
+            userId_teamId: {
+              userId: body.data.kickId,
+              teamId: body.data.teamId,
+            },
+          },
+        }),
+      );
+      if (kickError !== undefined) {
+        throw createError({
+          statusCode: 404,
+          statusMessage: "Resource Not Found",
+          message: "user-not-found",
+        });
+      }
     }
   }
 
