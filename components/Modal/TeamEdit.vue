@@ -2,24 +2,51 @@
   <UModal :ui="{ background: 'bg-transparent dark:bg-transparent' }">
     <UCard>
       <template #header>
-        <div class="flex flex-row flex-nowrap items-center justify-between">
-          <UFormGroup label="Új csapatnév" v-if="renaming">
-            <UInput v-model="newName" />
-          </UFormGroup>
+        <div
+          class="flex flex-row flex-nowrap items-center justify-between gap-2"
+        >
+          <UForm
+            v-if="renaming"
+            :state="renameState"
+            @submit.prevent="saveNewName"
+          >
+            <UFormGroup label="Új csapatnév">
+              <UInput v-model="renameState.newName" />
+            </UFormGroup>
+          </UForm>
           <div v-else>
             <h1 class="text-2xl font-extrabold">{{ team?.name }}</h1>
             <h2 class="text-lg font-bold text-gray-500">
               {{ team?.competitionTitle }}
             </h2>
           </div>
-          <UTooltip text="Csapat átnevezése" v-if="imLeader && !renaming">
-            <UButton
-              icon="i-heroicons-pencil"
-              variant="soft"
-              color="indigo"
-              @click="renameTeam"
-            />
-          </UTooltip>
+          <div v-if="!renaming" class="flex flex-row flex-nowrap gap-2">
+            <UTooltip text="Csapat törlése" v-if="imLeader">
+              <UButton
+                color="red"
+                variant="soft"
+                icon="i-heroicons-trash"
+                @click="showConfirm('delTeam')"
+              />
+            </UTooltip>
+            <UTooltip text="Kilépés a csapatból" v-else>
+              <UButton
+                color="red"
+                variant="soft"
+                icon="i-heroicons-arrow-right-on-rectangle"
+                @click="showConfirm('leave')"
+              />
+            </UTooltip>
+
+            <UTooltip text="Csapat átnevezése" v-if="imLeader">
+              <UButton
+                icon="i-heroicons-pencil"
+                variant="soft"
+                color="indigo"
+                @click="renameTeam"
+              />
+            </UTooltip>
+          </div>
           <UButton
             v-else-if="renaming"
             icon="i-heroicons-check"
@@ -94,47 +121,27 @@
       <template #footer>
         <div class="flex flex-row justify-between">
           <div>
-            <UButtonGroup v-if="imLeader">
-              <UInput
-                placeholder="Felhasználónév"
-                v-model="inviteUserInput"
-                :disabled="fullTeam"
-              />
-              <UTooltip text="Meghívás" :prevent="fullTeam">
-                <UButton
-                  icon="i-heroicons-user-plus"
-                  color="indigo"
-                  @click="inviteUser"
-                  :loading="loading.invite"
-                  :disabled="loading.invite || fullTeam"
+            <UForm :state="inviteState" @submit.prevent="inviteUser">
+              <UButtonGroup v-if="imLeader">
+                <UInput
+                  placeholder="Felhasználónév"
+                  v-model="inviteState.username"
+                  :disabled="fullTeam"
                 />
-              </UTooltip>
-            </UButtonGroup>
+                <UTooltip text="Meghívás" :prevent="fullTeam">
+                  <UButton
+                    icon="i-heroicons-user-plus"
+                    color="indigo"
+                    type="submit"
+                    :loading="loading.invite"
+                    :disabled="loading.invite || fullTeam"
+                  />
+                </UTooltip>
+              </UButtonGroup>
+            </UForm>
           </div>
-          <div class="flex flex-row flex-nowrap">
-            <UButton
-              v-if="imLeader"
-              label="Csapat törlése"
-              color="red"
-              variant="outline"
-              icon="i-heroicons-trash"
-              @click="showConfirm('delTeam')"
-            />
-            <UButton
-              v-else
-              label="Kilépés"
-              color="red"
-              variant="outline"
-              icon="i-heroicons-user-minus"
-              @click="showConfirm('leave')"
-            />
-            <UButton
-              label="Kész"
-              class="ml-2"
-              @click="modal.close"
-              :disabled="renaming"
-            />
-          </div>
+
+          <UButton label="Kész" @click="modal.close" :disabled="renaming" />
         </div>
       </template>
     </UCard>
@@ -179,6 +186,14 @@ interface Props {
   teamId: string;
 }
 
+const inviteState = ref({
+  username: "",
+});
+
+const renameState = ref({
+  newName: "",
+});
+
 const props = defineProps<Props>();
 const toast = useToast();
 const modal = useModal();
@@ -195,7 +210,6 @@ const kickUserId = ref("");
 const currentAction = ref<"delTeam" | "leave" | "kick">();
 
 const renaming = ref(false);
-const newName = ref("");
 
 const { data: team, refresh } = await useFetch<TeamResponse>(
   `/api/team/${props.teamId}`,
@@ -216,12 +230,12 @@ const fullTeam = computed<boolean>(() => {
 });
 
 function renameTeam() {
-  newName.value = team.value?.name ?? "Új csapat";
+  renameState.value.newName = team.value?.name ?? "Új csapat";
   renaming.value = true;
 }
 
 async function saveNewName() {
-  if (newName.value.length < 1) {
+  if (renameState.value.newName.length < 1) {
     toast.add({
       description: "A csapatnév nem lehet üres!",
       color: "red",
@@ -237,7 +251,7 @@ async function saveNewName() {
     $fetchCsrfNotification<NotificationResponse>(`/api/team/${props.teamId}`, {
       method: "PUT",
       body: {
-        newName: newName.value,
+        newName: renameState.value.newName,
       },
     }),
   );
@@ -250,8 +264,6 @@ async function saveNewName() {
   }
 }
 
-const inviteUserInput = ref("");
-
 async function inviteUser() {
   loading.value.invite = true;
 
@@ -260,12 +272,12 @@ async function inviteUser() {
       method: "POST",
       body: {
         teamId: props.teamId,
-        username: inviteUserInput.value,
+        username: inviteState.value.username,
       },
     }),
   );
   if (error === undefined) {
-    inviteUserInput.value = "";
+    inviteState.value.username = "";
   }
   await refresh();
   loading.value.invite = false;
