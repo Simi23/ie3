@@ -1,6 +1,6 @@
 <template>
   <USlideover>
-    <div class="flex flex-row flex-nowrap justify-end p-2">
+    <div class="flex h-16 flex-row flex-nowrap justify-end p-2">
       <UButton
         icon="i-heroicons-x-mark-solid"
         variant="ghost"
@@ -9,7 +9,7 @@
         @click="slideover.close"
       />
     </div>
-    <div class="p-4">
+    <div class="p-4" id="slideovernav">
       <UVerticalNavigation :links="links" class="mr-4 w-full" />
       <div v-if="userStore.adminClass > 0" class="mt-8">
         <UDivider label="Adminisztráció" class="my-4 select-none" />
@@ -48,4 +48,11 @@ watch(
 );
 </script>
 
-<style></style>
+<style scoped>
+#slideovernav {
+  max-height: calc(100vh - 64px);
+  height: fit-content;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+</style>
