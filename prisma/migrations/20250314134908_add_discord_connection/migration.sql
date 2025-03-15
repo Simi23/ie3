@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "dcAvatar" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "dcConnected" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "dcGlobalName" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "dcId" TEXT NOT NULL DEFAULT '';

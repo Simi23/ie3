@@ -9,7 +9,7 @@
         <CarouselMenu
           ref="logincarousel"
           :pagecount="2"
-          initialheight="9rem"
+          initialheight="264px"
           name="login"
         >
           <template #page1>
@@ -52,6 +52,22 @@
               </div>
               <div class="clear-both"></div>
             </UForm>
+            <UDivider label="VAGY" class="my-8" />
+            <div>
+              <UButton
+                block
+                label="Belépés Discorddal"
+                icon="i-fa6-brands-discord"
+                color="discord"
+                :ui="{
+                  variant: {
+                    solid:
+                      'text-gray-50 dark:text-gray-50 dark:hover:bg-discord-600 hover:bg-discord-600',
+                  },
+                }"
+                @click="discordLogin"
+              />
+            </div>
           </template>
           <template #page2>
             <UForm
@@ -103,12 +119,6 @@
                 <UButton class="ml-2" size="md" label="Belépés" type="submit" />
               </div>
             </UForm>
-            <UDivider v-if="allowWebauthn" label="VAGY" class="my-6" />
-            <div v-if="allowWebauthn">
-              <h1 class="text-md text-center font-bold text-gray-400">
-                Belépés WebAuthn használatával...
-              </h1>
-            </div>
           </template>
         </CarouselMenu>
       </UCard>
@@ -129,8 +139,8 @@ import type CarouselMenu from "~/components/CarouselMenu.vue";
 const toast = useToast();
 const loadingSpinner = useLoadingSpinner();
 const userStore = useUserStore();
-
-const allowWebauthn = ref(true);
+const cfg = useRuntimeConfig();
+const route = useRoute();
 
 const logincarousel = ref<InstanceType<typeof CarouselMenu> | null>(null);
 
@@ -178,6 +188,29 @@ function loginError() {
     color: "red",
   });
 }
+
+function discordLogin() {
+  const redirect_uri_base = encodeURIComponent(
+    `${cfg.public.siteName}/api/discord/logincallback`,
+  );
+  const redirect_uri = `https://discord.com/oauth2/authorize?client_id=1338156490137141270&response_type=code&redirect_uri=${redirect_uri_base}&scope=identify&prompt=none`;
+
+  return navigateTo(redirect_uri, {
+    external: true,
+  });
+}
+
+onMounted(async () => {
+  await nextTick();
+  if (route.query.notification == "notlinked") {
+    toast.add({
+      title: "Hiba",
+      description: "Ehhez a Discord fiókhoz nem tartozik felhasználó!",
+      icon: "i-heroicons-x-mark-20-solid",
+      color: "amber",
+    });
+  }
+});
 </script>
 
 <style>

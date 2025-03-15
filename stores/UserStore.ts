@@ -1,10 +1,10 @@
 import { ref, computed } from "vue";
 
 export const useUserStore = defineStore("user", () => {
-  const username = ref<String>("");
-  const loggedIn = ref<Boolean>(false);
+  const username = ref<string>("");
+  const loggedIn = ref<boolean>(false);
   const userId = ref<string>("");
-  const adminClass = ref(0);
+  const adminClass = ref<number>(0);
 
   function logout() {
     username.value = "";

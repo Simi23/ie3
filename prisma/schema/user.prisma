@@ -21,6 +21,11 @@ model User {
     ethernetPort Boolean
     ownChair     Boolean
 
+    dcConnected  Boolean @default(false)
+    dcId         String  @default("")
+    dcAvatar     String  @default("")
+    dcGlobalName String  @default("")
+
     teams   UserInTeam[]
     invites Invite[]
 

@@ -8,6 +8,10 @@ export default defineNuxtConfig({
       imgUrl: "",
     },
     trustProxy: "",
+    discord: {
+      clientId: "",
+      clientSecret: "",
+    },
   },
   routeRules: {
     "/dashboard/**": { ssr: false },
@@ -88,6 +92,11 @@ export default defineNuxtConfig({
     rateLimiter: {
       tokensPerInterval: 150,
       interval: 10000,
+    },
+    headers: {
+      contentSecurityPolicy: {
+        "img-src": ["'self'", "data:", "https://cdn.discordapp.com"],
+      },
     },
   },
   csurf: {
