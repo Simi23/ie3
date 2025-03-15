@@ -189,15 +189,30 @@ function loginError() {
   });
 }
 
-function discordLogin() {
+const isNavigating = ref(false);
+
+async function discordLogin() {
   const redirect_uri_base = encodeURIComponent(
     `${cfg.public.siteName}/api/discord/logincallback`,
   );
-  const redirect_uri = `https://discord.com/oauth2/authorize?client_id=1338156490137141270&response_type=code&redirect_uri=${redirect_uri_base}&scope=identify&prompt=none`;
 
-  return navigateTo(redirect_uri, {
+  const redirect_uri = `://discord.com/oauth2/authorize?client_id=1338156490137141270&response_type=code&redirect_uri=${redirect_uri_base}&scope=identify&prompt=none`;
+
+  await navigateTo("discord" + redirect_uri, {
     external: true,
+    open: {
+      target: "_self",
+    },
   });
+
+  setInterval(() => {
+    if (document.hasFocus() && isNavigating.value == false) {
+      isNavigating.value = true;
+      return navigateTo("https" + redirect_uri, {
+        external: true,
+      });
+    }
+  }, 250);
 }
 
 onMounted(async () => {
@@ -211,6 +226,20 @@ onMounted(async () => {
     });
   }
 });
+
+function goto(url: string, fallback: string) {
+  var script = document.createElement("script");
+
+  script.onload = function () {
+    document.location = url;
+  };
+  script.onerror = function () {
+    document.location = fallback;
+  };
+  script.setAttribute("src", url);
+
+  document.getElementsByTagName("head")[0].appendChild(script);
+}
 </script>
 
 <style>

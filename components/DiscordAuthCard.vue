@@ -48,18 +48,29 @@ const dcAvatar = computed(() => {
   return `https://cdn.discordapp.com/avatars/${dcData.value?.dcId}/${dcData.value?.dcAvatar}.jpg?size=128`;
 });
 
-function redirectToDiscord() {
+const isNavigating = ref(false);
+
+async function redirectToDiscord() {
   const redirect_uri_base = encodeURIComponent(
     `${cfg.public.siteName}/api/discord/onboardcallback`,
   );
-  const redirect_uri = `https://discord.com/oauth2/authorize?client_id=1338156490137141270&response_type=code&redirect_uri=${redirect_uri_base}&scope=identify`;
+  const redirect_uri = `://discord.com/oauth2/authorize?client_id=1338156490137141270&response_type=code&redirect_uri=${redirect_uri_base}&scope=identify`;
 
-  return navigateTo(redirect_uri, {
+  await navigateTo("discord" + redirect_uri, {
     external: true,
-    // open: {
-    //   target: "_blank",
-    // },
+    open: {
+      target: "_self",
+    },
   });
+
+  setInterval(() => {
+    if (document.hasFocus() && isNavigating.value == false) {
+      isNavigating.value = true;
+      return navigateTo("https" + redirect_uri, {
+        external: true,
+      });
+    }
+  }, 250);
 }
 
 async function disconnectDiscord() {
