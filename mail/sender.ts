@@ -54,13 +54,13 @@ async function getTransporter(): Promise<
       },
       from: settings.from,
     });
-  }
 
-  const [error, data] = await catchError(transporter.verify());
-  if (error) {
-    console.log(`Transporter error: ${error.message}`);
-  } else {
-    console.log("Transporter verification successful!");
+    const [error, data] = await catchError(transporter.verify());
+    if (error) {
+      console.log(`Transporter error: ${error.message}`);
+    } else {
+      console.log("Transporter verification successful!");
+    }
   }
 
   return transporter;

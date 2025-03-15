@@ -79,6 +79,11 @@ export const adminMenuLevel2: DeepMenuList = [
       to: "/dashboard/admin/maps",
       icon: "i-heroicons-map-solid",
     },
+    {
+      label: "Üzenetküldés",
+      to: "/dashboard/admin/message",
+      icon: "i-heroicons-envelope-solid",
+    },
   ],
   [
     {

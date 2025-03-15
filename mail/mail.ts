@@ -4,6 +4,8 @@ import { render } from "@vue-email/render";
 import Test from "./templates/Test.vue";
 import Register from "./templates/Register.vue";
 import PasswordReset from "./templates/PasswordReset.vue";
+import NewSeat from "./templates/NewSeat.vue";
+import MailBefore from "./templates/MailBefore.vue";
 import { randomUUID } from "crypto";
 
 const config = useRuntimeConfig();
@@ -27,6 +29,59 @@ export async function testMail(recipient: string) {
   });
 
   await sendMail(recipient, "Teszt - Infósok Éjszakája", plaintext, html, cid);
+}
+
+export async function newSeatMail(recipient: string, newSeat: string) {
+  const cid = `${randomUUID()}@ie-mailbg`;
+
+  const options = {
+    siteName: config.public.siteName,
+    bgUrl: cid,
+    newSeat: newSeat,
+  };
+
+  const html = await render(NewSeat, options, {
+    pretty: true,
+  });
+
+  const plaintext = await render(NewSeat, options, {
+    plainText: true,
+  });
+
+  await sendMail(
+    recipient,
+    "Átültetés - Infósok Éjszakája",
+    plaintext,
+    html,
+    cid,
+  );
+}
+
+export async function lastCallMail(
+  recipient: string,
+  seat: string,
+  openTime: string,
+  startTime: string,
+) {
+  const cid = `${randomUUID()}@ie-mailbg`;
+
+  const options = {
+    siteName: config.public.siteName,
+    bgUrl: cid,
+    openTime: openTime,
+    startTime: startTime,
+    seat: seat,
+  };
+
+  const html = await render(MailBefore, options, {
+    pretty: true,
+  });
+
+  const plaintext = await render(MailBefore, options, {
+    plainText: true,
+  });
+
+  await sendMail(recipient, "Holnap Infósok Éjszakája!", plaintext, html, cid);
 }
 
 export async function registerMail(recipient: string, emailVerifyLink: string) {

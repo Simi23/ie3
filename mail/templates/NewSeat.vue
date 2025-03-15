@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { Html, Text, Head, Heading } from "@vue-email/components";
+import { Html, Text, Head, Heading, Style } from "@vue-email/components";
 import type { StyleValue } from "vue";
 
 const props = defineProps<{
-  title: string;
-  text: string;
   siteName: string;
   bgUrl: string;
+  newSeat: string;
 }>();
 
-// const bgUrl = `https://i.imgur.com/I9gDeaL.png`;
 const containerStyle: StyleValue = {
+  color: "#ffffff",
   width: "50%",
   minWidth: "320px",
   paddingTop: "16px",
@@ -26,23 +25,31 @@ const containerStyle: StyleValue = {
 <template>
   <Html lang="hu">
     <Head>
-      <title>{{ title }}</title>
+      <title>Átültetés - Infósok Éjszakája</title>
+      <Style> body { color: white; } </Style>
     </Head>
     <div :style="containerStyle">
       <div
         style="
+          color: #ffffff;
           position: absolute;
           top: 0;
           bottom: 0;
           right: 0;
           left: 0;
-          color: white;
           padding: 10px;
         "
       >
-        <Heading as="h1">{{ title }}</Heading>
+        <Heading as="h1">Átültetés - Infósok Éjszakája</Heading>
 
-        <Text>{{ text }}</Text>
+        <Text
+          >A csapatok összeültetése érdekében a rendezvény szervezői átültettek
+          téged.</Text
+        >
+
+        <Text style="margin-top: 24px; font-size: 1.3rem; font-weight: 500">
+          Az új ülőhelyed: <span style="font-weight: 800">{{ newSeat }}</span>
+        </Text>
       </div>
     </div>
   </Html>

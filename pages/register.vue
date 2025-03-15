@@ -5,7 +5,7 @@
     >
       <h1 class="mb-8 text-center text-4xl font-bold">Regisztráció</h1>
       <div class="flex items-center">
-        <UCard class="min-w-[380px] max-w-[576px]">
+        <UCard class="w-full min-w-[340px] max-w-[576px]">
           <template #header>
             <h1 class="text-center text-2xl font-bold">
               {{ stageNames[stageId] }}
@@ -313,6 +313,7 @@ import { type UForm } from "#build/components";
 import ClassSelect from "~/components/Class/Select.vue";
 import CarouselMenu from "~/components/CarouselMenu.vue";
 import SeatMap from "~/components/SeatMap.vue";
+import ModalConfirmMessage from "~/components/Modal/ConfirmMessage.vue";
 
 definePageMeta({
   middleware: "registration-status",
@@ -328,6 +329,7 @@ const r_SeatMap = useTemplateRef<t_SeatMap>("register-map");
 
 const toast = useToast();
 const loadingSpinner = useLoadingSpinner();
+const modal = useModal();
 
 const stageNames = ref<string[]>([
   "Belépési adatok",
@@ -447,15 +449,29 @@ async function register() {
     return;
   }
   loadingSpinner.value = false;
-  await navigateTo("/regcomplete");
+
+  modal.open(ModalConfirmMessage, {
+    title: "Figyelem!",
+    longDescription: [
+      "A regisztrációd sikeres!",
+      "Amennyiben nem jelentkezel csapatos versenyekre, fenntartjuk annak jogát, hogy más csapatok összeültetése érdekében áthelyezzünk téged! Ebben az esetben emailben értesítünk!",
+    ],
+    timer: 10,
+    confirmText: "Elfogadom",
+    onSuccess: async () => {
+      modal.close();
+      await navigateTo("/regcomplete");
+    },
+  });
 }
 
 /**
  * Stages:
- * 1/4: Email, username, password (check email/username availability)
- * 2/4: Full name, class
- * 3/4: Options (check for pc availability!)
- * 4/4: Seat
+ *
+ * - 1/4: Email, username, password (check email/username availability)
+ * - 2/4: Full name, class
+ * - 3/4: Options (check for pc availability!)
+ * - 4/4: Seat
  */
 async function completeStage(stage: number) {
   if (stage == 2) {

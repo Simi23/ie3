@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { prisma } from "~/db/prismaClient";
+import { newSeatMail } from "~/mail/mail";
 import adminCheck from "~/utils/adminCheck";
 import { catchError } from "~/utils/catchError";
 import createNotification from "~/utils/createNotification";
@@ -25,6 +26,11 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const notifications: {
+    email: string;
+    newSeat: string;
+  }[] = [];
+
   // Check if current new seat is currently occupied
   const newSeat = await prisma.seat.findUnique({
     where: {
@@ -34,6 +40,7 @@ export default defineEventHandler(async (event) => {
       owner: {
         select: {
           id: true,
+          email: true,
         },
       },
     },
@@ -44,6 +51,13 @@ export default defineEventHandler(async (event) => {
     where: {
       owner: {
         id: body.data.userId,
+      },
+    },
+    include: {
+      owner: {
+        select: {
+          email: true,
+        },
       },
     },
   });
@@ -74,6 +88,17 @@ export default defineEventHandler(async (event) => {
       });
     }
 
+    notifications.push({
+      email: currentSeat.owner?.email ?? "",
+      newSeat: newSeat.name,
+    });
+    notifications.push({
+      email: newSeat.owner.email,
+      newSeat: currentSeat.name,
+    });
+
+    sendSeatMails(notifications);
+
     logEventAction(event, {
       category: "ADMIN",
       severity: "INFO",
@@ -98,6 +123,13 @@ export default defineEventHandler(async (event) => {
             },
           },
         },
+        include: {
+          seat: {
+            select: {
+              name: true,
+            },
+          },
+        },
       }),
     );
 
@@ -108,6 +140,12 @@ export default defineEventHandler(async (event) => {
         message: "modification-failed",
       });
     }
+
+    notifications.push({
+      email: data.email,
+      newSeat: data.seat.name,
+    });
+    sendSeatMails(notifications);
 
     logEventAction(event, {
       category: "ADMIN",
@@ -143,4 +181,12 @@ async function handleFullSwap(
       data: { seat: { connect: { id: seat2 } } },
     }),
   ]);
+}
+
+async function sendSeatMails(
+  notifications: { email: string; newSeat: string }[],
+) {
+  for (const user of notifications) {
+    await newSeatMail(user.email, user.newSeat);
+  }
 }
