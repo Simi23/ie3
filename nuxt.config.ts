@@ -16,6 +16,7 @@ export default defineNuxtConfig({
   routeRules: {
     "/dashboard/**": { ssr: false },
     "/": { ssr: false },
+    "/rules": { swr: true },
   },
   spaLoadingTemplate: true,
   experimental: {

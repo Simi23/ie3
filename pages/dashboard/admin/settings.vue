@@ -93,6 +93,24 @@
             />
           </div>
         </UFormGroup>
+
+        <UFormGroup
+          name="rulescontent"
+          label="Szabályzat tartalma"
+          class="my-2 h-20"
+        >
+          <div class="flex flex-row flex-nowrap">
+            <div class="w-48">
+              <ContentSelect v-model="rulesContent" />
+            </div>
+            <UButton
+              size="xs"
+              label="Mentés"
+              class="ml-2"
+              @click.prevent="updateRulesContent"
+            />
+          </div>
+        </UFormGroup>
       </UCard>
     </div>
 
@@ -344,6 +362,29 @@ async function updateIndexContent() {
     }),
   );
   await refreshIndexContent();
+  loadingSpinner.value = false;
+}
+
+const rulesContent = ref<string>("");
+
+const { refresh: refreshRulesContent } = useFetch("/api/admin/rulescontent", {
+  lazy: true,
+  onResponse: (res) => {
+    rulesContent.value = res.response._data;
+  },
+});
+
+async function updateRulesContent() {
+  loadingSpinner.value = true;
+  const [error, data] = await catchError(
+    $fetchCsrfNotification<NotificationResponse>("/api/admin/rulescontent", {
+      method: "POST",
+      body: {
+        id: rulesContent.value,
+      },
+    }),
+  );
+  await refreshRulesContent();
   loadingSpinner.value = false;
 }
 
