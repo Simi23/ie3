@@ -10,8 +10,18 @@ export default defineEventHandler(async (event) => {
         select: {
           username: true,
           fullname: true,
+          id: true,
+          class: {
+            select: { name: true },
+          },
+          ownPc: true,
+          ethernetPort: true,
+          ownChair: true,
         },
       },
+    },
+    orderBy: {
+      name: "asc",
     },
   });
 
