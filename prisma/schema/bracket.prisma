@@ -35,4 +35,6 @@ model BracketPart {
 
     team   Team?   @relation(fields: [teamId], references: [id], onDelete: Cascade)
     teamId String?
+
+    isTracked Boolean @default(false)
 }

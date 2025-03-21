@@ -51,6 +51,8 @@ const strings = {
   "password-length": "A jelszónak legalább 8 karakternek kell lennie!",
   "token-invalid": "Helytelen token!",
   "error-in-process": "Hiba a kérés feldolgozásában!",
+  "bracket-count-mismatch":
+    "Eltérés a versenyzők száma és a keret mérete között!",
 };
 
 export const huLang = new Proxy(strings, handler);

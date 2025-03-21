@@ -49,7 +49,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const teamName = data.teamCompetition ? "Új csapat" : "solo";
+  const teamName = data.teamCompetition
+    ? "Új csapat"
+    : event.context.user.username;
   const [joinError, joinData] = await catchError(
     prisma.team.create({
       data: {
