@@ -2,7 +2,7 @@
   "name": "ie3",
   "private": true,
   "type": "module",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

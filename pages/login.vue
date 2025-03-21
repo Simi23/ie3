@@ -78,29 +78,36 @@
               @submit.prevent="loginStage2Submit"
               class="w-[280px]"
             >
-              <UFormGroup
-                name="username"
-                label="Felhasználónév"
-                class="mx-1 my-2 h-20"
-              >
-                <UInput
-                  v-model="loginStage2State.username"
-                  class="inputField"
-                  placeholder="Felhasználónév"
-                  disabled
-                />
-              </UFormGroup>
+              <div v-if="stage == 2">
+                <UFormGroup
+                  name="username"
+                  label="Felhasználónév"
+                  class="mx-1 my-2 h-20"
+                >
+                  <UInput
+                    v-model="loginStage2State.username"
+                    class="inputField"
+                    placeholder="Felhasználónév"
+                    autocomplete="username"
+                    disabled
+                  />
+                </UFormGroup>
 
-              <UFormGroup name="password" label="Jelszó" class="mx-1 mt-2 h-20">
-                <UInput
-                  id="stage-2-password"
-                  v-model="loginStage2State.password"
-                  class="inputField"
-                  type="password"
-                  placeholder="Jelszó"
-                  autocomplete="password"
-                />
-              </UFormGroup>
+                <UFormGroup
+                  name="password"
+                  label="Jelszó"
+                  class="mx-1 mt-2 h-20"
+                >
+                  <UInput
+                    id="stage-2-password"
+                    v-model="loginStage2State.password"
+                    class="inputField"
+                    type="password"
+                    placeholder="Jelszó"
+                    autocomplete="password"
+                  />
+                </UFormGroup>
+              </div>
 
               <UButton
                 label="Elfelejtett jelszó"
@@ -153,8 +160,11 @@ const loginStage2State = ref({
   password: "",
 });
 
+const stage = ref(1);
+
 async function loginStage1Submit(event: FormSubmitEvent<LoginStage1Schema>) {
-  // TODO: Check username for WebAuthn availability
+  stage.value = 2;
+  await nextTick();
   loginStage2State.value.username = event.data.username;
   await logincarousel.value?.jumpTo(2);
   document.getElementById("stage-2-password")?.focus();

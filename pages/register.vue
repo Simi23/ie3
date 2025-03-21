@@ -157,86 +157,94 @@
             <!-- 3/4 -->
             <!-- OWNPC, ETHERNETPORT, OWNCHAIR -->
             <template #page3>
-              <!-- Low PC count -->
-              <UAlert
-                v-if="(schoolPc?.freePcs ?? 0) <= 0"
-                title="Elfogytak az iskolai gépek."
-                color="red"
-                variant="soft"
-                icon="i-heroicons-exclamation-circle-16-solid"
-                class="mb-4"
-              />
-              <UAlert
-                v-else-if="(schoolPc?.freePcs ?? 0) <= 4"
-                title="Kevesebb, mint 5 iskolai gép maradt."
-                color="amber"
-                variant="soft"
-                icon="i-heroicons-exclamation-circle-16-solid"
-                class="mb-4"
-              />
-              <UAlert
-                v-else-if="(schoolPc?.freePcs ?? 0) <= 9"
-                title="Kevesebb, mint 10 iskolai gép maradt."
-                color="yellow"
-                variant="soft"
-                icon="i-heroicons-exclamation-circle-16-solid"
-                class="mb-4"
-              />
+              <div class="w-[340px]">
+                <!-- Low PC count -->
+                <UAlert
+                  v-if="(schoolPc?.freePcs ?? 0) <= 0"
+                  title="Elfogytak az iskolai gépek."
+                  color="red"
+                  variant="soft"
+                  icon="i-heroicons-exclamation-circle-16-solid"
+                  class="mb-4"
+                />
+                <UAlert
+                  v-else-if="(schoolPc?.freePcs ?? 0) <= 4"
+                  title="Kevesebb, mint 5 iskolai gép maradt."
+                  color="amber"
+                  variant="soft"
+                  icon="i-heroicons-exclamation-circle-16-solid"
+                  class="mb-4"
+                />
+                <UAlert
+                  v-else-if="(schoolPc?.freePcs ?? 0) <= 9"
+                  title="Kevesebb, mint 10 iskolai gép maradt."
+                  color="yellow"
+                  variant="soft"
+                  icon="i-heroicons-exclamation-circle-16-solid"
+                  class="mb-4"
+                />
 
-              <UForm
-                :schema="registrationSchema3p3"
-                :state="regState3p3"
-                @submit.prevent="completeStage(3)"
-                @error="stageError"
-                class="w-[340px]"
-              >
-                <!-- OWNPC -->
-                <UFormGroup name="ownPc" class="mx-1 my-2">
-                  <UCheckbox
-                    label="Saját számítógép"
-                    help="Iskolai gép igényléséhez kapcsold ki"
-                    v-model="registrationState.ownPc"
-                    :disabled="(schoolPc?.freePcs ?? 0) <= 0"
-                  />
-                </UFormGroup>
+                <p class="mb-4 text-justify text-sm">
+                  Saját számítógép igénylése esetén csak
+                  <span class="font-bold"
+                    >egy darab 230V-os aljzatot biztosítunk</span
+                  >, minden mást (monitor, perifériák, ...) neked kell hoznod!
+                </p>
 
-                <!-- ETHERNETPORT -->
-                <UFormGroup name="ethernetPort" class="mx-1 my-2">
-                  <UCheckbox
-                    label="Ethernet aljzat"
-                    help="Van-e a számítógépeden ethernet (RJ-45) aljzat"
-                    v-model="registrationState.ethernetPort"
-                    :disabled="!registrationState.ownPc"
-                  />
-                </UFormGroup>
+                <UForm
+                  :schema="registrationSchema3p3"
+                  :state="regState3p3"
+                  @submit.prevent="completeStage(3)"
+                  @error="stageError"
+                >
+                  <!-- OWNPC -->
+                  <UFormGroup name="ownPc" class="mx-1 my-2">
+                    <UCheckbox
+                      label="Saját számítógép"
+                      help="Iskolai gép igényléséhez kapcsold ki"
+                      v-model="registrationState.ownPc"
+                      :disabled="(schoolPc?.freePcs ?? 0) <= 0"
+                    />
+                  </UFormGroup>
 
-                <!-- OWNCHAIR -->
-                <UFormGroup name="ownChair" class="mx-1 my-2">
-                  <UCheckbox
-                    label="Saját szék"
-                    v-model="registrationState.ownChair"
-                  />
-                </UFormGroup>
+                  <!-- ETHERNETPORT -->
+                  <UFormGroup name="ethernetPort" class="mx-1 my-2">
+                    <UCheckbox
+                      label="Ethernet aljzat"
+                      help="Van-e a számítógépeden ethernet (RJ-45) aljzat"
+                      v-model="registrationState.ethernetPort"
+                      :disabled="!registrationState.ownPc"
+                    />
+                  </UFormGroup>
 
-                <!-- ACTION BUTTONS -->
-                <div class="float-right mt-5">
-                  <UButton
-                    size="sm"
-                    label="Vissza"
-                    @click="revertStage(3)"
-                    variant="ghost"
-                    icon="i-heroicons-arrow-small-left-solid"
-                    class="h-full align-middle"
-                  />
-                  <UButton
-                    class="ml-2 align-middle"
-                    size="sm"
-                    label="Tovább"
-                    type="submit"
-                  />
-                </div>
-                <div class="clear-both"></div>
-              </UForm>
+                  <!-- OWNCHAIR -->
+                  <UFormGroup name="ownChair" class="mx-1 my-2">
+                    <UCheckbox
+                      label="Saját szék"
+                      v-model="registrationState.ownChair"
+                    />
+                  </UFormGroup>
+
+                  <!-- ACTION BUTTONS -->
+                  <div class="float-right mt-5">
+                    <UButton
+                      size="sm"
+                      label="Vissza"
+                      @click="revertStage(3)"
+                      variant="ghost"
+                      icon="i-heroicons-arrow-small-left-solid"
+                      class="h-full align-middle"
+                    />
+                    <UButton
+                      class="ml-2 align-middle"
+                      size="sm"
+                      label="Tovább"
+                      type="submit"
+                    />
+                  </div>
+                  <div class="clear-both"></div>
+                </UForm>
+              </div>
             </template>
 
             <!-- 4/4 -->
