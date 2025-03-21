@@ -16,7 +16,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const [error, data] = await catchError(
-    prisma.bracket.findMany({
+    prisma.bracket.findFirst({
+      where: {
+        id: id,
+      },
       include: {
         competition: true,
         parts: {
@@ -28,7 +31,7 @@ export default defineEventHandler(async (event) => {
     }),
   );
 
-  if (error) {
+  if (error || data === null) {
     throw createError({
       statusCode: 400,
       statusMessage: "Bad Request",

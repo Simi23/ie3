@@ -1,16 +1,10 @@
 import { z } from "zod";
 import { prisma } from "~/db/prismaClient";
+import { bracketCreateSchema } from "~/schemas/bracket";
 import adminCheck from "~/utils/adminCheck";
 import { catchError } from "~/utils/catchError";
 import createNotification from "~/utils/createNotification";
 import { logEventAction } from "~/utils/logger";
-
-const bodySchema = z.object({
-  title: z.string(),
-  administrativeTitle: z.string(),
-  numberOfCompetitors: z.number(),
-  competitionId: z.string(),
-});
 
 interface BracketPart {
   round: number;
@@ -22,7 +16,7 @@ interface BracketPart {
 export default defineEventHandler(async (event) => {
   adminCheck(event, 2);
 
-  const body = await readValidatedBody(event, bodySchema.safeParse);
+  const body = await readValidatedBody(event, bracketCreateSchema.safeParse);
 
   if (!body.success) {
     throw createError({
