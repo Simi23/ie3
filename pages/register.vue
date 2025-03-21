@@ -188,7 +188,8 @@
                   Saját számítógép igénylése esetén csak
                   <span class="font-bold"
                     >egy darab 230V-os aljzatot biztosítunk</span
-                  >, minden mást (monitor, perifériák, ...) neked kell hoznod!
+                  >, minden mást (monitor, elosztó, perifériák, ...) neked kell
+                  hoznod!
                 </p>
 
                 <UForm
