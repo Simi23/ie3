@@ -5,7 +5,8 @@ import { catchError } from "~/utils/catchError";
 import createNotification from "~/utils/createNotification";
 
 const schema = z.object({
-  bracketPartId: z.string().cuid(),
+  bracketPartIdUpper: z.string().cuid(),
+  bracketPartIdLower: z.string().cuid(),
 });
 
 export default defineEventHandler(async (event) => {
@@ -33,7 +34,15 @@ export default defineEventHandler(async (event) => {
       }),
       prisma.bracketPart.update({
         where: {
-          id: body.data.bracketPartId,
+          id: body.data.bracketPartIdUpper,
+        },
+        data: {
+          isTracked: true,
+        },
+      }),
+      prisma.bracketPart.update({
+        where: {
+          id: body.data.bracketPartIdLower,
         },
         data: {
           isTracked: true,
