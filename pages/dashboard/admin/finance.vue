@@ -3,7 +3,16 @@
     <div
       class="mb-1 flex justify-between bg-gray-800 bg-opacity-35 px-3 py-3.5"
     >
-      <UInput v-model="query" placeholder="Keresés..." />
+      <div class="flex flex-row flex-nowrap gap-3">
+        <UInput v-model="query" placeholder="Keresés..." />
+        <UButton
+          label="Adatok letöltése"
+          icon="i-heroicons-arrow-down-tray"
+          to="/api/finance/csv"
+          download="ie_adatok.csv"
+          external
+        />
+      </div>
       <div class="ml-4 flex select-none">
         <UIcon name="i-heroicons-funnel-solid" class="h-7 w-6" />
         <UCheckbox
