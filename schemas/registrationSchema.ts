@@ -3,7 +3,13 @@ import { z } from "zod";
 export const registrationSchema = z
   .object({
     fullname: z.string().min(1, "Add meg a teljes nevedet!"),
-    username: z.string().min(4, "Legalább 4 karakternek kell lennie!"),
+    username: z
+      .string()
+      .min(4, "Legalább 4 karakternek kell lennie!")
+      .regex(
+        /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\-._]+$/i,
+        "Lehetséges karakterek: a-z A-Z 0-9 . -",
+      ),
     email: z.string().email("Helyes email cím megadása kötelező!"),
     password: z.string().min(8, "Legalább 8 karakternek kell lennie!"),
     confirmPassword: z.string().min(8, "Legalább 8 karakternek kell lennie!"),
@@ -25,7 +31,13 @@ export type RegistrationSchema = z.output<typeof registrationSchema>;
 export const registrationSchema1p3 = z
   .object({
     email: z.string().email("Helyes email cím megadása kötelező!"),
-    username: z.string().min(4, "Legalább 4 karakternek kell lennie!"),
+    username: z
+      .string()
+      .min(4, "Legalább 4 karakternek kell lennie!")
+      .regex(
+        /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\-._]+$/i,
+        "Lehetséges karakterek: a-z A-Z 0-9 . -",
+      ),
     password: z.string().min(8, "Legalább 8 karakternek kell lennie!"),
     confirmPassword: z.string().min(8, "Legalább 8 karakternek kell lennie!"),
   })
