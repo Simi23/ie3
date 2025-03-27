@@ -111,6 +111,20 @@
             />
           </div>
         </UFormGroup>
+
+        <UFormGroup name="queuelink" label="Várólista link" class="my-2 h-20">
+          <div class="flex flex-row flex-nowrap">
+            <div class="w-48">
+              <UInput v-model="queueLink" />
+            </div>
+            <UButton
+              size="xs"
+              label="Mentés"
+              class="ml-2"
+              @click.prevent="updateQueueLink"
+            />
+          </div>
+        </UFormGroup>
       </UCard>
     </div>
 
@@ -385,6 +399,29 @@ async function updateRulesContent() {
     }),
   );
   await refreshRulesContent();
+  loadingSpinner.value = false;
+}
+
+const queueLink = ref<string>("");
+
+const { refresh: refreshQueueLink } = useFetch("/api/admin/queuelink", {
+  lazy: true,
+  onResponse: (res) => {
+    queueLink.value = res.response._data;
+  },
+});
+
+async function updateQueueLink() {
+  loadingSpinner.value = true;
+  const [error, data] = await catchError(
+    $fetchCsrfNotification<NotificationResponse>("/api/admin/queuelink", {
+      method: "PUT",
+      body: {
+        queueLink: queueLink.value,
+      },
+    }),
+  );
+  await refreshQueueLink();
   loadingSpinner.value = false;
 }
 

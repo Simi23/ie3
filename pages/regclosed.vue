@@ -8,16 +8,25 @@
           <p v-if="$route.query.r == '0'">
             A regisztráció még nem nyílt meg. Nézz vissza később!
           </p>
-          <p v-if="$route.query.r == '2'">
-            A regisztráció lezárult.
-            <!-- TODO: várólista implementáció -->
-          </p>
+          <div v-if="$route.query.r == '2'">
+            <p>A regisztráció lezárult.</p>
+            <p v-if="queueLink && queueLink != ''">
+              A várólistára a következő linken lehet jelentkezni:
+              <NuxtLink
+                :to="queueLink"
+                class="text-cyan-500 underline underline-offset-4"
+                >LINK</NuxtLink
+              >
+            </p>
+          </div>
         </div>
       </UCard>
     </UContainer>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const { data: queueLink } = useFetch("/api/admin/queuelink");
+</script>
 
 <style></style>
