@@ -130,6 +130,22 @@
       <span v-if="userData?.ownChair" class="text-emerald-400"> Saját </span>
       <span v-else class="text-yellow-400"> Iskolai </span>
     </p>
+
+    <div v-if="props.adminMode" class="mt-4">
+      <b>Discord:</b>
+      <DiscordUserBadge
+        v-if="userData?.dcConnected"
+        :dc-data="{
+          id: userData.dcId,
+          globalName: userData.dcGlobalName,
+          avatar: userData.dcAvatar,
+        }"
+        class="ml-2 align-sub"
+      />
+      <span v-else class="ml-2 font-extralight text-amber-500"
+        >Nincs csatlakoztatva</span
+      >
+    </div>
   </UCard>
 </template>
 
