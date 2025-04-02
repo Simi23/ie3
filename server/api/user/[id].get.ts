@@ -19,6 +19,10 @@ export default defineEventHandler(async (event) => {
       emailVerified: true,
       username: true,
       fullname: true,
+      dcId: true,
+      dcAvatar: true,
+      dcConnected: true,
+      dcGlobalName: true,
       class: {
         select: {
           name: true,

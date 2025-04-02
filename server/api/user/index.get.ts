@@ -9,6 +9,10 @@ export default defineEventHandler(async (event) => {
       id: true,
       username: true,
       fullname: true,
+      dcConnected: true,
+      dcGlobalName: true,
+      dcAvatar: true,
+      dcId: true,
       class: {
         select: {
           name: true,
@@ -29,6 +33,10 @@ export default defineEventHandler(async (event) => {
       username: user.username,
       class: user.class.name,
       seat: user.seat.name,
+      dcConnected: user.dcConnected,
+      dcGlobalName: user.dcGlobalName,
+      dcId: user.dcId,
+      dcAvatar: user.dcAvatar,
     };
   });
 

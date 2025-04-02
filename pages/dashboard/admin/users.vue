@@ -24,6 +24,16 @@
         label: 'Nincs megjeleníthető adat',
       }"
     >
+      <template #discord-data="{ row }">
+        <DiscordUserBadge
+          v-if="row.dcConnected"
+          :dc-data="{
+            avatar: row.dcAvatar,
+            id: row.dcId,
+            globalName: row.dcGlobalName,
+          }"
+        />
+      </template>
       <template #action-data="{ row }">
         <UButton
           size="xs"
@@ -78,6 +88,11 @@ const tableCols = [
     label: "Szék",
     key: "seat",
     sortable: true,
+  },
+  {
+    label: "Discord",
+    key: "discord",
+    sortable: false,
   },
   {
     label: "Művelet",

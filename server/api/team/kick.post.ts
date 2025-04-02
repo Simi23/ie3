@@ -54,8 +54,6 @@ export default defineEventHandler(async (event) => {
   const isAdmin = adminCheck(event, 2, true);
 
   if ((leaderError !== undefined || leader === null) && !isAdmin) {
-    console.error(leaderError);
-    console.error(leader);
     throw createError({
       statusCode: 400,
       statusMessage: "Bad Request",

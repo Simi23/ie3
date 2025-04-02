@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div
+    class="flex flex-col flex-nowrap gap-5 p-5 md:gap-7 md:p-7 lg:gap-10 lg:p-10"
+  >
     <div
-      class="flex flex-row flex-wrap justify-evenly gap-5 p-5 md:p-7 lg:p-10"
+      class="flex flex-row flex-wrap justify-evenly gap-5 md:gap-7 lg:gap-10"
     >
       <CompetitionAdminCard :competition-id="$route.params.id.toString()" />
       <CompetitionMapCard :competition-id="$route.params.id.toString()" />
     </div>
-    <div class="p-5 md:p-7 lg:p-10">
+    <div>
       <UTable
         :columns="cols"
         :rows="teamRows"
@@ -31,12 +33,30 @@
             <UBadge v-if="row.chosen" label="Kiválasztva" color="white" />
           </div>
         </template>
+        <template #action-data="{ row }">
+          <UButton
+            label="Átnevezés"
+            icon="i-heroicons-pencil-solid"
+            @click="renameModal(row.teamId, row.name)"
+          />
+        </template>
         <template #expand="{ row }">
           <div class="p-8">
             <h2 class="text-lg font-bold">Csapattagok</h2>
             <ul class="ml-2 list-inside list-disc">
               <li v-for="member in row.users" :key="member.id" class="my-1">
-                <span class="text-lg">{{ member.fullname }}</span>
+                <NuxtLink
+                  :text="member.fullname"
+                  class="text-lg font-bold underline underline-offset-4"
+                  :to="`/dashboard/admin/user/${member.id}`"
+                />
+                <!-- <span class="text-lg font-bold">{{ member.fullname }}</span> -->
+                <span class="ml-2 text-lg font-light">{{
+                  member.username
+                }}</span>
+                <span class="ml-2 text-lg font-normal">{{
+                  member.seatName
+                }}</span>
 
                 <UTooltip text="Kirúgás" class="ml-3 align-bottom">
                   <UButton
@@ -78,9 +98,11 @@
 
 <script lang="ts" setup>
 import ModalConfirmAction from "~/components/Modal/ConfirmAction.vue";
+import ModalSingleInput from "~/components/Modal/SingleInput.vue";
 
 const modal = useModal();
 const eventBus = useMittBus();
+const loadingSpinner = useLoadingSpinner();
 
 const chosenTeamId = ref("");
 
@@ -112,6 +134,10 @@ const cols = ref([
     label: "Létszám",
     key: "count",
   },
+  {
+    label: "Művelet",
+    key: "action",
+  },
 ]);
 
 eventBus.on("selected-team", (e: any) => {
@@ -136,6 +162,8 @@ const teamRows = computed(() => {
     users: {
       id: string;
       fullname: string;
+      username: string;
+      seatName: string;
       leader: boolean;
     }[];
   }[] = [];
@@ -160,6 +188,8 @@ const teamRows = computed(() => {
         return {
           id: u.user.id,
           fullname: u.user.fullname,
+          username: u.user.username,
+          seatName: u.user.seat.name,
           leader: u.isLeader,
         };
       }),
@@ -205,6 +235,31 @@ async function showConfirm(
       if (error === undefined) {
         modal.close();
       }
+    },
+  });
+}
+
+async function renameModal(teamId: string, origName: string) {
+  modal.open(ModalSingleInput, {
+    title: "Csapat átnevezése",
+    confirmText: "Mentés",
+    fieldText: "Csapatnév",
+    defaultValue: origName,
+    onSuccess: async (newName) => {
+      loadingSpinner.value = true;
+      const [error, data] = await catchError(
+        $fetchCsrfNotification<NotificationResponse>(`/api/team/${teamId}`, {
+          method: "PUT",
+          body: {
+            newName: newName,
+          },
+        }),
+      );
+      if (error === undefined) {
+        await refresh();
+        modal.close();
+      }
+      loadingSpinner.value = false;
     },
   });
 }

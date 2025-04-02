@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { prisma } from "~/db/prismaClient";
+import adminCheck from "~/utils/adminCheck";
 import { catchError } from "~/utils/catchError";
 import checkTeamLeader from "~/utils/checkTeamLeader";
 import createNotification from "~/utils/createNotification";
@@ -20,8 +21,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const userId = event.context.user.id;
-
   const body = await readValidatedBody(event, (body) =>
     bodySchema.safeParse(body),
   );
@@ -34,9 +33,11 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const isLeader = await checkTeamLeader(userId, id);
+  const userId = event.context.user.id;
+  const isLeader = await checkTeamLeader(userId, id, true);
+  const isAdmin = adminCheck(event, 2, true);
 
-  if (!isLeader) {
+  if (!isLeader && !isAdmin) {
     throw createError({
       status: 401,
       statusMessage: "Unauthorized",

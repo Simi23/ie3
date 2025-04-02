@@ -1,13 +1,19 @@
 <template>
-  <div>
+  <div
+    class="flex flex-col flex-nowrap justify-evenly gap-5 p-5 md:gap-7 md:p-7 lg:gap-10 lg:p-10"
+  >
     <div
-      class="flex flex-row flex-wrap justify-evenly gap-5 p-5 md:p-7 lg:p-10"
+      class="flex flex-row flex-wrap justify-evenly gap-5 md:gap-7 lg:gap-10"
     >
       <UserCard :user-id="$route.params.id.toString()" :admin-mode="true" />
       <UserMapCard :user-id="$route.params.id.toString()" :admin-mode="true" />
     </div>
 
-    <div class="p-5 md:p-7 lg:p-10">
+    <div>
+      <UserCompetitionCard :user-id="$route.params.id.toString()" />
+    </div>
+
+    <div>
       <UserSessionCard :user-id="$route.params.id.toString()" />
     </div>
   </div>

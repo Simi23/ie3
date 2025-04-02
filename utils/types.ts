@@ -25,6 +25,10 @@ export type UserData = {
   emailVerified: boolean;
   username: string;
   fullname: string;
+  dcId: string;
+  dcAvatar: string;
+  dcConnected: boolean;
+  dcGlobalName: string;
   class: {
     id: string;
     name: string;
