@@ -6,6 +6,7 @@ interface Props {
   fieldText: string;
   placeHolder?: string;
   isPassword?: boolean;
+  defaultValue?: string;
 }
 
 const modal = useModal();
@@ -27,6 +28,12 @@ function onSuccess() {
   if (inputText.value == "") return;
   emit("success", inputText.value);
 }
+
+onMounted(() => {
+  if (props.defaultValue) {
+    inputText.value = props.defaultValue;
+  }
+});
 </script>
 
 <template>
