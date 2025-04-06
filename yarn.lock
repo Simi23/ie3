@@ -739,6 +739,13 @@
   dependencies:
     "@iconify/types" "*"
 
+"@iconify-json/material-symbols@^1.2.17":
+  version "1.2.17"
+  resolved "https://registry.yarnpkg.com/@iconify-json/material-symbols/-/material-symbols-1.2.17.tgz#767665f27d6e91f93a12d1a0a860eb647caaacc6"
+  integrity sha512-hKb+Ii5cqLXXefYMxUB2jIc8BNqxixQogud4KU/fn0F4puM1iCdCF2lFV+0U8wnJ6dZIx6E+w8Ree4bIT7To+A==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/collections@^1.0.496":
   version "1.0.507"
   resolved "https://registry.yarnpkg.com/@iconify/collections/-/collections-1.0.507.tgz#a10f75e8023326df6d81575de830fd8bff8da3f8"

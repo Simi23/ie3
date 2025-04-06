@@ -2,16 +2,18 @@ import type { UserAgentInfo } from "./userAgent";
 import Color from "#ui-colors";
 import type { Notification } from "./createNotification";
 
+export type UiColor = (typeof Color)[number];
+
 export type Icon = {
   icon: string;
   name: string;
-  color: (typeof Color)[number];
+  color: UiColor;
 };
 
 export type Badge = {
   icon: string;
   name: string;
-  color: (typeof Color)[number];
+  color: UiColor;
 };
 
 export type NotificationResponse = {
@@ -71,3 +73,66 @@ export type ExtendedSession = {
   address: string;
   userAgent: UserAgentInfo;
 };
+
+export type CellData = {
+  upper: {
+    name: string;
+    points: number[];
+    won: boolean;
+    id: string;
+  };
+  lower: {
+    name: string;
+    points: number[];
+    won: boolean;
+    id: string;
+  };
+
+  started: boolean;
+  ended: boolean;
+  tracked: boolean;
+};
+
+// =======================
+//  Bracket display types
+// =======================
+
+export interface DisplayBracket {
+  id: string;
+  title: string;
+  competition: DisplayCompetition;
+  competitionId: string;
+  numberOfCompetitors: number;
+  parts: DisplayPart[];
+}
+
+interface DisplayCompetition {
+  id: string;
+  title: string;
+  teamCompetition: boolean;
+}
+
+interface DisplayPart {
+  id: string;
+
+  round: number;
+  roundLocation: number;
+  upper: boolean;
+  startLocation: boolean;
+
+  points: number[];
+  won: boolean;
+  started: boolean;
+  ended: boolean;
+
+  bracketId: string;
+  team: DisplayTeam | null;
+  teamId: string | null;
+
+  isTracked: boolean;
+}
+
+interface DisplayTeam {
+  id: string;
+  name: string;
+}
