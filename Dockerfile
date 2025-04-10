@@ -15,7 +15,7 @@ WORKDIR /app/
 COPY --from=build /home/node/app/.output ./
 COPY --from=build /home/node/app/package*.json ./
 COPY --from=build /home/node/app/prisma ./prisma
-RUN yarn global add prisma
+RUN yarn global add prisma@6.2.1
 
 EXPOSE 3000
 ENV NUXT_HOST=0.0.0.0
