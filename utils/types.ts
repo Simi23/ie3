@@ -97,22 +97,22 @@ export type CellData = {
 //  Bracket display types
 // =======================
 
-export interface DisplayBracket {
+export type DisplayBracket = {
   id: string;
   title: string;
   competition: DisplayCompetition;
   competitionId: string;
   numberOfCompetitors: number;
   parts: DisplayPart[];
-}
+};
 
-interface DisplayCompetition {
+type DisplayCompetition = {
   id: string;
   title: string;
   teamCompetition: boolean;
-}
+};
 
-interface DisplayPart {
+type DisplayPart = {
   id: string;
 
   round: number;
@@ -130,9 +130,9 @@ interface DisplayPart {
   teamId: string | null;
 
   isTracked: boolean;
-}
+};
 
-interface DisplayTeam {
+type DisplayTeam = {
   id: string;
   name: string;
-}
+};

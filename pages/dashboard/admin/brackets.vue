@@ -27,7 +27,8 @@
         <template #action-data="{ row }">
           <div class="space-x-2">
             <UButton
-              label="Kitöltés"
+              label="Szerkesztés"
+              :to="`/dashboard/admin/bracket/${row.id}`"
               icon="i-heroicons-pencil-square-solid"
               variant="soft"
             />

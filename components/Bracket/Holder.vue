@@ -1,15 +1,28 @@
 <script lang="ts" setup>
 import type { CellData, DisplayBracket } from "~/utils/types";
+import ModalBracketPartEdit from "~/components/Modal/BracketPartEdit.vue";
+
+const modal = useModal();
 
 const props = defineProps<{
   editing: boolean;
-  isTeamBracket: boolean;
   roundCount: number;
   displayBracket: DisplayBracket;
 }>();
 
+watch(
+  props,
+  () => {
+    regenerateBracket();
+  },
+  {
+    deep: true,
+  },
+);
+
 const emit = defineEmits<{
   editCell: [upperId: string, lowerId: string];
+  success: [];
 }>();
 
 defineExpose({
@@ -136,14 +149,47 @@ function regenerateBracket() {
   }
 }
 
-// onMounted(() => {});
+function editPart(cellData: CellData) {
+  if (!props.editing) return;
+
+  modal.open(ModalBracketPartEdit, {
+    initData: {
+      started: cellData.started,
+      ended: cellData.ended,
+      tracked: cellData.tracked,
+      upper: {
+        points: [...cellData.upper.points],
+        won: cellData.upper.won,
+        name: cellData.upper.name,
+        id: cellData.upper.id,
+      },
+      lower: {
+        points: [...cellData.lower.points],
+        won: cellData.lower.won,
+        name: cellData.lower.name,
+        id: cellData.lower.id,
+      },
+    },
+    onSuccess: () => {
+      modal.close();
+      emit("success");
+    },
+    onClose: () => {
+      emit("success");
+    },
+  });
+}
+
+onMounted(() => {
+  regenerateBracket();
+});
 </script>
 
 <template>
-  <div class="h-fit w-fit bg-gray-800 text-white">
+  <div class="h-fit w-fit bg-transparent text-white">
     <div>
       <h1 class="text-center text-3xl">
-        {{ displayBracket.competition?.title ?? "" }}
+        {{ displayBracket.title ?? "" }}
       </h1>
       <table>
         <tr v-for="row in tableData">
@@ -162,13 +208,7 @@ function regenerateBracket() {
               <BracketPart
                 :cell-data="cell.cellData"
                 :class="{ 'cell-editing': props.editing }"
-                @click="
-                  emit(
-                    'editCell',
-                    cell.cellData.upper.id,
-                    cell.cellData.lower.id,
-                  )
-                "
+                @click="editPart(cell.cellData)"
               ></BracketPart>
             </div>
             <!-- LINE AFTER (HORIZONTAL) -->
