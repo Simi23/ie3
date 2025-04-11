@@ -2,6 +2,7 @@ import { prisma } from "~/db/prismaClient";
 import adminCheck from "~/utils/adminCheck";
 import { catchError } from "~/utils/catchError";
 import createNotification from "~/utils/createNotification";
+import { incrementDisplaySerial } from "~/utils/displaySerial";
 import { logEventAction } from "~/utils/logger";
 
 export default defineEventHandler(async (event) => {
@@ -63,6 +64,8 @@ export default defineEventHandler(async (event) => {
       );
     }
   }
+
+  await incrementDisplaySerial();
 
   logEventAction(event, {
     category: "CONTENT",

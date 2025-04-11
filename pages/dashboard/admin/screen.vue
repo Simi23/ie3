@@ -131,13 +131,7 @@ definePageMeta({
 const loadingSpinner = useLoadingSpinner();
 const modal = useModal();
 
-const {
-  data: rows,
-  refresh,
-  status,
-} = useFetch("/api/display", {
-  default: () => [],
-});
+const { data, refresh, status } = useFetch("/api/display");
 
 type Row = {
   id: string;
@@ -153,74 +147,76 @@ const state = ref<Row[]>([]);
 
 const newState = ref<Row[]>([]);
 
-watch(rows, (newRows, oldRows) => {
-  state.value = newRows.map((r) => {
-    let content = "";
-    switch (r.type) {
-      case "Bracket":
-        content = r.bracketId ?? "";
-        break;
-      case "FormattedText":
-        content = r.formattedTextId ?? "";
-        break;
-      case "Media":
-        content = r.mediaId ?? "";
-        break;
-      case "ShortText":
-        content = r.shortText ?? "";
-        break;
-      case "TopList":
-        content = r.topListId ?? "";
-        break;
+watch(data, (newRows, oldRows) => {
+  state.value =
+    newRows?.rows.map((r) => {
+      let content = "";
+      switch (r.type) {
+        case "Bracket":
+          content = r.bracketId ?? "";
+          break;
+        case "FormattedText":
+          content = r.formattedTextId ?? "";
+          break;
+        case "Media":
+          content = r.mediaId ?? "";
+          break;
+        case "ShortText":
+          content = r.shortText ?? "";
+          break;
+        case "TopList":
+          content = r.topListId ?? "";
+          break;
 
-      default:
-        break;
-    }
+        default:
+          break;
+      }
 
-    return {
-      id: r.id,
-      order: r.order,
-      name: r.name,
-      displayTimeMs: r.displayTimeMs,
-      showProgress: r.showProgress,
-      type: r.type,
-      content: content,
-    };
-  });
+      return {
+        id: r.id,
+        order: r.order,
+        name: r.name,
+        displayTimeMs: r.displayTimeMs,
+        showProgress: r.showProgress,
+        type: r.type,
+        content: content,
+      };
+    }) ?? [];
 
-  newState.value = newRows.map((r) => {
-    let content = "";
-    switch (r.type) {
-      case "Bracket":
-        content = r.bracketId ?? "";
-        break;
-      case "FormattedText":
-        content = r.formattedTextId ?? "";
-        break;
-      case "Media":
-        content = r.mediaId ?? "";
-        break;
-      case "ShortText":
-        content = r.shortText ?? "";
-        break;
-      case "TopList":
-        content = r.topListId ?? "";
-        break;
+  newState.value =
+    newRows?.rows.map((r) => {
+      let content = "";
+      switch (r.type) {
+        case "Bracket":
+          content = r.bracketId ?? "";
+          break;
+        case "FormattedText":
+          content = r.formattedTextId ?? "";
+          break;
+        case "Media":
+          content = r.mediaId ?? "";
+          break;
+        case "ShortText":
+          content = r.shortText ?? "";
+          break;
+        case "TopList":
+          content = r.topListId ?? "";
+          break;
 
-      default:
-        break;
-    }
+        default:
+          break;
+      }
 
-    return {
-      id: r.id,
-      order: r.order,
-      name: r.name,
-      displayTimeMs: r.displayTimeMs,
-      showProgress: r.showProgress,
-      type: r.type,
-      content: content,
-    };
-  });
+      return {
+        id: r.id,
+        order: r.order,
+        name: r.name,
+        displayTimeMs: r.displayTimeMs,
+        showProgress: r.showProgress,
+        type: r.type,
+        content: content,
+      };
+    }) ?? [];
 });
 
 const cols = [

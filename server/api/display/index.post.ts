@@ -2,6 +2,7 @@ import { prisma } from "~/db/prismaClient";
 import adminCheck from "~/utils/adminCheck";
 import { catchError } from "~/utils/catchError";
 import createNotification from "~/utils/createNotification";
+import { incrementDisplaySerial } from "~/utils/displaySerial";
 
 export default defineEventHandler(async (event) => {
   adminCheck(event, 2);
@@ -36,6 +37,8 @@ export default defineEventHandler(async (event) => {
       message: "error-in-process",
     });
   }
+
+  await incrementDisplaySerial();
 
   return {
     notification: createNotification("SUCCESS", {

@@ -1,5 +1,6 @@
 import { prisma } from "~/db/prismaClient";
 import { catchError } from "~/utils/catchError";
+import { getDisplaySerial } from "~/utils/displaySerial";
 
 export default defineEventHandler(async (event) => {
   const [error, data] = await catchError(
@@ -18,5 +19,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return data;
+  const serial = await getDisplaySerial();
+
+  return {
+    rows: data,
+    serial: serial,
+  };
 });
